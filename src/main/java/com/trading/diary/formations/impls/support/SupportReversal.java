@@ -3,28 +3,33 @@ package com.trading.diary.formations.impls.support;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.pojo.Audit;
 import jakarta.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 public abstract class SupportReversal extends Audit implements Formation {
 
-    private final boolean aboveSupport;
+    private boolean aboveSupport;
 
-    private final boolean belowSupport;
+    private boolean belowSupport;
 
     // in days
-    private final int supportLength;
+    private int supportLength;
 
-    private final boolean priceSustained;
+    private boolean priceSustained;
 
-    private final boolean retest;
+    private boolean retest;
 
     public boolean onSupport() {
         return !aboveSupport && !belowSupport;
     }
 
-    protected abstract static class SupportReversalBuilder<T extends SupportReversalBuilder<T>> {
+    public abstract static class SupportReversalBuilder<T extends SupportReversalBuilder<T>> {
 
         protected boolean aboveSupport;
 

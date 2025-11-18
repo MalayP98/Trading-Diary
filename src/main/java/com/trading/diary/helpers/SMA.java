@@ -1,21 +1,17 @@
 package com.trading.diary.helpers;
 
 import com.trading.diary.pojo.Audit;
+import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.TrendlineDirections;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class SMA extends Audit {
-
-    private static enum PricePosition{
-        ABOVE, BELOW, THROUGH
-    }
 
     private TrendlineDirections direction;
 

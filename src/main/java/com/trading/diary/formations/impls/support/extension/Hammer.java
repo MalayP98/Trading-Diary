@@ -1,20 +1,23 @@
 package com.trading.diary.formations.impls.support.extension;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.utils.CandleColor;
 import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Hammer extends SupportReversal {
 
-    private final static String name = "HAMMER";
-
-    private final CandleColor hammerColor;
+    private CandleColor hammerColor;
 
     // Lower wick is less than 2x of upper wick
-    private final boolean smallLowerWick;
+    private boolean smallLowerWick;
 
     private Hammer(CandleColor hammerColor, boolean smallLowerWick,
                    boolean aboveSupport, boolean belowSupport,
@@ -25,8 +28,8 @@ public class Hammer extends SupportReversal {
     }
 
     @Override
-    public String getFormationName() {
-        return name;
+    public FormationType getFormation() {
+        return FormationType.HAMMER;
     }
 
     public static HammerBuilder builder() {
@@ -56,7 +59,7 @@ public class Hammer extends SupportReversal {
         }
 
         @Override
-        public HammerBuilder self() {
+        protected HammerBuilder self() {
             return this;
         }
     }

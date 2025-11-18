@@ -2,5 +2,5 @@ package com.trading.diary.formations;
 
 public interface Formation {
 
-    String getFormationName();
+    FormationType getFormation();
 }

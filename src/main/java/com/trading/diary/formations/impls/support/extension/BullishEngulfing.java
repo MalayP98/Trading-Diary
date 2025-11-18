@@ -1,21 +1,24 @@
 package com.trading.diary.formations.impls.support.extension;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BullishEngulfing extends SupportReversal {
 
-    private static final String name = "BULLISH ENGULFING";
+    private boolean partialBottomEngulfing;
 
-    private final boolean partialBottomEngulfing;
+    private boolean partialTopEngulfing;
 
-    private final boolean partialTopEngulfing;
-
-    private final Strength volume;
+    private Strength volume;
 
     private BullishEngulfing(boolean partialBottomEngulfing, boolean partialTopEngulfing, Strength volume,
                              boolean aboveSupport, boolean belowSupport, int supportLength,
@@ -27,8 +30,8 @@ public class BullishEngulfing extends SupportReversal {
     }
 
     @Override
-    public String getFormationName() {
-        return name;
+    public FormationType getFormation() {
+        return FormationType.BULLISH_ENGULFING;
     }
 
     public boolean fullyEngulfed() {
@@ -63,7 +66,7 @@ public class BullishEngulfing extends SupportReversal {
         }
 
         @Override
-        public BullishEngulfingBuilder self() {
+        protected BullishEngulfingBuilder self() {
             return this;
         }
 

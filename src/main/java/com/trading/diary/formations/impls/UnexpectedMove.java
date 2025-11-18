@@ -1,62 +1,50 @@
 package com.trading.diary.formations.impls;
 
 import com.trading.diary.formations.Formation;
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.pojo.Audit;
 import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UnexpectedMove extends Audit implements Formation {
 
-    private final String formationName = "Unexpected Move";
+    private float percentageMove;
 
-    private final String percentageMove;
-
-    private final String days;
-
-    private final boolean nifty200Stock;
-
-    private UnexpectedMove(String percentageMove, String days, boolean nifty200Stock) {
-        this.percentageMove = percentageMove;
-        this.days = days;
-        this.nifty200Stock = nifty200Stock;
-    }
+    private long days;
 
     @Override
-    public String getFormationName() {
-        return formationName;
+    public FormationType getFormation() {
+        return FormationType.UNEXPECTED_MOVE;
     }
 
-    public UnexpectedMoveBuilder builder() {
+    public static UnexpectedMoveBuilder builder() {
         return new UnexpectedMoveBuilder();
     }
 
-    private class UnexpectedMoveBuilder {
+    public static class UnexpectedMoveBuilder {
 
-        private String percentageMove;
+        private float percentageMove;
 
-        private String days;
+        private long days;
 
-        private boolean nifty200Stock;
-
-        public UnexpectedMoveBuilder percentageMove(String percentageMove) {
+        public UnexpectedMoveBuilder percentageMove(float percentageMove){
             this.percentageMove = percentageMove;
             return this;
         }
 
-        public UnexpectedMoveBuilder days(String days) {
+        public UnexpectedMoveBuilder days(long days){
             this.days = days;
             return this;
         }
 
-        public UnexpectedMoveBuilder nifty200Stock(boolean nifty200Stock) {
-            this.nifty200Stock = nifty200Stock;
-            return this;
-        }
-
         public UnexpectedMove build() {
-            return new UnexpectedMove(percentageMove, days, nifty200Stock);
+            return new UnexpectedMove(percentageMove, days);
         }
     }
 }

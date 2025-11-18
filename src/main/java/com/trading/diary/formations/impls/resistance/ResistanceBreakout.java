@@ -8,45 +8,52 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 public abstract class ResistanceBreakout extends Audit implements Formation {
 
-    private final  boolean confirmBreakout;
+    private boolean confirmBreakout;
 
     @Enumerated(EnumType.STRING)
-    private final  Strength breakoutVolume;
+    private Strength breakoutVolume;
 
-    private final  boolean allTimeHigh;
+    private boolean allTimeHigh;
 
-    private final  int touches;
+    private int touches;
 
     // in days
-    private final  int resistanceLength;
+    private int resistanceLength;
 
-    private final  boolean higherLows;
+    private boolean higherLows;
 
-    private final  float rsi;
+    private boolean priorUptrend;
+
+    private float rsi;
 
     /**
      * How high price closed from breakout price.
      * Example the breakout prices was 100, and the candle
      * closed at 120 so this field will hold 20.
      **/
-    private final  float breakoutPercentage;
+    private float breakoutPercentage;
 
     @OneToOne
-    private final  SMA sma20;
+    private SMA sma20;
 
     @OneToOne
-    private final  SMA sma50;
+    private SMA sma50;
 
     @OneToOne
-    private final  SMA sma200;
+    private SMA sma200;
 
-    protected abstract static class ResistanceBreakoutBuilder<T extends ResistanceBreakoutBuilder<T>> {
+    public abstract static class ResistanceBreakoutBuilder<T extends ResistanceBreakoutBuilder<T>> {
 
         protected boolean confirmBreakout;
 
@@ -61,6 +68,8 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
         protected boolean higherLows;
 
         protected float rsi;
+
+        protected boolean priorUptrend;
 
         protected float breakoutPercentage;
 
@@ -102,6 +111,11 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
 
         public T rsi(float rsi) {
             this.rsi = rsi;
+            return self();
+        }
+
+        public T priorUptrend(boolean priorUptrend) {
+            this.priorUptrend = priorUptrend;
             return self();
         }
 

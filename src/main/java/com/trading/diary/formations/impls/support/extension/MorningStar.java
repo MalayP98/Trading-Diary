@@ -1,20 +1,23 @@
 package com.trading.diary.formations.impls.support.extension;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.utils.CandleColor;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MorningStar extends SupportReversal {
 
-    private final static String name = "MORNING STAR";
+    private CandleColor dogiColor;
 
-    private final CandleColor dogiColor;
-
-    private final Strength volume;
+    private Strength volume;
 
     private MorningStar(CandleColor dogiColor, Strength volume,
                         boolean aboveSupport,boolean belowSupport,
@@ -25,8 +28,8 @@ public class MorningStar extends SupportReversal {
     }
 
     @Override
-    public String getFormationName() {
-        return name;
+    public FormationType getFormation() {
+        return FormationType.MORNING_STAR;
     }
 
     public static MorningStarBuilder builder() {
@@ -56,7 +59,7 @@ public class MorningStar extends SupportReversal {
         }
 
         @Override
-        public MorningStarBuilder self() {
+        protected MorningStarBuilder self() {
             return this;
         }
     }

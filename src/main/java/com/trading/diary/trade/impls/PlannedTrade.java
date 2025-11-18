@@ -1,24 +1,31 @@
 package com.trading.diary.trade.impls;
 
+import com.trading.diary.helpers.Target;
+import com.trading.diary.pojo.Company;
+import com.trading.diary.pojo.MarketCap;
+import com.trading.diary.pojo.Person;
 import com.trading.diary.trade.AbstractTrade;
 import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 
+import java.util.List;
+
 @Entity
 public class PlannedTrade extends AbstractTrade {
 
-    private PlannedTrade(TimeFrame timeFrame, long formationId, float stoploss, String notes) {
-        super(timeFrame, formationId, stoploss, notes);
+    private PlannedTrade(Company company, TimeFrame timeFrame, long formationId, MarketCap marketCap, Person suggestedBy, String notes, List<Target> target, List<Target> stoploss) {
+        super(company, timeFrame, formationId, stoploss, target, marketCap, suggestedBy, notes);
     }
 
-    public static PlannedTradeBuilder builder(){
+    public static PlannedTradeBuilder builder() {
         return new PlannedTradeBuilder();
     }
 
-    public static class PlannedTradeBuilder extends AbstractTradeBuilder<PlannedTradeBuilder> {
+    public static class PlannedTradeBuilder extends AbstractTradeBuilder<PlannedTradeBuilder, PlannedTrade> {
 
+        @Override
         public PlannedTrade build() {
-            return new PlannedTrade(timeFrame, formationId, stoploss, notes);
+            return new PlannedTrade(company, timeFrame, formationId, marketCap, suggestedBy, notes, target, stoploss);
         }
 
         @Override

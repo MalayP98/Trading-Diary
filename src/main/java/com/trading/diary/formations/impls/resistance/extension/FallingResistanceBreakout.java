@@ -1,38 +1,36 @@
 package com.trading.diary.formations.impls.resistance.extension;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.resistance.ResistanceBreakout;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class FallingResistanceBreakout extends ResistanceBreakout {
 
-    private final static String name = "FALLING RESISTANCE BREAKOUT";
-
-    private final float angle;
-
-    private final boolean priorUptrend;
+    private float angle;
 
     // Difference between start of resistance line and breakout price in percentage
-    private final float priceDiffPercentage;
+    private float priceDiffPercentage;
 
     public FallingResistanceBreakout(float angle, boolean priorUptrend,
                                      boolean confirmBreakout, Strength breakoutVolume,
                                      boolean allTimeHigh, int touches, int resistanceLength,
                                      boolean higherLows, float rsi, float breakoutPercentage,
                                      SMA sma20, SMA sma50, SMA sma200, float priceDiffPercentage) {
-        super(confirmBreakout, breakoutVolume, allTimeHigh, touches, resistanceLength, higherLows, rsi, breakoutPercentage, sma20, sma50, sma200);
+        super(confirmBreakout, breakoutVolume, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);
         this.angle = angle;
-        this.priorUptrend = priorUptrend;
         this.priceDiffPercentage = priceDiffPercentage;
     }
 
     @Override
-    public String getFormationName() {
-        return name;
+    public FormationType getFormation() {
+        return FormationType.FALLING_RESISTANCE_BREAKOUT;
     }
 
     public static FallingResistanceBreakoutBuilder builder() {
@@ -72,7 +70,7 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
         }
 
         @Override
-        public FallingResistanceBreakoutBuilder self() {
+        protected FallingResistanceBreakoutBuilder self() {
             return this;
         }
     }
