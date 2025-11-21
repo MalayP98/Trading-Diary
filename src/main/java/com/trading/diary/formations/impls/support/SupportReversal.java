@@ -2,6 +2,9 @@ package com.trading.diary.formations.impls.support;
 
 import com.trading.diary.formations.Formation;
 import com.trading.diary.pojo.Audit;
+import com.trading.diary.utils.PricePosition;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,44 +17,36 @@ import lombok.RequiredArgsConstructor;
 @MappedSuperclass
 public abstract class SupportReversal extends Audit implements Formation {
 
-    private boolean aboveSupport;
-
-    private boolean belowSupport;
+    @Enumerated(EnumType.STRING)
+    private PricePosition pricePositionOnSupport;
 
     // in days
-    private int supportLength;
+    private long supportLength;
 
     private boolean priceSustained;
 
     private boolean retest;
 
     public boolean onSupport() {
-        return !aboveSupport && !belowSupport;
+        return PricePosition.ON.equals(pricePositionOnSupport);
     }
 
     public abstract static class SupportReversalBuilder<T extends SupportReversalBuilder<T>> {
 
-        protected boolean aboveSupport;
+        protected PricePosition pricePositionOnSupport;
 
-        protected boolean belowSupport;
-
-        protected int supportLength;
+        protected long supportLength;
 
         protected boolean priceSustained;
 
         protected boolean retest;
 
-        public T aboveSupport(boolean aboveSupport) {
-            this.aboveSupport = aboveSupport;
+        public T pricePositionOnSupport(PricePosition pricePositionOnSupport){
+            this.pricePositionOnSupport = pricePositionOnSupport;
             return self();
         }
 
-        public T belowSupport(boolean belowSupport) {
-            this.belowSupport = belowSupport;
-            return self();
-        }
-
-        public T supportLength(int supportLength) {
+        public T supportLength(long supportLength) {
             this.supportLength = supportLength;
             return self();
         }

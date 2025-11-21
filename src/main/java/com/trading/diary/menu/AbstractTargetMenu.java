@@ -19,11 +19,11 @@ public abstract class AbstractTargetMenu extends AbstractMenu<List<Target>>{
 
     private List<Target> showMenu(List<Target> targets){
         System.out.println(openingMenu());
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         switch (choice) {
             case 1:
                 System.out.println("Enter " + targetType() + " value:");
-                float target = nextFloat();
+                float target = InputType.FLOAT.nextInput();
                 targets.add(Target.getTarget(target));
                 skipLines(2);
                 break;
@@ -47,7 +47,8 @@ public abstract class AbstractTargetMenu extends AbstractMenu<List<Target>>{
     private void removeTarget(List<Target> targets) {
         viewTargets(targets);
         System.out.print("Enter the number of the " + targetType() + " to remove: ");
-        int index = nextInt() - 1;
+        int index = InputType.INT.nextInput();
+        index--;
         if(index >= 0 && index < targets.size()) {
             targets.remove(index);
             System.out.println("Target removed.");
@@ -68,7 +69,6 @@ public abstract class AbstractTargetMenu extends AbstractMenu<List<Target>>{
             i++;
         }
         System.out.println("-".repeat(10));
-        skipLines(1);
     }
 
     protected String openingMenu(){

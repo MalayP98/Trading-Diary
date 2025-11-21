@@ -20,7 +20,7 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
 
     public FallingResistanceBreakout(float angle, boolean priorUptrend,
                                      boolean confirmBreakout, Strength breakoutVolume,
-                                     boolean allTimeHigh, int touches, int resistanceLength,
+                                     boolean allTimeHigh, int touches, long resistanceLength,
                                      boolean higherLows, float rsi, float breakoutPercentage,
                                      SMA sma20, SMA sma50, SMA sma200, float priceDiffPercentage) {
         super(confirmBreakout, breakoutVolume, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);

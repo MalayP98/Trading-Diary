@@ -4,6 +4,8 @@ import com.trading.diary.pojo.Audit;
 import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.TrendlineDirections;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Getter
@@ -13,8 +15,10 @@ import lombok.*;
 @AllArgsConstructor
 public class SMA extends Audit {
 
+    @Enumerated(EnumType.STRING)
     private TrendlineDirections direction;
 
+    @Enumerated(EnumType.STRING)
     private PricePosition pricePosition;
 
     public SMA perfectSMA(){

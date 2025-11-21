@@ -11,10 +11,10 @@ public class UnexpectedMoveMenuAbstract extends AbstractFormationMenu<Unexpected
         UnexpectedMove.UnexpectedMoveBuilder builder = UnexpectedMove.builder();
 
         print("Numbers of days the move took?");
-        builder.days(nextLong());
+        builder.days(InputType.LONG.nextInput());
 
         print("Percentage move in price?");
-        builder.percentageMove(nextFloat());
+        builder.percentageMove(InputType.FLOAT.nextInput());
 
         return builder.build();
     }

@@ -14,7 +14,7 @@ public class TrendlineDirectionMenu extends AbstractMenu<TrendlineDirections> {
         System.out.println("3. HORIZONTAL");
         System.out.print("Enter choice (1-3): ");
 
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
 
         switch (choice) {
             case 1:

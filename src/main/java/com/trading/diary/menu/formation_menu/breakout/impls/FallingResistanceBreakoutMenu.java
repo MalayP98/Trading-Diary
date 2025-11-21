@@ -2,6 +2,7 @@ package com.trading.diary.menu.formation_menu.breakout.impls;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.resistance.extension.FallingResistanceBreakout;
+import com.trading.diary.menu.TimeLengthMenu;
 import com.trading.diary.menu.formation_menu.breakout.ResistanceBreakoutMenuAbstract;
 import com.trading.diary.menu.misc.SMAMenu;
 import com.trading.diary.menu.misc.StrengthMenu;
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Service;
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
-public class FallingResistanceBreakoutMenuAbstract extends ResistanceBreakoutMenuAbstract<FallingResistanceBreakout, FallingResistanceBreakout.FallingResistanceBreakoutBuilder> {
+public class FallingResistanceBreakoutMenu extends ResistanceBreakoutMenuAbstract<FallingResistanceBreakout, FallingResistanceBreakout.FallingResistanceBreakoutBuilder> {
 
-    public FallingResistanceBreakoutMenuAbstract(StrengthMenu strengthMenu, SMAMenu smaMenu) {
-        super(strengthMenu, smaMenu);
+    public FallingResistanceBreakoutMenu(StrengthMenu strengthMenu, SMAMenu smaMenu, TimeLengthMenu timeLengthMenu) {
+        super(strengthMenu, smaMenu, timeLengthMenu);
     }
 
     @Override
@@ -23,18 +24,17 @@ public class FallingResistanceBreakoutMenuAbstract extends ResistanceBreakoutMen
         skipLines(2);
 
         System.out.println("Angle of the resistance line:");
-        float angle = nextFloat();
+        float angle = InputType.FLOAT.nextInput();
         builder.angle(angle);
         skipLines(2);
 
         System.out.println("Prior uptrend (y/n):");
-        builder.priorUptrend(nextBoolean());
+        builder.priorUptrend(InputType.BOOLEAN.nextInput());
         skipLines(2);
 
         System.out.println("Price difference percentage:");
-        float priceDiff = nextFloat();
+        float priceDiff = InputType.FLOAT.nextInput();
         builder.priceDiffPercentage(priceDiff);
-        skipLines(2);
 
         return builder.build();
     }

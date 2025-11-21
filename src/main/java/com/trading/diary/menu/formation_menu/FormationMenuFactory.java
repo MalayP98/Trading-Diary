@@ -37,7 +37,11 @@ public class FormationMenuFactory extends AbstractMenu<AbstractFormationMenu<? e
         for (FormationType type : formationTypes) {
             print(type.ordinal() + 1 + ". " + type.name());
         }
-        int choice = nextInt() - 1;
-        return getFormationMenu(formationTypes[choice]);
+        int choice = InputType.INT.nextInput();
+        if(choice < 1 || choice > formationTypes.length){
+            print("Choice not in list. Try again!");
+            return showMenu();
+        }
+        return getFormationMenu(formationTypes[choice-1]);
     }
 }

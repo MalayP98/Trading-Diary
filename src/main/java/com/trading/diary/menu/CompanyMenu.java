@@ -14,7 +14,7 @@ public class CompanyMenu extends AbstractMenu<Company>{
     @Override
     public Company showMenu() {
         System.out.println("Enter company symbol: ");
-        String companySymbol = nextSanitzedString();
+        String companySymbol = InputType.STRING.nextInput();
         return companyService.addCompany(companySymbol);
     }
 }

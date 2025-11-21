@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class HorizontalResistanceBreakout extends ResistanceBreakout {
 
     public HorizontalResistanceBreakout(boolean confirmBreakout, Strength breakoutVolume,
-                                        boolean allTimeHigh, int touches, int resistanceLength,
+                                        boolean allTimeHigh, int touches, long resistanceLength,
                                         boolean higherLows, boolean priorUptrend, float rsi, float breakoutPercentage,
                                         SMA sma20, SMA sma50, SMA sma200) {
         super(confirmBreakout, breakoutVolume, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);

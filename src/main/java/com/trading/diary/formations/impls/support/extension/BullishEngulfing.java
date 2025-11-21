@@ -2,6 +2,7 @@ package com.trading.diary.formations.impls.support.extension;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
+import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,9 @@ public class BullishEngulfing extends SupportReversal {
     private Strength volume;
 
     private BullishEngulfing(boolean partialBottomEngulfing, boolean partialTopEngulfing, Strength volume,
-                             boolean aboveSupport, boolean belowSupport, int supportLength,
-                             boolean priceSustained, boolean retest) {
-        super(aboveSupport, belowSupport, supportLength, priceSustained, retest);
+                             PricePosition pricePositionOnSupport, long supportLength, boolean priceSustained,
+                             boolean retest) {
+        super(pricePositionOnSupport, supportLength, priceSustained, retest);
         this.partialBottomEngulfing = partialBottomEngulfing;
         this.partialTopEngulfing = partialTopEngulfing;
         this.volume = volume;
@@ -72,7 +73,7 @@ public class BullishEngulfing extends SupportReversal {
 
         public BullishEngulfing build() {
             return new BullishEngulfing(partialBottomEngulfing, partialTopEngulfing, volume,
-                    aboveSupport, belowSupport, supportLength, priceSustained, retest);
+                    pricePositionOnSupport, supportLength, priceSustained, retest);
         }
     }
 }

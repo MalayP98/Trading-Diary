@@ -16,7 +16,7 @@ public class PricePositionMenu extends AbstractMenu<PricePosition> {
         System.out.println("4. ON");
         System.out.print("Enter choice (1-4): ");
 
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
 
         switch (choice) {
             case 1:

@@ -8,27 +8,16 @@ public class Period {
 
     private final long weeks;
 
-    public Period(long years, long months, long weeks) {
+    private final long days;
+
+    public Period(long years, long months, long weeks, long days) {
         this.years = years;
         this.months = months;
         this.weeks = weeks;
+        this.days = days;
     }
 
-    public static Period getInstance(long year, long months){
-        return new Period(year, months, 0);
+    public long convertToDays(){
+        return this.years*365 + this.months*30 + this.weeks*7 + this.days;
     }
-
-    public float years(){
-        return years + (float) months /12;
-    }
-
-    public long months(){
-        return 12*years + months;
-    }
-
-    private long weeks(){
-        return 52*years + 4*months + weeks;
-    }
-
-
 }

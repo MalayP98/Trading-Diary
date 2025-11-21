@@ -4,10 +4,7 @@ import com.trading.diary.formations.Formation;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.pojo.Audit;
 import com.trading.diary.utils.Strength;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +26,7 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
     private int touches;
 
     // in days
-    private int resistanceLength;
+    private long resistanceLength;
 
     private boolean higherLows;
 
@@ -44,13 +41,13 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
      **/
     private float breakoutPercentage;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private SMA sma20;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private SMA sma50;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private SMA sma200;
 
     public abstract static class ResistanceBreakoutBuilder<T extends ResistanceBreakoutBuilder<T>> {
@@ -63,7 +60,7 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
 
         protected int touches;
 
-        protected int resistanceLength;
+        protected long resistanceLength;
 
         protected boolean higherLows;
 
@@ -99,7 +96,7 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
             return self();
         }
 
-        public T resistanceLength(int resistanceLength) {
+        public T resistanceLength(long resistanceLength) {
             this.resistanceLength = resistanceLength;
             return self();
         }

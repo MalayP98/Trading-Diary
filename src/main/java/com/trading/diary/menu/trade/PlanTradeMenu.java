@@ -1,22 +1,17 @@
 package com.trading.diary.menu.trade;
 
 import com.trading.diary.formations.Formation;
-import com.trading.diary.formations.impls.UnexpectedMove;
 import com.trading.diary.menu.*;
 import com.trading.diary.menu.formation_menu.FormationMenuFactory;
 import com.trading.diary.menu.targetMenu.StoplossMenu;
 import com.trading.diary.menu.targetMenu.TargetMenu;
 import com.trading.diary.pojo.Audit;
-import com.trading.diary.services.formation.FormationService;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.AbstractTrade;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.PlannedTrade.PlannedTradeBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.trading.diary.utils.Helper.skipLines;
 
@@ -71,7 +66,7 @@ public class PlanTradeMenu<T extends AbstractTrade, B extends AbstractTrade.Abst
         skipLines(2);
 
         System.out.print("Any notes? (press Enter to skip): ");
-        String notes = nextString();
+        String notes = InputType.STRING.nextSkipableInput();
         builder.notes(notes);
         skipLines(2);
 

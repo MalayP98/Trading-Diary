@@ -1,17 +1,11 @@
 package com.trading.diary.menu;
 
-import com.trading.diary.helpers.Target;
 import com.trading.diary.menu.trade.LongTradeMenu;
 import com.trading.diary.menu.trade.PlanTradeMenu;
-import com.trading.diary.pojo.Company;
-import com.trading.diary.pojo.MarketCap;
-import com.trading.diary.pojo.Person;
 import com.trading.diary.services.CompanyService;
 import com.trading.diary.services.PlannedTradeService;
 import com.trading.diary.services.TradeService;
 import com.trading.diary.trade.impls.PlannedTrade;
-import com.trading.diary.utils.TargetStatus;
-import com.trading.diary.utils.TimeFrame;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -41,7 +35,7 @@ public class ApplicationMenu extends AbstractMenu<Void> implements CommandLineRu
     @Override
     public Void showMenu() {
         System.out.println(menu());
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         switch (choice) {
             case 0 -> {
                 System.out.println("Exiting Trading Diary. Goodbye!");

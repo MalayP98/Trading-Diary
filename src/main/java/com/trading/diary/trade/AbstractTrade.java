@@ -24,7 +24,7 @@ public abstract class AbstractTrade extends Audit {
     @JoinColumn(name = "COMPANY")
     private Company company;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private final TimeFrame timeFrame;
 
     private final long formationId;

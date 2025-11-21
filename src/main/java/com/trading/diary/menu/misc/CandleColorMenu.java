@@ -14,7 +14,7 @@ public class CandleColorMenu extends AbstractMenu<CandleColor> {
         System.out.println("2. GREEN");
         System.out.print("Choose an option (1-2): ");
 
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         return switch (choice) {
             case 1 -> CandleColor.RED;
             case 2 -> CandleColor.GREEN;

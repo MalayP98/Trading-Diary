@@ -3,6 +3,7 @@ package com.trading.diary.formations.impls.support.extension;
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.utils.CandleColor;
+import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,9 @@ public class MorningStar extends SupportReversal {
     private Strength volume;
 
     private MorningStar(CandleColor dogiColor, Strength volume,
-                        boolean aboveSupport,boolean belowSupport,
-                       int supportLength, boolean priceSustained, boolean retest) {
-        super(aboveSupport, belowSupport, supportLength, priceSustained, retest);
+                        PricePosition pricePositionOnSupport, long supportLength,
+                        boolean priceSustained, boolean retest) {
+        super(pricePositionOnSupport, supportLength, priceSustained, retest);
         this.dogiColor = dogiColor;
         this.volume = volume;
     }
@@ -54,7 +55,7 @@ public class MorningStar extends SupportReversal {
 
         public MorningStar build() {
             return new MorningStar(dogiColor, volume,
-                    aboveSupport, belowSupport, supportLength,
+                    pricePositionOnSupport, supportLength,
                     priceSustained, retest);
         }
 

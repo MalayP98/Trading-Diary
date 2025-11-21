@@ -10,7 +10,6 @@ import com.trading.diary.menu.targetMenu.StoplossMenu;
 import com.trading.diary.menu.targetMenu.TargetMenu;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.LongTrade;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,8 +19,6 @@ import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
 public class LongTradeMenu extends PlanTradeMenu<LongTrade, LongTrade.SimpleTradeBuilder>{
-
-    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public LongTradeMenu(TimeFrameMenu timeFrameMenu, MarketCapMenu marketCapMenu, PersonMenu personMenu, TargetMenu targetMenu, StoplossMenu stoplossMenu, CompanyMenu companyMenu, FormationMenuFactory formationMenuFactory, FormationServiceFactory<? super Formation> formationServiceFactory) {
         super(timeFrameMenu, marketCapMenu, personMenu, targetMenu, stoplossMenu, companyMenu, formationMenuFactory, formationServiceFactory);
@@ -35,18 +32,17 @@ public class LongTradeMenu extends PlanTradeMenu<LongTrade, LongTrade.SimpleTrad
         skipLines(2);
 
         System.out.println("Average buying price:");
-        float avgBuyingPrice = nextFloat();
+        float avgBuyingPrice = InputType.FLOAT.nextInput();
         builder.averageBuyingPrice(avgBuyingPrice);
         skipLines(2);
 
         System.out.println("Quantity:");
-        int quantity = nextInt();
+        int quantity = InputType.INT.nextInput();
         builder.shares(quantity);
         skipLines(2);
 
         System.out.println("Opening date (DD/MM/YYYY):");
-        String openingDate = nextSanitzedString();
-        builder.openingDate(LocalDate.parse(openingDate, formatter).atStartOfDay());
+        builder.openingDate(InputType.DATE.nextInput());
 
         return builder.build();
     }

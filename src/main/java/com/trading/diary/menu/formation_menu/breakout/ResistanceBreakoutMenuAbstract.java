@@ -1,6 +1,7 @@
 package com.trading.diary.menu.formation_menu.breakout;
 
 import com.trading.diary.formations.impls.resistance.ResistanceBreakout;
+import com.trading.diary.menu.TimeLengthMenu;
 import com.trading.diary.menu.formation_menu.AbstractFormationMenu;
 import com.trading.diary.menu.misc.SMAMenu;
 import com.trading.diary.menu.misc.StrengthMenu;
@@ -14,49 +15,51 @@ public abstract class ResistanceBreakoutMenuAbstract<T extends ResistanceBreakou
     private final StrengthMenu strengthMenu;
 
     private final SMAMenu smaMenu;
+    
+    private final TimeLengthMenu timeLengthMenu;
 
     protected void showMenu(B builder) {
 
-        System.out.print("Confirm breakout (y/n): ");
-        builder.confirmBreakout(nextBoolean());
+        print("Confirm breakout (y/n): ");
+        builder.confirmBreakout(InputType.BOOLEAN.nextInput());
         skipLines(2);
 
         builder.breakoutVolume(strengthMenu.showMenu());
         skipLines(2);
 
-        System.out.print("All time high (y/n) ");
-        builder.allTimeHigh(nextBoolean());
+        print("All time high (y/n): ");
+        builder.allTimeHigh(InputType.BOOLEAN.nextInput());
         skipLines(2);
 
-        System.out.print("Touches ");
-        builder.touches(nextInt());
+        print("Touches: ");
+        builder.touches(InputType.INT.nextInput());
         skipLines(2);
 
-        System.out.print("Resistance length (int days) ");
-        builder.resistanceLength(nextInt());
+        print("Resistance length: ");
+        builder.resistanceLength(timeLengthMenu.showMenu());
         skipLines(2);
 
-        System.out.print("Higher lows (y/n) ");
-        builder.higherLows(nextBoolean());
+        print("Higher lows (y/n): ");
+        builder.higherLows(InputType.BOOLEAN.nextInput());
         skipLines(2);
 
-        System.out.print("RSI (float) ");
-        builder.rsi(nextFloat());
+        print("RSI (float): ");
+        builder.rsi(InputType.FLOAT.nextInput());
         skipLines(2);
 
-        System.out.print("Breakout percentage (float) ");
-        builder.breakoutPercentage(nextFloat());
+        print("Breakout percentage (float): ");
+        builder.breakoutPercentage(InputType.FLOAT.nextInput());
         skipLines(2);
 
-        System.out.print("SMA 20");
+        print("SMA 20:");
         builder.sma20(smaMenu.showMenu());
         skipLines(2);
 
-        System.out.print("SMA 50");
+        print("SMA 50:");
         builder.sma50(smaMenu.showMenu());
         skipLines(2);
 
-        System.out.print("SMA 200");
+        print("SMA 200:");
         builder.sma200(smaMenu.showMenu());
     }
 }

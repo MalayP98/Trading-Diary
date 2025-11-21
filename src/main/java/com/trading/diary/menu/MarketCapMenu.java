@@ -14,7 +14,7 @@ public class MarketCapMenu extends AbstractMenu<MarketCap>{
         System.out.println("3. NONE");
         System.out.print("Choose an option (1-3): ");
 
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         return switch (choice) {
             case 1 -> new MarketCap(true, true);
             case 2 -> new MarketCap(false, true);

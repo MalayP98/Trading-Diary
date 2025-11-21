@@ -14,7 +14,7 @@ public class TimeFrameMenu extends AbstractMenu<TimeFrame> {
         System.out.println("3. MONTHLY");
         System.out.print("Choose an option (1-3): ");
 
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         return switch (choice) {
             case 1 -> TimeFrame.DAILY;
             case 2 -> TimeFrame.WEEKLY;

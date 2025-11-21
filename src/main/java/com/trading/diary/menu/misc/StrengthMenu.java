@@ -16,7 +16,7 @@ public class StrengthMenu extends AbstractMenu<Strength> {
         System.out.println("4. VERY_STRONG");
         System.out.print("Choose an option (1-4): ");
 
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         return switch (choice) {
             case 1 -> Strength.VERY_WEAK;
             case 2 -> Strength.WEAK;

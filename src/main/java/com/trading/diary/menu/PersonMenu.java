@@ -24,7 +24,7 @@ public class PersonMenu extends AbstractMenu<Person> {
             System.out.printf("%d. %s%n", i + 1, people.get(i).getName());
         }
         System.out.print("Choose an option (0-" + people.size() + "): ");
-        int choice = nextInt();
+        int choice = InputType.INT.nextInput();
         if (choice < 1 || choice > people.size()) {
             System.out.println("Invalid choice. Please try again.");
             return showMenu(people);
