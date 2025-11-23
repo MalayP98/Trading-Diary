@@ -24,5 +24,5 @@ public class Audit {
     @UpdateTimestamp
     protected LocalDateTime updateDate;
 
-    protected boolean isDeleted;
+    protected boolean deleted;
 }

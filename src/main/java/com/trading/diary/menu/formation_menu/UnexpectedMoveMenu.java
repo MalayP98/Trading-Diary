@@ -2,8 +2,10 @@ package com.trading.diary.menu.formation_menu;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.UnexpectedMove;
+import org.springframework.stereotype.Service;
 
-public class UnexpectedMoveMenuAbstract extends AbstractFormationMenu<UnexpectedMove> {
+@Service
+public class UnexpectedMoveMenu extends AbstractFormationMenu<UnexpectedMove> {
 
     @Override
     public UnexpectedMove showMenu() {

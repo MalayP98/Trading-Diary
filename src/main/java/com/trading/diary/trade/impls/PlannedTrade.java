@@ -7,10 +7,12 @@ import com.trading.diary.pojo.Person;
 import com.trading.diary.trade.AbstractTrade;
 import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 public class PlannedTrade extends AbstractTrade {
 
     private PlannedTrade(Company company, TimeFrame timeFrame, long formationId, MarketCap marketCap, Person suggestedBy, String notes, List<Target> target, List<Target> stoploss) {
@@ -34,4 +36,7 @@ public class PlannedTrade extends AbstractTrade {
         }
     }
 
+    public String shortString(){
+        return this.getCompany() + ": ON " + this.getTimeFrame().name() + " WITH FORMATION ID : " + this.getFormationId();
+    }
 }

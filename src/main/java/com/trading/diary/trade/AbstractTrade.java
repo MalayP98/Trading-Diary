@@ -7,8 +7,8 @@ import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.NonNull;
 
@@ -17,6 +17,7 @@ import java.util.List;
 
 @Getter
 @MappedSuperclass
+@NoArgsConstructor
 public abstract class AbstractTrade extends Audit {
 
     @NonNull
@@ -25,19 +26,19 @@ public abstract class AbstractTrade extends Audit {
     private Company company;
 
     @Enumerated(EnumType.STRING)
-    private final TimeFrame timeFrame;
+    private TimeFrame timeFrame;
 
-    private final long formationId;
+    private long formationId;
 
-    @OneToMany(targetEntity = Target.class, cascade = CascadeType.PERSIST)
-    private final List<Target> stoploss;
+    @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Target> stoploss;
 
-    @OneToMany(targetEntity = Target.class, cascade = CascadeType.PERSIST)
-    private final List<Target> targets;
+    @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Target> targets;
 
     @NonNull
     @Embedded
-    private final MarketCap marketCap;
+    private MarketCap marketCap;
 
     @ManyToOne
     @JoinColumn(name = "SUGGESTED_BY")
@@ -66,16 +67,8 @@ public abstract class AbstractTrade extends Audit {
         this.notes = notes;
     }
 
-    public void addTarget(Target target){
-        this.targets.add(target);
-    }
-
     public void addTargets(List<Target> targets){
         this.targets.addAll(targets);
-    }
-
-    public void addStoploss(Target stoploss){
-        this.stoploss.add(stoploss);
     }
 
     public void addStoplosses(List<Target> stoplosses){

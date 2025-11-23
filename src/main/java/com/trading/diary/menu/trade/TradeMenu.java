@@ -9,41 +9,42 @@ import com.trading.diary.menu.formation_menu.FormationMenuFactory;
 import com.trading.diary.menu.targetMenu.StoplossMenu;
 import com.trading.diary.menu.targetMenu.TargetMenu;
 import com.trading.diary.services.formation.FormationServiceFactory;
-import com.trading.diary.trade.impls.LongTrade;
+import com.trading.diary.trade.impls.Trade;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
-public class LongTradeMenu extends PlanTradeMenu<LongTrade, LongTrade.SimpleTradeBuilder>{
+public class TradeMenu extends PlanTradeMenu<Trade, Trade.SimpleTradeBuilder>{
 
-    public LongTradeMenu(TimeFrameMenu timeFrameMenu, MarketCapMenu marketCapMenu, PersonMenu personMenu, TargetMenu targetMenu, StoplossMenu stoplossMenu, CompanyMenu companyMenu, FormationMenuFactory formationMenuFactory, FormationServiceFactory<? super Formation> formationServiceFactory) {
+    public TradeMenu(TimeFrameMenu timeFrameMenu, MarketCapMenu marketCapMenu, PersonMenu personMenu, TargetMenu targetMenu, StoplossMenu stoplossMenu, CompanyMenu companyMenu, FormationMenuFactory formationMenuFactory, FormationServiceFactory<? super Formation> formationServiceFactory) {
         super(timeFrameMenu, marketCapMenu, personMenu, targetMenu, stoplossMenu, companyMenu, formationMenuFactory, formationServiceFactory);
     }
 
     @Override
-    public LongTrade showMenu() {
-        LongTrade.SimpleTradeBuilder builder = LongTrade.builder();
-        System.out.println("=== Plan a New Long Trade ===");
+    public Trade showMenu() {
+        Trade.SimpleTradeBuilder builder = Trade.builder();
+        print("=== Log a new Trade ===");
         buildPlannedTrade(builder);
         skipLines(2);
 
-        System.out.println("Average buying price:");
+        showTradeSpecificMenu(builder);
+
+        return builder.build();
+    }
+
+    protected void showTradeSpecificMenu(Trade.SimpleTradeBuilder builder){
+        print("Average buying price:");
         float avgBuyingPrice = InputType.FLOAT.nextInput();
         builder.averageBuyingPrice(avgBuyingPrice);
         skipLines(2);
 
-        System.out.println("Quantity:");
+        print("Quantity:");
         int quantity = InputType.INT.nextInput();
         builder.shares(quantity);
         skipLines(2);
 
-        System.out.println("Opening date (DD/MM/YYYY):");
+        print("Opening date (DD/MM/YYYY):");
         builder.openingDate(InputType.DATE.nextInput());
-
-        return builder.build();
     }
 }

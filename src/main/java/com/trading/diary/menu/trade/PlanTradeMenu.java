@@ -2,6 +2,7 @@ package com.trading.diary.menu.trade;
 
 import com.trading.diary.formations.Formation;
 import com.trading.diary.menu.*;
+import com.trading.diary.menu.formation_menu.AbstractFormationMenu;
 import com.trading.diary.menu.formation_menu.FormationMenuFactory;
 import com.trading.diary.menu.targetMenu.StoplossMenu;
 import com.trading.diary.menu.targetMenu.TargetMenu;
@@ -50,9 +51,12 @@ public class PlanTradeMenu<T extends AbstractTrade, B extends AbstractTrade.Abst
         builder.timeFrame(timeFrameMenu.showMenu());
         skipLines(2);
 
-        Formation formation = formationMenuFactory
-                .showMenu()
-                .showMenu();
+        AbstractFormationMenu<?> formationMenu = formationMenuFactory.showMenu();
+        skipLines(2);
+
+        Formation formation = formationMenu.showMenu();
+        skipLines(2);
+
         formation = formationServiceFactory
                 .getFormationService(formation.getFormation())
                         .save(formation);

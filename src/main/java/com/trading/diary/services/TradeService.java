@@ -1,8 +1,8 @@
 package com.trading.diary.services;
 
-import com.trading.diary.pojo.dao.CloseTradeDAO;
+import com.trading.diary.pojo.dao.CloseTradeDTO;
 import com.trading.diary.repositories.trade.TradeRepository;
-import com.trading.diary.trade.impls.LongTrade;
+import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.TradeState;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +17,18 @@ public class TradeService {
 
     private final TradeRepository tradeRepository;
 
-    public LongTrade addTrade(LongTrade longTrade){
-        return tradeRepository.save(longTrade);
+    public Trade addTrade(Trade trade){
+        return tradeRepository.save(trade);
     }
 
-    public List<LongTrade> getAllActiveTrades(){
-        return tradeRepository.findAllByIsDeletedFalseAndState(TradeState.OPEN);
+    public List<Trade> getAllActiveTrades(){
+        return tradeRepository.findAllByDeletedFalseAndState(TradeState.OPEN);
     }
 
-    public LongTrade closeTrade(CloseTradeDAO closeTradeDAO){
-        LongTrade longTrade = tradeRepository.findById(closeTradeDAO.getTradeId())
+    public Trade closeTrade(CloseTradeDTO closeTradeDTO){
+        Trade trade = tradeRepository.findById(closeTradeDTO.getTradeId())
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found!"));
-        longTrade.close(closeTradeDAO.getClosingPrice(), closeTradeDAO.getClosingDate());
-        return tradeRepository.save(longTrade);
+        trade.close(closeTradeDTO.getClosingPrice(), closeTradeDTO.getClosingDate());
+        return tradeRepository.save(trade);
     }
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -18,7 +19,8 @@ import java.util.List;
 
 @Entity
 @Getter
-public class LongTrade extends AbstractTrade {
+@NoArgsConstructor
+public class Trade extends AbstractTrade {
 
     @Enumerated(EnumType.STRING)
     private TradeState state = TradeState.OPEN;
@@ -30,14 +32,14 @@ public class LongTrade extends AbstractTrade {
     private Float averageClosingPrice;
 
     // earliest buying day
-    private final LocalDateTime openingDate;
+    private LocalDateTime openingDate;
 
     private LocalDateTime closingDate;
 
-    private LongTrade(Company company, TimeFrame timeFrame, long formationId,
-                      String notes, LocalDateTime openingDate,
-                      TradeState state, int shares, float averageBuyingPrice,
-                      LocalDateTime sellingDate, MarketCap marketCap, Person suggestedBy, List<Target> target, List<Target> stoploss ) {
+    private Trade(Company company, TimeFrame timeFrame, long formationId,
+                  String notes, LocalDateTime openingDate,
+                  TradeState state, int shares, float averageBuyingPrice,
+                  LocalDateTime sellingDate, MarketCap marketCap, Person suggestedBy, List<Target> target, List<Target> stoploss) {
         super(company, timeFrame, formationId, stoploss, target, marketCap, suggestedBy, notes);
         this.openingDate = openingDate;
         this.state = state;
@@ -46,10 +48,10 @@ public class LongTrade extends AbstractTrade {
         this.closingDate = sellingDate;
     }
 
-    private LongTrade(Company company, LocalDateTime openingDate,
-                      TradeState state, int shares, float averageBuyingPrice,
-                      LocalDateTime sellingDate, PlannedTrade plannedTrade) {
-        super(company,plannedTrade.getTimeFrame(), plannedTrade.getFormationId(), plannedTrade.getStoploss(),
+    private Trade(LocalDateTime openingDate,
+                  TradeState state, int shares, float averageBuyingPrice,
+                  LocalDateTime sellingDate, PlannedTrade plannedTrade) {
+        super(plannedTrade.getCompany(), plannedTrade.getTimeFrame(), plannedTrade.getFormationId(), plannedTrade.getStoploss(),
                 plannedTrade.getTargets(), plannedTrade.getMarketCap(), plannedTrade.getSuggestedBy(),
                 plannedTrade.getNotes());
         this.openingDate = openingDate;
@@ -59,52 +61,11 @@ public class LongTrade extends AbstractTrade {
         this.closingDate = sellingDate;
     }
 
-    public static SimpleTradeBuilder builder(){
+    public static SimpleTradeBuilder builder() {
         return new SimpleTradeBuilder();
     }
 
-    public static TradeWithPlannedTradeBuilder tradeWithPlannedTradeBuilder(){
-        return new TradeWithPlannedTradeBuilder();
-    }
-
-    public static class TradeWithPlannedTradeBuilder {
-
-        protected int shares;
-
-        protected float averageBuyingPrice;
-
-        // earliest buying day
-        protected LocalDateTime buyingDate;
-
-        private PlannedTrade plannedTrade;
-
-        public TradeWithPlannedTradeBuilder shares(int shares) {
-            this.shares = shares;
-            return this;
-        }
-
-        public TradeWithPlannedTradeBuilder averageBuyingPrice(float averageBuyingPrice) {
-            this.averageBuyingPrice = averageBuyingPrice;
-            return this;
-        }
-
-        public TradeWithPlannedTradeBuilder buyingDate(LocalDateTime buyingDate) {
-            this.buyingDate = buyingDate;
-            return this;
-        }
-
-        public TradeWithPlannedTradeBuilder plannedTrade(PlannedTrade plannedTrade){
-            this.plannedTrade = plannedTrade;
-            return this;
-        }
-
-        public LongTrade build() {
-            return new LongTrade(plannedTrade.getCompany(), buyingDate, TradeState.OPEN, shares,
-                    averageBuyingPrice, null, plannedTrade);
-        }
-    }
-
-    public static class SimpleTradeBuilder extends AbstractTradeBuilder<SimpleTradeBuilder, LongTrade> {
+    public static class SimpleTradeBuilder extends AbstractTradeBuilder<SimpleTradeBuilder, Trade> {
 
         protected int shares;
 
@@ -129,10 +90,15 @@ public class LongTrade extends AbstractTrade {
         }
 
         @Override
-        public LongTrade build() {
-            return new LongTrade(company, timeFrame, formationId, notes,
+        public Trade build() {
+            return new Trade(company, timeFrame, formationId, notes,
                     openingDate, TradeState.OPEN, shares, averageBuyingPrice,
                     null, marketCap, suggestedBy, target, stoploss);
+        }
+
+        public Trade buildWithPlannedTrade(PlannedTrade plannedTrade) {
+            return new Trade(openingDate, TradeState.OPEN, shares,
+                    averageBuyingPrice, null, plannedTrade);
         }
 
         @Override
@@ -141,26 +107,27 @@ public class LongTrade extends AbstractTrade {
         }
     }
 
-    public float getDifferencePercentage(){
-        if(TradeState.CLOSE.equals(state)){
-            return (averageClosingPrice /averageBuyingPrice)-1;
+    public float getDifferencePercentage() {
+        if (TradeState.CLOSE.equals(state)) {
+            return (averageClosingPrice / averageBuyingPrice) - 1;
         }
         return Float.MAX_VALUE;
     }
 
     // in days
-    public long timeInPortfolio(){
+    public long timeInPortfolio() {
         LocalDateTime lastDateInPortfolio = TradeState.CLOSE.equals(state) ? closingDate : LocalDateTime.now();
         return ChronoUnit.DAYS.between(lastDateInPortfolio, openingDate);
     }
 
-    public void close(float averageClosingPrice, LocalDateTime closingDate){
+    public void close(float averageClosingPrice, LocalDateTime closingDate,
+                      List<Target> targets, List<Target> stoplosses) {
         this.averageClosingPrice = averageClosingPrice;
         this.closingDate = closingDate;
         this.state = TradeState.CLOSE;
     }
 
-    public void addShare(int newShareQuantity, float newAverageBuyingPrice){
+    public void addShare(int newShareQuantity, float newAverageBuyingPrice) {
         this.shares = newShareQuantity;
         this.averageBuyingPrice = newAverageBuyingPrice;
     }

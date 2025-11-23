@@ -1,12 +1,16 @@
 package com.trading.diary.services;
 
-import com.trading.diary.pojo.dao.TradeDTO;
+import com.trading.diary.pojo.Company;
+import com.trading.diary.pojo.dao.PlannedTradeConversionDTO;
 import com.trading.diary.repositories.trade.PlannedTradeRepository;
 import com.trading.diary.trade.impls.PlannedTrade;
-import com.trading.diary.trade.impls.LongTrade;
+import com.trading.diary.trade.impls.Trade;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,24 +25,36 @@ public class PlannedTradeService {
         return plannedTradeRepository.save(plannedTrade);
     }
 
-    public PlannedTrade deletePlannedTrade(long plannedTradeId) {
-        return plannedTradeRepository.deleteById(plannedTradeId);
+    public void deletePlannedTrade(long plannedTradeId) {
+        plannedTradeRepository.deleteById(plannedTradeId);
     }
 
-    public LongTrade confirmPlannedTrade(TradeDTO tradeDTO, long plannedTradeId) {
-        PlannedTrade plannedTrade = plannedTradeRepository.findById(plannedTradeId)
-                .orElseThrow(() -> new IllegalArgumentException("Planned trade not found!"));
-        return confirmPlannedTrade(tradeDTO, plannedTrade);
+    public Trade confirmPlannedTrade(PlannedTradeConversionDTO plannedTradeConversionDTO) {
+        if(plannedTradeConversionDTO.getTrade() == null || plannedTradeConversionDTO.getPlannedTrade() == null){
+            throw new RuntimeException("Either trade or planned trade to be converted is not present!");
+        }
+        PlannedTrade plannedTrade = plannedTradeConversionDTO.getPlannedTrade();
+        // removing IDs so that a fresh entry is created
+        plannedTrade.getTargets().forEach(tgt -> tgt.setId(0));
+        plannedTrade.getStoploss().forEach(sl -> sl.setId(0));
+        Trade trade = Trade.builder()
+                .averageBuyingPrice(plannedTradeConversionDTO.getTrade().getAverageBuyingPrice())
+                .shares(plannedTradeConversionDTO.getTrade().getShares())
+                .openingDate(plannedTradeConversionDTO.getTrade().getOpeningDate())
+                .buildWithPlannedTrade(plannedTradeConversionDTO.getPlannedTrade());
+        deletePlannedTrade(plannedTradeConversionDTO.getPlannedTrade().getId());
+        return tradeService.addTrade(trade);
     }
 
-    public LongTrade confirmPlannedTrade(TradeDTO tradeDTO, PlannedTrade plannedTrade){
-        LongTrade longTrade = LongTrade.tradeWithPlannedTradeBuilder()
-                .plannedTrade(plannedTrade)
-                .averageBuyingPrice(tradeDTO.getAverageBuyingPrice())
-                .shares(tradeDTO.getShares())
-                .buyingDate(tradeDTO.getBuyingDate())
-                .build();
-        deletePlannedTrade(plannedTrade.getId());
-        return tradeService.addTrade(longTrade);
+    public List<PlannedTrade> getPlannedTradeByCompany(Company company, Pageable pageable){
+        return plannedTradeRepository.findAllByCompanyAndDeletedFalse(company, pageable);
+    }
+
+    public List<PlannedTrade> getAllPlannedTrade(Pageable pageable){
+        return plannedTradeRepository.findAllByDeletedFalse(pageable).getContent();
+    }
+
+    public long getCount(){
+        return plannedTradeRepository.countByDeletedFalse();
     }
 }
