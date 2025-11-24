@@ -1,4 +1,4 @@
-package com.trading.diary.menu.trade;
+package com.trading.diary.menu.tradeMenus;
 
 import com.trading.diary.formations.Formation;
 import com.trading.diary.menu.*;

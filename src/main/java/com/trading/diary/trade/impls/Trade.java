@@ -125,10 +125,16 @@ public class Trade extends AbstractTrade {
         this.averageClosingPrice = averageClosingPrice;
         this.closingDate = closingDate;
         this.state = TradeState.CLOSE;
+        setTargets(targets);
+        setStoploss(stoplosses);
     }
 
     public void addShare(int newShareQuantity, float newAverageBuyingPrice) {
         this.shares = newShareQuantity;
         this.averageBuyingPrice = newAverageBuyingPrice;
+    }
+
+    public String shortString(){
+        return getCompany() + ": Holding " + shares + " shares with average price of " + averageBuyingPrice;
     }
 }

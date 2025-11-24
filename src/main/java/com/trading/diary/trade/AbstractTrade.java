@@ -9,6 +9,7 @@ import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.NonNull;
 
@@ -30,9 +31,11 @@ public abstract class AbstractTrade extends Audit {
 
     private long formationId;
 
+    @Setter
     @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Target> stoploss;
 
+    @Setter
     @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Target> targets;
 

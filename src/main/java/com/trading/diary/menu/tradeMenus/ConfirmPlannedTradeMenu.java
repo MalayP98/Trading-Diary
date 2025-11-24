@@ -1,11 +1,10 @@
-package com.trading.diary.menu.trade;
+package com.trading.diary.menu.tradeMenus;
 
 import com.trading.diary.menu.*;
 import com.trading.diary.menu.formation_menu.support_reversal.paginationMenus.SimplePaginationMenu;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.dao.PlannedTradeConversionDTO;
 import com.trading.diary.services.PlannedTradeService;
-import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.Trade;
 
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
-public class PlannedTradeConversionMenu extends AbstractMenu<PlannedTradeConversionDTO> {
+public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConversionDTO> {
 
     private final SimplePaginationMenu<Company, PlannedTrade> plannedTradeByCompanyPaginationMenu;
 
@@ -22,7 +21,7 @@ public class PlannedTradeConversionMenu extends AbstractMenu<PlannedTradeConvers
 
     private final TradeMenu tradeMenu;
 
-    public PlannedTradeConversionMenu(TradeMenu tradeMenu, PlannedTradeService plannedTradeService) {
+    public ConfirmPlannedTradeMenu(TradeMenu tradeMenu, PlannedTradeService plannedTradeService) {
         this.tradeMenu = tradeMenu;
         this.plannedTradeByCompanyPaginationMenu = new SimplePaginationMenu<>(
                 plannedTradeService::getCount,

@@ -13,7 +13,7 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
 
     public Company addCompany(String companySymbol){
-        return companyRepository.save(new Company(companySymbol));
+        return companyRepository.save(new Company(companySymbol.toUpperCase()));
     }
 
     public Company getCompany(String companySymbol) throws CompanyNotFoundException {

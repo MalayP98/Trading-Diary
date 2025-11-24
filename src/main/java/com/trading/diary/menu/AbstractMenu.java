@@ -61,7 +61,7 @@ public abstract class AbstractMenu<T> {
                 }
                 return (R) this.parser().apply(input);
             } catch (Exception e) {
-                print("Error occurred. Message : " + e.getMessage() + "Try again!");
+                print("Error occurred. Message : " + e.getMessage() + " Try again!");
                 return inputHelper(isSkipable);
             }
         }

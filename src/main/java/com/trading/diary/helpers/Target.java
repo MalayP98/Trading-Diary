@@ -3,10 +3,9 @@ package com.trading.diary.helpers;
 import com.trading.diary.pojo.Audit;
 import com.trading.diary.utils.TargetStatus;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.*;
 
 @Getter
 @Entity
@@ -16,6 +15,8 @@ public class Target extends Audit {
 
     private float targetPrice;
 
+    @Setter
+    @Enumerated(EnumType.STRING)
     private TargetStatus targetStatus;
 
     public static Target getTarget(float target){
