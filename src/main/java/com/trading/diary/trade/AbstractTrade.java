@@ -1,5 +1,6 @@
 package com.trading.diary.trade;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Audit;
 import com.trading.diary.pojo.Company;
@@ -7,11 +8,13 @@ import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.lang.NonNull;
+import org.apache.commons.lang3.StringUtils;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,6 @@ import java.util.List;
 @NoArgsConstructor
 public abstract class AbstractTrade extends Audit {
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name = "COMPANY")
     private Company company;
@@ -31,6 +33,8 @@ public abstract class AbstractTrade extends Audit {
 
     private long formationId;
 
+    private FormationType formationType;
+
     @Setter
     @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Target> stoploss;
@@ -39,7 +43,6 @@ public abstract class AbstractTrade extends Audit {
     @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Target> targets;
 
-    @NonNull
     @Embedded
     private MarketCap marketCap;
 
@@ -47,9 +50,10 @@ public abstract class AbstractTrade extends Audit {
     @JoinColumn(name = "SUGGESTED_BY")
     private Person suggestedBy;
 
+    @Setter
     private String notes;
 
-    public AbstractTrade(@NonNull Company company, TimeFrame timeFrame, long formationId, List<Target> stoploss, List<Target> targets,
+    public AbstractTrade(@NonNull Company company, @NonNull TimeFrame timeFrame, long formationId, @NonNull FormationType formationType, List<Target> stoploss, List<Target> targets,
                          @NonNull MarketCap marketCap, Person suggestedBy, String notes) {
         if(suggestedBy == null){
             suggestedBy = Person.self();
@@ -62,6 +66,7 @@ public abstract class AbstractTrade extends Audit {
         }
         this.timeFrame = timeFrame;
         this.formationId = formationId;
+        this.formationType = formationType;
         this.stoploss = stoploss;
         this.targets = targets;
         this.marketCap = marketCap;
@@ -95,6 +100,8 @@ public abstract class AbstractTrade extends Audit {
         protected List<Target> stoploss;
 
         protected List<Target> target;
+
+        protected FormationType formationType;
 
         public T company(Company company) {
             this.company = company;
@@ -136,8 +143,17 @@ public abstract class AbstractTrade extends Audit {
             return self();
         }
 
+        public T formationType(FormationType formationType){
+            this.formationType = formationType;
+            return self();
+        }
+
         public abstract R build();
 
         protected abstract T self();
+    }
+
+    public void addNotes(String notes){
+        this.notes += (StringUtils.isNotEmpty(this.notes) ? "\n" : "") + notes;
     }
 }

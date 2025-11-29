@@ -7,15 +7,23 @@ import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class FallingResistanceBreakout extends ResistanceBreakout {
 
+    @Min(value = 0, message = "Angle cannot be less than 0")
+    @Max(value = 45, message = "Angle cannot be greater than 45")
     private float angle;
 
     // Difference between start of resistance line and breakout price in percentage
+    @Min(value = 1, message = "Float diff percentage cannot be less than 1")
     private float priceDiffPercentage;
 
     public FallingResistanceBreakout(float angle, boolean priorUptrend,
@@ -31,6 +39,13 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
     @Override
     public FormationType getFormation() {
         return FormationType.FALLING_RESISTANCE_BREAKOUT;
+    }
+
+    @Override
+    public String explain() {
+        return getFormation() + " Resistance Length " + getResistanceLength() + " Touches " +
+                getTouches()  + (isHigherLows() ? "making" : "not making") +
+                " higher lows. Angle " + angle;
     }
 
     public static FallingResistanceBreakoutBuilder builder() {

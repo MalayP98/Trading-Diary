@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
@@ -20,5 +18,5 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
 
     Page<Trade> findAllByDeletedFalseAndState(TradeState state, Pageable pageable);
 
-    long countByDeletedFalse();
+    long countByDeletedFalseAndState(TradeState tradeState);
 }

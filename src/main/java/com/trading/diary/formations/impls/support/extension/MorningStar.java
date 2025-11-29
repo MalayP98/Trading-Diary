@@ -6,9 +6,12 @@ import com.trading.diary.utils.CandleColor;
 import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Getter
@@ -16,8 +19,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MorningStar extends SupportReversal {
 
+    @NonNull
     private CandleColor dogiColor;
 
+    @NonNull
+    @Enumerated(EnumType.STRING)
     private Strength volume;
 
     private MorningStar(CandleColor dogiColor, Strength volume,
@@ -31,6 +37,12 @@ public class MorningStar extends SupportReversal {
     @Override
     public FormationType getFormation() {
         return FormationType.MORNING_STAR;
+    }
+
+    @Override
+    public String explain() {
+        return getFormation().name() + ": Support Length " + getSupportLength() + ", Volume " + volume.name() +
+                " Dogi color " + dogiColor.name();
     }
 
     public static MorningStarBuilder builder() {

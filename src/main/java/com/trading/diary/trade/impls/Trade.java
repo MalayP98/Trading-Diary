@@ -1,5 +1,6 @@
 package com.trading.diary.trade.impls;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
@@ -36,11 +37,12 @@ public class Trade extends AbstractTrade {
 
     private LocalDateTime closingDate;
 
-    private Trade(Company company, TimeFrame timeFrame, long formationId,
+    private Trade(Company company, TimeFrame timeFrame, long formationId, FormationType formationType,
                   String notes, LocalDateTime openingDate,
                   TradeState state, int shares, float averageBuyingPrice,
-                  LocalDateTime sellingDate, MarketCap marketCap, Person suggestedBy, List<Target> target, List<Target> stoploss) {
-        super(company, timeFrame, formationId, stoploss, target, marketCap, suggestedBy, notes);
+                  LocalDateTime sellingDate, MarketCap marketCap, Person suggestedBy,
+                  List<Target> target, List<Target> stoploss) {
+        super(company, timeFrame, formationId, formationType, stoploss, target, marketCap, suggestedBy, notes);
         this.openingDate = openingDate;
         this.state = state;
         this.shares = shares;
@@ -51,9 +53,9 @@ public class Trade extends AbstractTrade {
     private Trade(LocalDateTime openingDate,
                   TradeState state, int shares, float averageBuyingPrice,
                   LocalDateTime sellingDate, PlannedTrade plannedTrade) {
-        super(plannedTrade.getCompany(), plannedTrade.getTimeFrame(), plannedTrade.getFormationId(), plannedTrade.getStoploss(),
-                plannedTrade.getTargets(), plannedTrade.getMarketCap(), plannedTrade.getSuggestedBy(),
-                plannedTrade.getNotes());
+        super(plannedTrade.getCompany(), plannedTrade.getTimeFrame(), plannedTrade.getFormationId(),
+                plannedTrade.getFormationType(), plannedTrade.getStoploss(), plannedTrade.getTargets(),
+                plannedTrade.getMarketCap(), plannedTrade.getSuggestedBy(), plannedTrade.getNotes());
         this.openingDate = openingDate;
         this.state = state;
         this.shares = shares;
@@ -91,7 +93,7 @@ public class Trade extends AbstractTrade {
 
         @Override
         public Trade build() {
-            return new Trade(company, timeFrame, formationId, notes,
+            return new Trade(company, timeFrame, formationId, formationType, notes,
                     openingDate, TradeState.OPEN, shares, averageBuyingPrice,
                     null, marketCap, suggestedBy, target, stoploss);
         }
@@ -132,9 +134,5 @@ public class Trade extends AbstractTrade {
     public void addShare(int newShareQuantity, float newAverageBuyingPrice) {
         this.shares = newShareQuantity;
         this.averageBuyingPrice = newAverageBuyingPrice;
-    }
-
-    public String shortString(){
-        return getCompany() + ": Holding " + shares + " shares with average price of " + averageBuyingPrice;
     }
 }

@@ -1,5 +1,6 @@
 package com.trading.diary.menu.tradeMenus;
 
+import com.trading.diary.helpers.Explainer;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.menu.AbstractMenu;
 import com.trading.diary.menu.formation_menu.support_reversal.paginationMenus.SimplePaginationMenu;
@@ -20,14 +21,17 @@ public class CloseTradeMenu extends AbstractMenu<CloseTradeDTO> {
     private final TradeService tradeService;
 
     private final SimplePaginationMenu<Void, Trade> tradePaginationMenu;
+    
+    private final Explainer explainer;
 
-    public CloseTradeMenu(TradeService tradeService) {
+    public CloseTradeMenu(TradeService tradeService, Explainer explainer) {
         this.tradeService = tradeService;
+        this.explainer = explainer;
         this.tradePaginationMenu = new SimplePaginationMenu<>(
-                tradeService::count,
-                (attr, page) -> tradeService.getAllActiveTrades(page),
+                tradeService::countAllActiveTrade,
+                (attr, page) -> tradeService.getAllOpenTrades(page),
                 () -> null,
-                Trade::shortString
+                explainer
         );
     }
 

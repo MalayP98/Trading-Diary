@@ -5,9 +5,12 @@ import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Getter
@@ -19,6 +22,8 @@ public class BullishEngulfing extends SupportReversal {
 
     private boolean partialTopEngulfing;
 
+    @NonNull
+    @Enumerated(EnumType.STRING)
     private Strength volume;
 
     private BullishEngulfing(boolean partialBottomEngulfing, boolean partialTopEngulfing, Strength volume,
@@ -33,6 +38,12 @@ public class BullishEngulfing extends SupportReversal {
     @Override
     public FormationType getFormation() {
         return FormationType.BULLISH_ENGULFING;
+    }
+
+    @Override
+    public String explain() {
+        return getFormation().name() + " Support Length " + getSupportLength() +
+                " Volume " + volume.name() + (fullyEngulfed() ? "with" : "without") + " fully engulfed candle.";
     }
 
     public boolean fullyEngulfed() {

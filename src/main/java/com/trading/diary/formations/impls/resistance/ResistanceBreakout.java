@@ -5,10 +5,9 @@ import com.trading.diary.helpers.SMA;
 import com.trading.diary.pojo.Audit;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
+import javax.validation.constraints.Min;
 
 @Getter
 @NoArgsConstructor
@@ -18,20 +17,24 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
 
     private boolean confirmBreakout;
 
+    @NonNull
     @Enumerated(EnumType.STRING)
     private Strength breakoutVolume;
 
     private boolean allTimeHigh;
 
+    @Min(value = 2, message = "Touches cannot be less than 2")
     private int touches;
 
     // in days
+    @Min(value = 1, message = "Resistance length cannot be less than 1")
     private long resistanceLength;
 
     private boolean higherLows;
 
     private boolean priorUptrend;
 
+    @Min(value = 1, message = "RSI cannot be less than 1")
     private float rsi;
 
     /**
@@ -39,14 +42,18 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
      * Example the breakout prices was 100, and the candle
      * closed at 120 so this field will hold 20.
      **/
+    @Min(value = 1, message = "Breakout percentage cannot be less than 1")
     private float breakoutPercentage;
 
+    @NonNull
     @OneToOne(cascade = CascadeType.ALL)
     private SMA sma20;
 
+    @NonNull
     @OneToOne(cascade = CascadeType.ALL)
     private SMA sma50;
 
+    @NonNull
     @OneToOne(cascade = CascadeType.ALL)
     private SMA sma200;
 

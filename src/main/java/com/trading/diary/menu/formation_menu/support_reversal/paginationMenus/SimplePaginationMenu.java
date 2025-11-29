@@ -1,5 +1,6 @@
 package com.trading.diary.menu.formation_menu.support_reversal.paginationMenus;
 
+import com.trading.diary.helpers.Explainer;
 import com.trading.diary.menu.AbstractMenu;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,14 +20,14 @@ public class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
 
     protected final Supplier<T> attributSupplier;
 
-    protected final Function<R, String> display;
+    protected final Explainer explainer;
 
     public SimplePaginationMenu(Supplier<Long> countSupplier, BiFunction<T, ? super Pageable, List<R>> pageFunction,
-                                Supplier<T> attributSupplier, Function<R, String> display) {
+                                Supplier<T> attributSupplier, Explainer explainer) {
         this.countSupplier = countSupplier;
         this.pageFunction = pageFunction;
         this.attributSupplier = attributSupplier;
-        this.display = display;
+        this.explainer = explainer;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
             page = pageFunction.apply(attr, PageRequest.of(i-1, PAGE_SIZE));
             option = 1;
             for(R content : page) {
-                print(option + ": " + display.apply(content));
+                print(option + ": " + explainer.explain(content));
                 option++;
             }
             print("Select from the list or press any other key to move to the next page.");

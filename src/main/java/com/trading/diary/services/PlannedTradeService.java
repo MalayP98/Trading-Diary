@@ -1,7 +1,7 @@
 package com.trading.diary.services;
 
 import com.trading.diary.pojo.Company;
-import com.trading.diary.pojo.dao.PlannedTradeConversionDTO;
+import com.trading.diary.pojo.dao.PlannedTradeConfirmationDTO;
 import com.trading.diary.repositories.trade.PlannedTradeRepository;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.Trade;
@@ -29,20 +29,20 @@ public class PlannedTradeService {
         plannedTradeRepository.deleteById(plannedTradeId);
     }
 
-    public Trade confirmPlannedTrade(PlannedTradeConversionDTO plannedTradeConversionDTO) {
-        if(plannedTradeConversionDTO.getTrade() == null || plannedTradeConversionDTO.getPlannedTrade() == null){
+    public Trade confirmPlannedTrade(PlannedTradeConfirmationDTO plannedTradeConfirmationDTO) {
+        if(plannedTradeConfirmationDTO.getTrade() == null || plannedTradeConfirmationDTO.getPlannedTrade() == null){
             throw new RuntimeException("Either trade or planned trade to be converted is not present!");
         }
-        PlannedTrade plannedTrade = plannedTradeConversionDTO.getPlannedTrade();
+        PlannedTrade plannedTrade = plannedTradeConfirmationDTO.getPlannedTrade();
         // removing IDs so that a fresh entry is created
         plannedTrade.getTargets().forEach(tgt -> tgt.setId(0));
         plannedTrade.getStoploss().forEach(sl -> sl.setId(0));
         Trade trade = Trade.builder()
-                .averageBuyingPrice(plannedTradeConversionDTO.getTrade().getAverageBuyingPrice())
-                .shares(plannedTradeConversionDTO.getTrade().getShares())
-                .openingDate(plannedTradeConversionDTO.getTrade().getOpeningDate())
-                .buildWithPlannedTrade(plannedTradeConversionDTO.getPlannedTrade());
-        deletePlannedTrade(plannedTradeConversionDTO.getPlannedTrade().getId());
+                .averageBuyingPrice(plannedTradeConfirmationDTO.getTrade().getAverageBuyingPrice())
+                .shares(plannedTradeConfirmationDTO.getTrade().getShares())
+                .openingDate(plannedTradeConfirmationDTO.getTrade().getOpeningDate())
+                .buildWithPlannedTrade(plannedTradeConfirmationDTO.getPlannedTrade());
+        deletePlannedTrade(plannedTradeConfirmationDTO.getPlannedTrade().getId());
         return tradeService.addTrade(trade);
     }
 

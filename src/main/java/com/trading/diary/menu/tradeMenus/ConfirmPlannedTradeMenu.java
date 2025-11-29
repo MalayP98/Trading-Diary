@@ -1,9 +1,10 @@
 package com.trading.diary.menu.tradeMenus;
 
+import com.trading.diary.helpers.Explainer;
 import com.trading.diary.menu.*;
 import com.trading.diary.menu.formation_menu.support_reversal.paginationMenus.SimplePaginationMenu;
 import com.trading.diary.pojo.Company;
-import com.trading.diary.pojo.dao.PlannedTradeConversionDTO;
+import com.trading.diary.pojo.dao.PlannedTradeConfirmationDTO;
 import com.trading.diary.services.PlannedTradeService;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.Trade;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
-public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConversionDTO> {
+public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConfirmationDTO> {
 
     private final SimplePaginationMenu<Company, PlannedTrade> plannedTradeByCompanyPaginationMenu;
 
@@ -21,31 +22,36 @@ public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConversion
 
     private final TradeMenu tradeMenu;
 
-    public ConfirmPlannedTradeMenu(TradeMenu tradeMenu, PlannedTradeService plannedTradeService) {
+    private final Explainer explainer;
+
+    public ConfirmPlannedTradeMenu(TradeMenu tradeMenu, PlannedTradeService plannedTradeService, Explainer explainer) {
         this.tradeMenu = tradeMenu;
+        this.explainer = explainer;
         this.plannedTradeByCompanyPaginationMenu = new SimplePaginationMenu<>(
                 plannedTradeService::getCount,
                 plannedTradeService::getPlannedTradeByCompany,
                 () -> new Company(InputType.STRING.nextInput()),
-                PlannedTrade::shortString
+                explainer
         );
         this.plannedTradePaginationMenu = new SimplePaginationMenu<>(
                 plannedTradeService::getCount,
                 (attr, pageable) -> plannedTradeService.getAllPlannedTrade(pageable),
                 () -> null,
-                PlannedTrade::shortString
+                explainer
         );
     }
 
     @Override
-    public PlannedTradeConversionDTO showMenu() {
+    public PlannedTradeConfirmationDTO showMenu() {
+        print("=== Select planned to convert ===");
+        PlannedTrade plannedTrade = selectPlannedTrade();
+        skipLines(2);
+
         Trade.SimpleTradeBuilder builder = Trade.builder();
         print("=== Log a new Trade ===");
         tradeMenu.showTradeSpecificMenu(builder);
-        skipLines(2);
 
-        print("=== Select planned to convert ===");
-        return new PlannedTradeConversionDTO(builder.build(), selectPlannedTrade());
+        return new PlannedTradeConfirmationDTO(builder.build(), plannedTrade);
     }
 
     public PlannedTrade selectPlannedTrade(){

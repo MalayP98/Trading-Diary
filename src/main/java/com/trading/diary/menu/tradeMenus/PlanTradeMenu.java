@@ -63,6 +63,8 @@ public class PlanTradeMenu<T extends AbstractTrade, B extends AbstractTrade.Abst
         Audit audit = (Audit) formation;
         builder.formationId(audit.getId());
 
+        builder.formationType(formation.getFormation());
+
         builder.marketCap(marketCapMenu.showMenu());
         skipLines(2);
 

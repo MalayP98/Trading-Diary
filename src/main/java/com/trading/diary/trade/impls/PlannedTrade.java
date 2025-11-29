@@ -1,5 +1,6 @@
 package com.trading.diary.trade.impls;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
@@ -15,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class PlannedTrade extends AbstractTrade {
 
-    private PlannedTrade(Company company, TimeFrame timeFrame, long formationId, MarketCap marketCap, Person suggestedBy, String notes, List<Target> target, List<Target> stoploss) {
-        super(company, timeFrame, formationId, stoploss, target, marketCap, suggestedBy, notes);
+    private PlannedTrade(Company company, TimeFrame timeFrame, long formationId, FormationType formationType, MarketCap marketCap, Person suggestedBy, String notes, List<Target> target, List<Target> stoploss) {
+        super(company, timeFrame, formationId, formationType, stoploss, target, marketCap, suggestedBy, notes);
     }
 
     public static PlannedTradeBuilder builder() {
@@ -27,16 +28,12 @@ public class PlannedTrade extends AbstractTrade {
 
         @Override
         public PlannedTrade build() {
-            return new PlannedTrade(company, timeFrame, formationId, marketCap, suggestedBy, notes, target, stoploss);
+            return new PlannedTrade(company, timeFrame, formationId, formationType, marketCap, suggestedBy, notes, target, stoploss);
         }
 
         @Override
         protected PlannedTradeBuilder self() {
             return this;
         }
-    }
-
-    public String shortString(){
-        return this.getCompany() + ": ON " + this.getTimeFrame().name() + " WITH FORMATION ID : " + this.getFormationId();
     }
 }

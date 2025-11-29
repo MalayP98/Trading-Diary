@@ -6,10 +6,9 @@ import com.trading.diary.utils.PricePosition;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
+import javax.validation.constraints.Min;
 
 @Getter
 @NoArgsConstructor
@@ -17,10 +16,12 @@ import lombok.RequiredArgsConstructor;
 @MappedSuperclass
 public abstract class SupportReversal extends Audit implements Formation {
 
+    @NonNull
     @Enumerated(EnumType.STRING)
     private PricePosition pricePositionOnSupport;
 
     // in days
+    @Min(value = 1, message = "Support length cannot be less than 1")
     private long supportLength;
 
     private boolean priceSustained;

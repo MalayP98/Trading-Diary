@@ -8,19 +8,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UnexpectedMove extends Audit implements Formation {
 
+    @Min(value = 1, message = "Percentage move cannot be less than 1")
     private float percentageMove;
 
+    @Min(value = 1, message = "Days cannot be less than 1")
     private long days;
 
     @Override
     public FormationType getFormation() {
         return FormationType.UNEXPECTED_MOVE;
+    }
+
+    @Override
+    public String explain() {
+        return getFormation().name() + ": " + percentageMove + "% in " + days + " days";
     }
 
     public static UnexpectedMoveBuilder builder() {

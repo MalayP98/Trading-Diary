@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Getter
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Hammer extends SupportReversal {
 
+    @NonNull
     private CandleColor hammerColor;
 
     // Lower wick is less than 2x of upper wick
@@ -31,6 +33,12 @@ public class Hammer extends SupportReversal {
     @Override
     public FormationType getFormation() {
         return FormationType.HAMMER;
+    }
+
+    @Override
+    public String explain() {
+        return getFormation().name() + ": Support Length " + getSupportLength() +
+                (smallLowerWick ? "with" : "without") + " a good lower wick " + hammerColor + " candle." ;
     }
 
     public static HammerBuilder builder() {

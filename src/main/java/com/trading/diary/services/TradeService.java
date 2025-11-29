@@ -1,7 +1,9 @@
 package com.trading.diary.services;
 
+import com.trading.diary.formations.Formation;
 import com.trading.diary.pojo.dao.CloseTradeDTO;
 import com.trading.diary.repositories.trade.TradeRepository;
+import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.TradeState;
 import jakarta.transaction.Transactional;
@@ -20,11 +22,13 @@ public class TradeService {
 
     private final TradeRepository tradeRepository;
 
+    private final FormationServiceFactory<? extends Formation> formationServiceFactory;
+
     public Trade addTrade(Trade trade){
         return tradeRepository.save(trade);
     }
 
-    public List<Trade> getAllActiveTrades(Pageable pageable){
+    public List<Trade> getAllOpenTrades(Pageable pageable){
         return Optional.ofNullable(tradeRepository.findAllByDeletedFalseAndState(TradeState.OPEN, pageable))
                 .orElseGet(Page::empty).getContent();
     }
@@ -40,7 +44,7 @@ public class TradeService {
         return tradeRepository.save(trade);
     }
 
-    public long count(){
-        return tradeRepository.countByDeletedFalse();
+    public long countAllActiveTrade(){
+        return tradeRepository.countByDeletedFalseAndState(TradeState.OPEN);
     }
 }

@@ -1,5 +1,6 @@
 package com.trading.diary.menu;
 
+import com.trading.diary.helpers.Explainer;
 import com.trading.diary.menu.formation_menu.support_reversal.paginationMenus.SimplePaginationMenu;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.services.PersonService;
@@ -11,14 +12,17 @@ public class PersonMenu extends AbstractMenu<Person> {
     private final PersonService personService;
 
     private final SimplePaginationMenu<Void, Person> personPaginationMenu;
+    
+    private final Explainer explainer;
 
-    public PersonMenu(PersonService personService) {
+    public PersonMenu(PersonService personService, Explainer explainer) {
         this.personService = personService;
+        this.explainer = explainer;
         personPaginationMenu = new SimplePaginationMenu<>(
                 personService::getCount,
                 (attr, page) -> personService.getAllPeople(page),
                 () -> null,
-                Person::getName
+                explainer
         );
     }
 

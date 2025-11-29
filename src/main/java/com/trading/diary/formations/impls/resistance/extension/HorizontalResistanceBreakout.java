@@ -25,6 +25,13 @@ public class HorizontalResistanceBreakout extends ResistanceBreakout {
         return FormationType.HORIZONTAL_RESISTANCE_BREAKOUT;
     }
 
+    @Override
+    public String explain() {
+        return getFormation() + " Resistance Length " + getResistanceLength() + " Touches " +
+                getTouches() + (isHigherLows() ? "making" : "not making") +
+                " higher lows.";
+    }
+
     public static HorizontalResistanceBreakoutBuilder builder() {
         return new HorizontalResistanceBreakoutBuilder();
     }
