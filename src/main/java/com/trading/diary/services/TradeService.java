@@ -1,7 +1,7 @@
 package com.trading.diary.services;
 
 import com.trading.diary.formations.Formation;
-import com.trading.diary.pojo.dao.CloseTradeDTO;
+import com.trading.diary.pojo.dto.CloseTradeDTO;
 import com.trading.diary.repositories.trade.TradeRepository;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.Trade;

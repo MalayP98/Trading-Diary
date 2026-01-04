@@ -1,7 +1,7 @@
 package com.trading.diary.services;
 
 import com.trading.diary.pojo.Company;
-import com.trading.diary.pojo.dao.PlannedTradeConfirmationDTO;
+import com.trading.diary.pojo.dto.PlannedTradeConfirmationDTO;
 import com.trading.diary.repositories.trade.PlannedTradeRepository;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.Trade;

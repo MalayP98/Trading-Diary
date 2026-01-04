@@ -1,20 +1,18 @@
 package com.trading.diary.menu.formation_menu.breakout.impls;
 
-import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.resistance.extension.FallingResistanceBreakout;
-import com.trading.diary.menu.TimeLengthMenu;
-import com.trading.diary.menu.formation_menu.breakout.ResistanceBreakoutMenuAbstract;
-import com.trading.diary.menu.misc.SMAMenu;
-import com.trading.diary.menu.misc.StrengthMenu;
+import com.trading.diary.menu.MenuName;
+import com.trading.diary.menu.factories.MenuFactory;
+import com.trading.diary.menu.formation_menu.breakout.AbstractResistanceBreakoutMenu;
 import org.springframework.stereotype.Service;
 
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
-public class FallingResistanceBreakoutMenu extends ResistanceBreakoutMenuAbstract<FallingResistanceBreakout, FallingResistanceBreakout.FallingResistanceBreakoutBuilder> {
+public class FallingResistanceBreakoutMenu extends AbstractResistanceBreakoutMenu<FallingResistanceBreakout, FallingResistanceBreakout.FallingResistanceBreakoutBuilder> {
 
-    public FallingResistanceBreakoutMenu(StrengthMenu strengthMenu, SMAMenu smaMenu, TimeLengthMenu timeLengthMenu) {
-        super(strengthMenu, smaMenu, timeLengthMenu);
+    public FallingResistanceBreakoutMenu(MenuFactory menuFactory) {
+        super(menuFactory);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class FallingResistanceBreakoutMenu extends ResistanceBreakoutMenuAbstrac
     }
 
     @Override
-    public FormationType getFormation() {
-        return FormationType.FALLING_RESISTANCE_BREAKOUT;
+    public MenuName menuName() {
+        return MenuName.FALLING_RESISTANCE_BREAKOUT_MENU;
     }
 }

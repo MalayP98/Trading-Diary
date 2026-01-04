@@ -10,4 +10,8 @@ import org.springframework.stereotype.Service;
 public class Explainer {
 
     private final FormationServiceFactory<? extends Formation> formationServiceFactory;
+
+    public <R> int explain(R content) {
+        return 1;
+    }
 }

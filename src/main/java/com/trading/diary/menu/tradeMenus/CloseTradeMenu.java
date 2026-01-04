@@ -1,11 +1,10 @@
 package com.trading.diary.menu.tradeMenus;
 
-import com.trading.diary.helpers.Explainer;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.menu.AbstractMenu;
-import com.trading.diary.menu.formation_menu.support_reversal.paginationMenus.SimplePaginationMenu;
-import com.trading.diary.pojo.dao.CloseTradeDTO;
-import com.trading.diary.services.TradeService;
+import com.trading.diary.menu.MenuName;
+import com.trading.diary.menu.factories.MenuFactory;
+import com.trading.diary.pojo.dto.CloseTradeDTO;
 import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.TargetStatus;
 import org.springframework.stereotype.Service;
@@ -18,21 +17,10 @@ import static com.trading.diary.utils.Helper.skipLines;
 @Service
 public class CloseTradeMenu extends AbstractMenu<CloseTradeDTO> {
 
-    private final TradeService tradeService;
+    private final MenuFactory menuFactory;
 
-    private final SimplePaginationMenu<Void, Trade> tradePaginationMenu;
-    
-    private final Explainer explainer;
-
-    public CloseTradeMenu(TradeService tradeService, Explainer explainer) {
-        this.tradeService = tradeService;
-        this.explainer = explainer;
-        this.tradePaginationMenu = new SimplePaginationMenu<>(
-                tradeService::countAllActiveTrade,
-                (attr, page) -> tradeService.getAllOpenTrades(page),
-                () -> null,
-                explainer
-        );
+    public CloseTradeMenu(MenuFactory menuFactory) {
+        this.menuFactory = menuFactory;
     }
 
     @Override
@@ -89,10 +77,15 @@ public class CloseTradeMenu extends AbstractMenu<CloseTradeDTO> {
 
     public Trade selectTrade() {
         print("=== Select a Trade to close ===");
-        Trade trade = tradePaginationMenu.showMenu();
+        Trade trade = (Trade) menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
         if (trade == null) {
             print("No open trades found!");
         }
         return trade;
+    }
+
+    @Override
+    public MenuName menuName() {
+        return MenuName.CLOSE_TRADE_MENU;
     }
 }

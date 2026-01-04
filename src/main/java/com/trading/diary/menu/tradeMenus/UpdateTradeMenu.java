@@ -1,9 +1,8 @@
 package com.trading.diary.menu.tradeMenus;
 
-import com.trading.diary.helpers.Explainer;
 import com.trading.diary.menu.AbstractMenu;
-import com.trading.diary.menu.formation_menu.support_reversal.paginationMenus.SimplePaginationMenu;
-import com.trading.diary.services.TradeService;
+import com.trading.diary.menu.MenuName;
+import com.trading.diary.menu.factories.MenuFactory;
 import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.Helper;
 import org.springframework.stereotype.Service;
@@ -11,15 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateTradeMenu extends AbstractMenu<Trade> {
 
-    private final SimplePaginationMenu<Void, Trade> tradePaginationMenu;
+    private final MenuFactory menuFactory;
 
-    public UpdateTradeMenu(TradeService tradeService, Explainer explainer) {
-        this.tradePaginationMenu = new SimplePaginationMenu<>(
-                tradeService::countAllActiveTrade,
-                (attr, page) -> tradeService.getAllOpenTrades(page),
-                () -> null,
-                explainer
-        );
+    public UpdateTradeMenu(MenuFactory menuFactory) {
+        this.menuFactory = menuFactory;
     }
 
     @Override
@@ -43,10 +37,15 @@ public class UpdateTradeMenu extends AbstractMenu<Trade> {
 
     protected Trade selectTrade() {
         print("=== Select a Trade ===");
-        Trade trade = tradePaginationMenu.showMenu();
+        Trade trade = (Trade) menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
         if (trade == null) {
             print("No open trades found!");
         }
         return trade;
+    }
+
+    @Override
+    public MenuName menuName() {
+        return MenuName.UPDATE_TRADE_MENU;
     }
 }
