@@ -1,7 +1,8 @@
 package com.trading.diary.menu.paginationMenus;
 
-import com.trading.diary.helpers.Explainer;
+import com.trading.diary.explainers.Explainer;
 import com.trading.diary.menu.AbstractMenu;
+import lombok.NonNull;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -22,7 +23,7 @@ public abstract class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
     protected final Explainer explainer;
 
     public SimplePaginationMenu(Supplier<Long> countSupplier, BiFunction<T, ? super Pageable, List<R>> pageFunction,
-                                Supplier<T> attributSupplier, Explainer explainer) {
+                                Supplier<T> attributSupplier, @NonNull Explainer explainer) {
         this.countSupplier = countSupplier;
         this.pageFunction = pageFunction;
         this.attributSupplier = attributSupplier;

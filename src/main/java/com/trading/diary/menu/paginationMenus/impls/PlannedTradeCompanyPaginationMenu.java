@@ -1,5 +1,6 @@
 package com.trading.diary.menu.paginationMenus.impls;
 
+import com.trading.diary.explainers.impls.PlannedTradeExplainer;
 import com.trading.diary.menu.MenuName;
 import com.trading.diary.menu.factories.MenuFactory;
 import com.trading.diary.menu.paginationMenus.SimplePaginationMenu;
@@ -11,11 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlannedTradeCompanyPaginationMenu extends SimplePaginationMenu<Company, PlannedTrade> {
 
-    public PlannedTradeCompanyPaginationMenu(PlannedTradeService plannedTradeService, MenuFactory menuFactory) {
+    public PlannedTradeCompanyPaginationMenu(PlannedTradeService plannedTradeService,
+                                             MenuFactory menuFactory, PlannedTradeExplainer explainer) {
         super(plannedTradeService::getCount,
                 (attr, pageable) -> plannedTradeService.getAllPlannedTrade(pageable),
                 () -> (Company) menuFactory.getMenu(MenuName.COMPANY_MENU).showMenu(),
-                null);
+                explainer);
     }
 
     @Override

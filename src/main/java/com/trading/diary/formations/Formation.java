@@ -1,8 +1,10 @@
 package com.trading.diary.formations;
 
+import com.trading.diary.formations.visitor.FormationVisitor;
+
 public interface Formation {
 
     FormationType getFormation();
 
-    String explain();
+    <R> R accept(FormationVisitor<R> visitor);
 }

@@ -2,14 +2,13 @@ package com.trading.diary.formations.impls.resistance.extension;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.resistance.ResistanceBreakout;
+import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -42,10 +41,8 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
     }
 
     @Override
-    public String explain() {
-        return getFormation() + " Resistance Length " + getResistanceLength() + " Touches " +
-                getTouches()  + (isHigherLows() ? "making" : "not making") +
-                " higher lows. Angle " + angle;
+    public <R> R accept(FormationVisitor<R> visitor) {
+        return visitor.visit(this);
     }
 
     public static FallingResistanceBreakoutBuilder builder() {

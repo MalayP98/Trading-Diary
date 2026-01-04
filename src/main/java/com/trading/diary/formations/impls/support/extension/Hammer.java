@@ -2,6 +2,7 @@ package com.trading.diary.formations.impls.support.extension;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
+import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.utils.CandleColor;
 import com.trading.diary.utils.PricePosition;
 import jakarta.persistence.Entity;
@@ -36,9 +37,8 @@ public class Hammer extends SupportReversal {
     }
 
     @Override
-    public String explain() {
-        return getFormation().name() + ": Support Length " + getSupportLength() +
-                (smallLowerWick ? "with" : "without") + " a good lower wick " + hammerColor + " candle." ;
+    public <R> R accept(FormationVisitor<R> visitor) {
+        return visitor.visit(this);
     }
 
     public static HammerBuilder builder() {

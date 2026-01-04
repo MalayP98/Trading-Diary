@@ -13,7 +13,7 @@ public class PersonPaginationMenu extends SimplePaginationMenu<Void, Person> {
         super(personService::getCount,
                 (attr, page) -> personService.getAllPeople(page),
                 () -> null,
-                null);
+                (person) -> ((Person)person).getName());
     }
 
     @Override

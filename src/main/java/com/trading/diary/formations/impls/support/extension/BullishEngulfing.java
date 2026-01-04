@@ -2,6 +2,7 @@ package com.trading.diary.formations.impls.support.extension;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
+import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
@@ -41,9 +42,8 @@ public class BullishEngulfing extends SupportReversal {
     }
 
     @Override
-    public String explain() {
-        return getFormation().name() + " Support Length " + getSupportLength() +
-                " Volume " + volume.name() + (fullyEngulfed() ? "with" : "without") + " fully engulfed candle.";
+    public <R> R accept(FormationVisitor<R> visitor) {
+        return visitor.visit(this);
     }
 
     public boolean fullyEngulfed() {

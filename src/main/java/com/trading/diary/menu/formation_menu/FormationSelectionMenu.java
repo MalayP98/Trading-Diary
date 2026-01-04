@@ -20,17 +20,6 @@ public class FormationSelectionMenu extends AbstractMenu<AbstractMenu<? extends 
 
     @Autowired
     public FormationSelectionMenu(List<AbstractMenu<? extends Formation>> abstractFormationMenus) {
-        AbstractMenu<? super Formation> f = new AbstractMenu<>() {
-            @Override
-            public Formation showMenu() {
-                return null;
-            }
-
-            @Override
-            public MenuName menuName() {
-                return null;
-            }
-        };
         menuMap = new HashMap<>();
         menuNames = new ArrayList<>();
         for (AbstractMenu<? extends Formation> abstractFormationMenu : abstractFormationMenus) {
@@ -48,7 +37,7 @@ public class FormationSelectionMenu extends AbstractMenu<AbstractMenu<? extends 
         int i = 1;
         print("=== Select Formation ===");
         for (MenuName menuName : menuNames) {
-            print(i + ": " + menuNames.get(i));
+            print(i + ": " + menuNames.get(i-1));
             i++;
         }
         int choice = InputType.INT.nextInput();

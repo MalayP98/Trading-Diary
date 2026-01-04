@@ -1,6 +1,5 @@
 package com.trading.diary.menu.helperMenus;
 
-import com.trading.diary.helpers.Explainer;
 import com.trading.diary.menu.AbstractMenu;
 import com.trading.diary.menu.MenuName;
 import com.trading.diary.menu.factories.MenuFactory;
@@ -15,7 +14,7 @@ public class PersonMenu extends AbstractMenu<Person> {
 
     private final MenuFactory menuFactory;
 
-    public PersonMenu(PersonService personService, Explainer explainer, MenuFactory menuFactory) {
+    public PersonMenu(PersonService personService, MenuFactory menuFactory) {
         this.personService = personService;
         this.menuFactory = menuFactory;
     }

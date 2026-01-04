@@ -33,7 +33,7 @@ public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConfirmati
         print("=== Log a new Trade ===");
         tradeMenu.showTradeSpecificMenu(builder);
 
-        return new PlannedTradeConfirmationDTO(builder.build(), plannedTrade);
+        return new PlannedTradeConfirmationDTO(builder.buildWithPlannedTrade(plannedTrade), plannedTrade);
     }
 
     public PlannedTrade selectPlannedTrade(){

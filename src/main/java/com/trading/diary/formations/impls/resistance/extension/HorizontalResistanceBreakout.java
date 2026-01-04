@@ -2,6 +2,7 @@ package com.trading.diary.formations.impls.resistance.extension;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.resistance.ResistanceBreakout;
+import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.utils.Strength;
 import jakarta.persistence.Entity;
@@ -26,10 +27,8 @@ public class HorizontalResistanceBreakout extends ResistanceBreakout {
     }
 
     @Override
-    public String explain() {
-        return getFormation() + " Resistance Length " + getResistanceLength() + " Touches " +
-                getTouches() + (isHigherLows() ? "making" : "not making") +
-                " higher lows.";
+    public <R> R accept(FormationVisitor<R> visitor) {
+        return visitor.visit(this);
     }
 
     public static HorizontalResistanceBreakoutBuilder builder() {
