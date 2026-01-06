@@ -20,10 +20,10 @@ public abstract class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
 
     protected final Supplier<T> attributSupplier;
 
-    protected final Explainer explainer;
+    protected final Explainer<R> explainer;
 
     public SimplePaginationMenu(Supplier<Long> countSupplier, BiFunction<T, ? super Pageable, List<R>> pageFunction,
-                                Supplier<T> attributSupplier, @NonNull Explainer explainer) {
+                                Supplier<T> attributSupplier, @NonNull Explainer<R> explainer) {
         this.countSupplier = countSupplier;
         this.pageFunction = pageFunction;
         this.attributSupplier = attributSupplier;
@@ -51,6 +51,7 @@ public abstract class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
             }
             print("Select from the list or press any other key to move to the next page.");
             int choice = InputType.INT.nextInput();
+            if(choice == 0) return null;
             if(choice >= 1 && choice <= page.size()){
                 return page.get(choice-1);
             }

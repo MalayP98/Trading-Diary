@@ -8,13 +8,12 @@ import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public abstract class AbstractTrade extends Audit {
     @Embedded
     private MarketCap marketCap;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "SUGGESTED_BY")
     private Person suggestedBy;
 

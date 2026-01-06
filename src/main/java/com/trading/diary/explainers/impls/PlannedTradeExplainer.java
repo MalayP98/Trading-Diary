@@ -9,20 +9,15 @@ public class PlannedTradeExplainer implements Explainer<PlannedTrade> {
 
     @Override
     public String explain(PlannedTrade content) {
-        String sb = content.getCompany().toString() +
-                ": \n" +
-                "\t Timeframe: " +
-                content.getTimeFrame().name() +
-                "\n" +
-                "\t Market cap: " +
-                content.getMarketCap() +
-                "\n" +
-                "\t On formation: " +
-                content.getFormationType().name() +
-                "\n" +
-                "\t Suggested by: " +
-                content.getSuggestedBy().getName() +
-                "\n";
-        return sb;
+        StringBuilder sb = new StringBuilder();
+        sb.append(content.getCompany().toString())
+                .append(": \n");
+        sb.append("\t On Timeframe: ")
+                .append(content.getTimeFrame().name())
+                .append("\n");
+        sb.append("\t On formation: ")
+                .append(content.getFormationType().name())
+                .append("\n");
+        return sb.toString();
     }
 }

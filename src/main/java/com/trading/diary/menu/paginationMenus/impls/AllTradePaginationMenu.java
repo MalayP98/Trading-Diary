@@ -8,9 +8,9 @@ import com.trading.diary.trade.impls.Trade;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TradePaginationMenu extends SimplePaginationMenu<Void, Trade> {
+public class AllTradePaginationMenu extends SimplePaginationMenu<Void, Trade> {
 
-    public TradePaginationMenu(TradeService tradeService, TradeExplainer explainer) {
+    public AllTradePaginationMenu(TradeService tradeService, TradeExplainer explainer) {
         super(tradeService::countAllActiveTrade,
                 (attr, page) -> tradeService.getAllOpenTrades(page),
                 () -> null,
@@ -19,6 +19,6 @@ public class TradePaginationMenu extends SimplePaginationMenu<Void, Trade> {
 
     @Override
     public MenuName menuName() {
-        return MenuName.TRADE_PAGINATION_MENU;
+        return MenuName.ALL_TRADE_PAGINATION_MENU;
     }
 }

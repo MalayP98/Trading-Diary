@@ -39,7 +39,7 @@ public class UpdateTradeMenu extends AbstractMenu<Trade> {
         print("=== Select a Trade ===");
         Trade trade = (Trade) menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
         if (trade == null) {
-            print("No open trades found!");
+            throw new RuntimeException("No open trades found!");
         }
         return trade;
     }

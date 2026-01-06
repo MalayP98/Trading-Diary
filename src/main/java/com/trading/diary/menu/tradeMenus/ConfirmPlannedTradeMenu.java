@@ -36,7 +36,7 @@ public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConfirmati
         return new PlannedTradeConfirmationDTO(builder.buildWithPlannedTrade(plannedTrade), plannedTrade);
     }
 
-    public PlannedTrade selectPlannedTrade(){
+    public PlannedTrade selectPlannedTrade() {
         print("1. Show planned trades by company.\n2. Show all planned trades.");
         int choice = InputType.INT.nextInput();
         PlannedTrade plannedTrade = (PlannedTrade) switch (choice) {
@@ -45,7 +45,7 @@ public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConfirmati
             default : print("Invalid option selected. Please try again!"); yield selectPlannedTrade();
         };
         if(plannedTrade == null){
-            print("No trades planned.");
+            throw new RuntimeException("No planned trade found.");
         }
         return plannedTrade;
     }

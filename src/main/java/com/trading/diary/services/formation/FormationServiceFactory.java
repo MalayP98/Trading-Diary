@@ -11,12 +11,9 @@ import java.util.Map;
 @Service
 public class FormationServiceFactory<T extends Formation> {
 
-    private final List<FormationService<T>> formationServices;
-
     private final Map<FormationType, FormationService<T>> formationServiceMap;
 
     public FormationServiceFactory(List<FormationService<T>> formationServices) {
-        this.formationServices = formationServices;
         formationServiceMap = new HashMap<>();
         for(FormationService<T> formationService : formationServices){
             formationServiceMap.put(formationService.getType(), formationService);

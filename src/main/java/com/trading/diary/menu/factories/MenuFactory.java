@@ -12,10 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MenuFactory {
 
     private static final Map<MenuName, AbstractMenu<?>> menuMap = new ConcurrentHashMap<>();
-//
-//    public MenuFactory(List<AbstractMenu<?>> menus) {
-//        menus.forEach(menu -> menuMap.put(menu.menuName(), menu));
-//    }
 
     public AbstractMenu<?> getMenu(MenuName menuName) {
         if (!menuMap.containsKey(menuName)) {

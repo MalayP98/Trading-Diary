@@ -63,7 +63,7 @@ public abstract class AbstractPlannedTradeMenu<T extends AbstractTrade> extends 
         builder.suggestedBy((Person) menuFactory.getMenu(MenuName.PERSON_MENU).showMenu());
         skipLines(2);
 
-        System.out.print("Any notes? (press Enter to skip): ");
+        print("Any notes? (press Enter to skip): ");
         String notes = InputType.STRING.nextSkipableInput();
         builder.notes(notes);
         skipLines(2);

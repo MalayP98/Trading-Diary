@@ -19,11 +19,11 @@ public abstract class AbstractTargetMenu extends AbstractMenu<List<Target>> {
     protected abstract String targetType();
 
     private List<Target> showMenu(List<Target> targets){
-        System.out.println(openingMenu());
+        print(openingMenu());
         int choice = InputType.INT.nextInput();
         switch (choice) {
             case 1:
-                System.out.println("Enter " + targetType() + " value:");
+                print("Enter " + targetType() + " value:");
                 float target = InputType.FLOAT.nextInput();
                 targets.add(Target.getTarget(target));
                 skipLines(2);
@@ -39,7 +39,7 @@ public abstract class AbstractTargetMenu extends AbstractMenu<List<Target>> {
             case 0:
                 return targets;
             default:
-                System.out.println("Invalid choice. Try again.");
+                print("Invalid choice. Try again.");
                 return showMenu(targets);
         }
         return showMenu(targets);
@@ -52,24 +52,29 @@ public abstract class AbstractTargetMenu extends AbstractMenu<List<Target>> {
         index--;
         if(index >= 0 && index < targets.size()) {
             targets.remove(index);
-            System.out.println("Target removed.");
+            print("Target removed.");
         } else {
-            System.out.println("Invalid index.");
+            print("Invalid index.");
         }
     }
 
     private void viewTargets(List<Target> targets) {
         if(targets.isEmpty()) {
-            System.out.println("No " + targetType() + " available.");
+            print("No " + targetType() + " available.");
             return;
         }
         int i = 1;
-        System.out.println("-".repeat(10));
+        StringBuilder targetView = new StringBuilder();
+        int maxLength = Integer.MIN_VALUE;
         for(Target target : targets) {
-            System.out.println(i + ". " + target.toString());
+            String subview = i + ". " + target.toString();
+            maxLength = Math.max(maxLength, subview.length());
+            targetView.append(subview).append(System.lineSeparator());
             i++;
         }
-        System.out.println("-".repeat(10));
+        print("-".repeat(maxLength));
+        print(targetView.toString().trim());
+        print("-".repeat(maxLength));
     }
 
     protected String openingMenu(){

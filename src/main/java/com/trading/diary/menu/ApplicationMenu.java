@@ -72,12 +72,9 @@ public class ApplicationMenu extends AbstractMenu<Void> {
                 CloseTradeDTO closeTradeDTO = (CloseTradeDTO) menuFactory.getMenu(MenuName.CLOSE_TRADE_MENU).showMenu();
                 tradeService.closeTrade(closeTradeDTO);
             }
-            case 5 -> {
-                tradeService.addTrade((Trade) menuFactory.getMenu(MenuName.UPDATE_TRADE_MENU).showMenu());
-            }
-            case 6 -> {
-                menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
-            }
+            case 5 -> tradeService.addTrade((Trade) menuFactory.getMenu(MenuName.UPDATE_TRADE_MENU).showMenu());
+            case 6 -> menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
+            case 7 -> menuFactory.getMenu(MenuName.ALL_TRADE_PAGINATION_MENU).showMenu();
             default -> {
                 System.out.println("Invalid choice. Please try again.");
                 showMenu();
@@ -94,6 +91,7 @@ public class ApplicationMenu extends AbstractMenu<Void> {
         sb.append("4. Close a trade\n");
         sb.append("5. Update trade\n");
         sb.append("6. View Open Trades\n");
+        sb.append("7. View All Trades\n");
         sb.append("0. Exit\n");
         sb.append("==========================\n");
         sb.append("Select an option: ");

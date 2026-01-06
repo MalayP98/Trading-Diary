@@ -33,6 +33,11 @@ public class TradeService {
                 .orElseGet(Page::empty).getContent();
     }
 
+    public List<Trade> getAllTrades(Pageable pageable){
+        return Optional.of(tradeRepository.findAllByDeletedFalse(pageable))
+                .orElseGet(Page::empty).getContent();
+    }
+
     public Trade closeTrade(CloseTradeDTO closeTradeDTO) {
         if(closeTradeDTO.getTradeId() == 0){
             throw new RuntimeException("Invalid trade supplied for closing.");
@@ -42,6 +47,10 @@ public class TradeService {
         trade.close(closeTradeDTO.getClosingPrice(), closeTradeDTO.getClosingDate(),
                 closeTradeDTO.getTargets(), closeTradeDTO.getStoplosses());
         return tradeRepository.save(trade);
+    }
+
+    public long countAllTrade(){
+        return tradeRepository.countByDeletedFalse();
     }
 
     public long countAllActiveTrade(){
