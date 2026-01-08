@@ -77,7 +77,7 @@ public class CloseTradeMenu extends AbstractMenu<CloseTradeDTO> {
 
     public Trade selectTrade() {
         print("=== Select a Trade to close ===");
-        Trade trade = (Trade) menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
+        Trade trade = (Trade) menuFactory.getMenu(MenuName.OPEN_TRADE_PAGINATION_MENU).showMenu();
         if (trade == null) {
             throw new RuntimeException("No open trade found!");
         }

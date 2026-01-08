@@ -1,23 +1,36 @@
 package com.trading.diary.explainers.impls;
 
 import com.trading.diary.explainers.Explainer;
+import com.trading.diary.formations.Formation;
+import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.PlannedTrade;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PlannedTradeExplainer implements Explainer<PlannedTrade> {
+
+    private final FormationServiceFactory<Formation> formationServiceFactory;
+
+    private final FormationExplainer formationExplainer;
 
     @Override
     public String explain(PlannedTrade content) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(content.getCompany().toString())
-                .append(": \n");
-        sb.append("\t On Timeframe: ")
-                .append(content.getTimeFrame().name())
-                .append("\n");
-        sb.append("\t On formation: ")
-                .append(content.getFormationType().name())
-                .append("\n");
-        return sb.toString();
+        return "\nCompany : " + content.getCompany().toString() +
+                "\n" +
+                "On Timeframe: " +
+                content.getTimeFrame().name() +
+                "\n" +
+                "On formation: " +
+                "\n" +
+                formationExplainer.explain(getFormation(content)) +
+                "\n";
+    }
+
+    private Formation getFormation(PlannedTrade plannedTrade) {
+        return formationServiceFactory
+                .getFormationService(plannedTrade.getFormationType())
+                .getFormation(plannedTrade.getFormationId());
     }
 }

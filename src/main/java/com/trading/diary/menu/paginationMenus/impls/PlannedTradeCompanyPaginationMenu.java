@@ -14,8 +14,8 @@ public class PlannedTradeCompanyPaginationMenu extends SimplePaginationMenu<Comp
 
     public PlannedTradeCompanyPaginationMenu(PlannedTradeService plannedTradeService,
                                              MenuFactory menuFactory, PlannedTradeExplainer explainer) {
-        super(plannedTradeService::getCount,
-                (attr, pageable) -> plannedTradeService.getAllPlannedTrade(pageable),
+        super(plannedTradeService::getCountByCompany,
+                plannedTradeService::getPlannedTradeByCompany,
                 () -> (Company) menuFactory.getMenu(MenuName.COMPANY_MENU).showMenu(),
                 explainer);
     }

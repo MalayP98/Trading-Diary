@@ -73,7 +73,7 @@ public class ApplicationMenu extends AbstractMenu<Void> {
                 tradeService.closeTrade(closeTradeDTO);
             }
             case 5 -> tradeService.addTrade((Trade) menuFactory.getMenu(MenuName.UPDATE_TRADE_MENU).showMenu());
-            case 6 -> menuFactory.getMenu(MenuName.TRADE_PAGINATION_MENU).showMenu();
+            case 6 -> menuFactory.getMenu(MenuName.OPEN_TRADE_PAGINATION_MENU).showMenu();
             case 7 -> menuFactory.getMenu(MenuName.ALL_TRADE_PAGINATION_MENU).showMenu();
             default -> {
                 System.out.println("Invalid choice. Please try again.");

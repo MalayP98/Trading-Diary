@@ -8,13 +8,14 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
 
     protected static final int PAGE_SIZE = 5;
 
-    protected final Supplier<Long> countSupplier;
+    protected final Function<T, Long> countSupplier;
 
     protected final BiFunction<T, ? super Pageable, List<R>> pageFunction;
 
@@ -22,7 +23,7 @@ public abstract class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
 
     protected final Explainer<R> explainer;
 
-    public SimplePaginationMenu(Supplier<Long> countSupplier, BiFunction<T, ? super Pageable, List<R>> pageFunction,
+    public SimplePaginationMenu(Function<T, Long> countSupplier, BiFunction<T, ? super Pageable, List<R>> pageFunction,
                                 Supplier<T> attributSupplier, @NonNull Explainer<R> explainer) {
         this.countSupplier = countSupplier;
         this.pageFunction = pageFunction;
@@ -32,13 +33,13 @@ public abstract class SimplePaginationMenu<T, R> extends AbstractMenu<R> {
 
     @Override
     public R showMenu() {
-        long count = countSupplier.get();
+        T attr = attributSupplier.get();
+        long count = countSupplier.apply(attr);
         long totalPages = (count/PAGE_SIZE) + (count%PAGE_SIZE > 0 ? 1 : 0);
         if(totalPages == 0){
             print("No data found.");
             return null;
         }
-        T attr = attributSupplier.get();
         List<R> page;
         int option;
         for(int i=1; i<=totalPages; i++){

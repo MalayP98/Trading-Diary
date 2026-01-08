@@ -57,4 +57,8 @@ public class PlannedTradeService {
     public long getCount(){
         return plannedTradeRepository.countByDeletedFalse();
     }
+
+    public long getCountByCompany(Company company){
+        return plannedTradeRepository.countByCompanyAndDeletedFalse(company);
+    }
 }

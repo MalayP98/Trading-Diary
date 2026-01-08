@@ -7,37 +7,55 @@ import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
 import com.trading.diary.formations.visitor.FormationVisitor;
+import org.springframework.stereotype.Service;
 
-// TODO: Fill explanations
+@Service
 public class ShortExplanationVisitor implements FormationVisitor<String> {
 
     @Override
     public String visit(BullishEngulfing bullishEngulfing) {
-        return "";
+        return "Formation Name: " + bullishEngulfing.getFormation() + "\n" +
+                "Support Length: " + bullishEngulfing.getSupportLength() + "\n" +
+                "Volume: " + bullishEngulfing.getVolume() + "\n" +
+                "Partially engulfed? " + !bullishEngulfing.fullyEngulfed() + "\n";
     }
 
     @Override
     public String visit(MorningStar morningStar) {
-        return "";
+        return "Formation Name: " + morningStar.getFormation() + "\n" +
+                "Support Length: " + morningStar.getSupportLength() + "\n" +
+                "Volume: " + morningStar.getVolume() + "\n" +
+                "Dogi color: " + morningStar.getDogiColor() + "\n";
     }
 
     @Override
     public String visit(Hammer hammer) {
-        return "";
+        return "Formation Name: " + hammer.getFormation() + "\n" +
+                "Support Length: " + hammer.getSupportLength() + "\n" +
+                "Hammer Color: " + hammer.getHammerColor() + "\n" +
+                "Big lower wick? " + !hammer.isSmallLowerWick() + "\n";
     }
 
     @Override
     public String visit(HorizontalResistanceBreakout horizontalResistanceBreakout) {
-        return "";
+        return "Formation Name: " + horizontalResistanceBreakout.getFormation() + "\n" +
+                "Is confirm B/O? " + horizontalResistanceBreakout.isConfirmBreakout() + "\n" +
+                "Breakout Volume: " + horizontalResistanceBreakout.getBreakoutVolume() + "\n" +
+                "Resistance Length: " + horizontalResistanceBreakout.getResistanceLength() + "\n";
     }
 
     @Override
     public String visit(FallingResistanceBreakout fallingResistanceBreakout) {
-        return "";
+        return "Formation Name: " + fallingResistanceBreakout.getFormation() + "\n" +
+                "Is confirm B/O? " + fallingResistanceBreakout.isConfirmBreakout() + "\n" +
+                "Breakout Volume: " + fallingResistanceBreakout.getBreakoutVolume() + "\n" +
+                "Resistance Length: " + fallingResistanceBreakout.getResistanceLength() + "\n";
     }
 
     @Override
     public String visit(UnexpectedMove unexpectedMove) {
-        return "";
+        return "Formation Name: " + unexpectedMove.getFormation() + "\n" +
+                "Move Percentage: " + unexpectedMove.getPercentageMove() + "\n" +
+                "Days took to move: " + unexpectedMove.getDays() + "\n";
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class OpenTradePaginationMenu extends SimplePaginationMenu<Void, Trade> {
 
     public OpenTradePaginationMenu(TradeService tradeService, TradeExplainer explainer) {
-        super(tradeService::countAllActiveTrade,
+        super(attr -> tradeService.countAllActiveTrade(),
                 (attr, page) -> tradeService.getAllOpenTrades(page),
                 () -> null,
                 explainer);

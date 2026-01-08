@@ -23,6 +23,7 @@ public class MorningStar extends SupportReversal {
     @NonNull
     private CandleColor dogiColor;
 
+    // Show the volume of the green candle
     @NonNull
     @Enumerated(EnumType.STRING)
     private Strength volume;

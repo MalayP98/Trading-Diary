@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class PersonPaginationMenu extends SimplePaginationMenu<Void, Person> {
 
     public PersonPaginationMenu(PersonService personService) {
-        super(personService::getCount,
+        super(attr -> personService.getCount(),
                 (attr, page) -> personService.getAllPeople(page),
                 () -> null,
                 (person) -> ((Person)person).getName());

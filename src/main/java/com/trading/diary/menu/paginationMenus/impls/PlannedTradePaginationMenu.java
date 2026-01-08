@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class PlannedTradePaginationMenu extends SimplePaginationMenu<Void, PlannedTrade> {
 
     public PlannedTradePaginationMenu(PlannedTradeService plannedTradeService, PlannedTradeExplainer explainer) {
-        super(plannedTradeService::getCount,
+        super(attr -> plannedTradeService.getCount(),
                 (attr, pageable) -> plannedTradeService.getAllPlannedTrade(pageable),
                 () -> null,
                 explainer);

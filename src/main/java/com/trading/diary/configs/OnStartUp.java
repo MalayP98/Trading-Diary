@@ -16,15 +16,9 @@ public class OnStartUp implements CommandLineRunner {
 
     private final PersonService personService;
 
-    private final PlannedTradeService plannedTradeService;
-
-    private final CompanyService companyService;
-
     public OnStartUp(MenuFactory menuFactory, PersonService personService, PlannedTradeService plannedTradeService, CompanyService companyService) {
         this.menuFactory = menuFactory;
         this.personService = personService;
-        this.plannedTradeService = plannedTradeService;
-        this.companyService = companyService;
     }
 
     @Override

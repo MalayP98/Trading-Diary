@@ -26,4 +26,6 @@ public interface PlannedTradeRepository extends JpaRepository<PlannedTrade, Long
     List<PlannedTrade> findAllByCompanyAndDeletedFalse(Company company, Pageable pageable);
 
     Page<PlannedTrade> findAllByDeletedFalse(Pageable pageable);
+
+    long countByCompanyAndDeletedFalse(Company company);
 }
