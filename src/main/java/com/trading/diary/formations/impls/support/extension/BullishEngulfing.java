@@ -5,6 +5,7 @@ import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,10 +28,10 @@ public class BullishEngulfing extends SupportReversal {
     @Enumerated(EnumType.STRING)
     private Strength volume;
 
-    private BullishEngulfing(boolean partialBottomEngulfing, boolean partialTopEngulfing, Strength volume,
+    private BullishEngulfing(TimeFrame timeFrame, boolean partialBottomEngulfing, boolean partialTopEngulfing, Strength volume,
                              PricePosition pricePositionOnSupport, long supportLength, boolean priceSustained,
                              boolean retest) {
-        super(pricePositionOnSupport, supportLength, priceSustained, retest);
+        super(pricePositionOnSupport, timeFrame, supportLength, priceSustained, retest);
         this.partialBottomEngulfing = partialBottomEngulfing;
         this.partialTopEngulfing = partialTopEngulfing;
         this.volume = volume;
@@ -83,7 +84,7 @@ public class BullishEngulfing extends SupportReversal {
         }
 
         public BullishEngulfing build() {
-            return new BullishEngulfing(partialBottomEngulfing, partialTopEngulfing, volume,
+            return new BullishEngulfing(timeFrame, partialBottomEngulfing, partialTopEngulfing, volume,
                     pricePositionOnSupport, supportLength, priceSustained, retest);
         }
     }

@@ -5,6 +5,7 @@ import com.trading.diary.formations.impls.resistance.ResistanceBreakout;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.utils.Strength;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,12 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
     @Min(value = 1, message = "Float diff percentage cannot be less than 1")
     private float priceDiffPercentage;
 
-    public FallingResistanceBreakout(float angle, boolean priorUptrend,
+    public FallingResistanceBreakout(TimeFrame timeFrame, float angle, boolean priorUptrend,
                                      boolean confirmBreakout, Strength breakoutVolume,
                                      boolean allTimeHigh, int touches, long resistanceLength,
                                      boolean higherLows, float rsi, float breakoutPercentage,
                                      SMA sma20, SMA sma50, SMA sma200, float priceDiffPercentage) {
-        super(confirmBreakout, breakoutVolume, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);
+        super(confirmBreakout, breakoutVolume, timeFrame, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);
         this.angle = angle;
         this.priceDiffPercentage = priceDiffPercentage;
     }
@@ -73,7 +74,7 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
         }
 
         public FallingResistanceBreakout build() {
-            return new FallingResistanceBreakout(
+            return new FallingResistanceBreakout(timeFrame,
                     angle, priorUptrend,
                     confirmBreakout, breakoutVolume, allTimeHigh,
                     touches, resistanceLength, higherLows,

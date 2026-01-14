@@ -3,6 +3,7 @@ package com.trading.diary.formations.impls.support;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.pojo.Audit;
 import com.trading.diary.utils.PricePosition;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
@@ -19,6 +20,10 @@ public abstract class SupportReversal extends Audit implements Formation {
     @NonNull
     @Enumerated(EnumType.STRING)
     private PricePosition pricePositionOnSupport;
+
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private TimeFrame timeFrame;
 
     // in days
     @Min(value = 1, message = "Support length cannot be less than 1")
@@ -42,6 +47,8 @@ public abstract class SupportReversal extends Audit implements Formation {
 
         protected boolean retest;
 
+        protected TimeFrame timeFrame;
+
         public T pricePositionOnSupport(PricePosition pricePositionOnSupport){
             this.pricePositionOnSupport = pricePositionOnSupport;
             return self();
@@ -59,6 +66,11 @@ public abstract class SupportReversal extends Audit implements Formation {
 
         public T retest(boolean retest) {
             this.retest = retest;
+            return self();
+        }
+
+        public T timeFrame(TimeFrame timeFrame) {
+            this.timeFrame = timeFrame;
             return self();
         }
 

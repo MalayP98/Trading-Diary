@@ -6,6 +6,7 @@ import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.utils.CandleColor;
 import com.trading.diary.utils.PricePosition;
 import com.trading.diary.utils.Strength;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,18 +21,16 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class MorningStar extends SupportReversal {
 
-    @NonNull
     private CandleColor dogiColor;
 
     // Show the volume of the green candle
-    @NonNull
     @Enumerated(EnumType.STRING)
     private Strength volume;
 
-    private MorningStar(CandleColor dogiColor, Strength volume,
+    private MorningStar(TimeFrame timeFrame, @NonNull CandleColor dogiColor, @NonNull Strength volume,
                         PricePosition pricePositionOnSupport, long supportLength,
                         boolean priceSustained, boolean retest) {
-        super(pricePositionOnSupport, supportLength, priceSustained, retest);
+        super(pricePositionOnSupport, timeFrame, supportLength, priceSustained, retest);
         this.dogiColor = dogiColor;
         this.volume = volume;
     }
@@ -67,7 +66,7 @@ public class MorningStar extends SupportReversal {
         }
 
         public MorningStar build() {
-            return new MorningStar(dogiColor, volume,
+            return new MorningStar(timeFrame, dogiColor, volume,
                     pricePositionOnSupport, supportLength,
                     priceSustained, retest);
         }

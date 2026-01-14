@@ -27,9 +27,6 @@ public abstract class AbstractTrade extends Audit {
     @JoinColumn(name = "COMPANY")
     private Company company;
 
-    @Enumerated(EnumType.STRING)
-    private TimeFrame timeFrame;
-
     private long formationId;
 
     private FormationType formationType;
@@ -52,7 +49,7 @@ public abstract class AbstractTrade extends Audit {
     @Setter
     private String notes;
 
-    public AbstractTrade(@NonNull Company company, @NonNull TimeFrame timeFrame, long formationId, @NonNull FormationType formationType, List<Target> stoploss, List<Target> targets,
+    public AbstractTrade(@NonNull Company company, long formationId, @NonNull FormationType formationType, List<Target> stoploss, List<Target> targets,
                          @NonNull MarketCap marketCap, Person suggestedBy, String notes) {
         if(suggestedBy == null){
             suggestedBy = Person.self();
@@ -63,7 +60,6 @@ public abstract class AbstractTrade extends Audit {
         if(CollectionUtils.isEmpty(stoploss)){
             stoploss = new ArrayList<>();
         }
-        this.timeFrame = timeFrame;
         this.formationId = formationId;
         this.formationType = formationType;
         this.stoploss = stoploss;

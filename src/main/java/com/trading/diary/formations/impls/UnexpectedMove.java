@@ -4,6 +4,7 @@ import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.pojo.Audit;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,8 @@ public class UnexpectedMove extends Audit implements Formation {
 
     @Min(value = 1, message = "Days cannot be less than 1")
     private long days;
+
+    private TimeFrame timeFrame;
 
     @Override
     public FormationType getFormation() {
@@ -43,6 +46,8 @@ public class UnexpectedMove extends Audit implements Formation {
 
         private long days;
 
+        private TimeFrame timeFrame;
+
         public UnexpectedMoveBuilder percentageMove(float percentageMove){
             this.percentageMove = percentageMove;
             return this;
@@ -53,8 +58,13 @@ public class UnexpectedMove extends Audit implements Formation {
             return this;
         }
 
+        public UnexpectedMoveBuilder timeFrame(TimeFrame timeFrame) {
+            this.timeFrame = timeFrame;
+            return this;
+        }
+
         public UnexpectedMove build() {
-            return new UnexpectedMove(percentageMove, days);
+            return new UnexpectedMove(percentageMove, days, timeFrame);
         }
     }
 }

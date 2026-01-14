@@ -24,9 +24,6 @@ public class TradeExplainer implements Explainer<Trade> {
                 .append("  Status: ")
                 .append(content.getState().toString())
                 .append("\n");
-        sb.append("On Timeframe: ")
-                .append(content.getTimeFrame().name())
-                .append("\n");
         sb.append("On formation: ")
                 .append("\n ")
                 .append(formationExplainer.explain(getFormation(content)))

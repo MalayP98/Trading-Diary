@@ -5,6 +5,7 @@ import com.trading.diary.formations.impls.resistance.ResistanceBreakout;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.utils.Strength;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HorizontalResistanceBreakout extends ResistanceBreakout {
 
-    public HorizontalResistanceBreakout(boolean confirmBreakout, Strength breakoutVolume,
+    public HorizontalResistanceBreakout(TimeFrame timeFrame, boolean confirmBreakout, Strength breakoutVolume,
                                         boolean allTimeHigh, int touches, long resistanceLength,
                                         boolean higherLows, boolean priorUptrend, float rsi, float breakoutPercentage,
                                         SMA sma20, SMA sma50, SMA sma200) {
-        super(confirmBreakout, breakoutVolume, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);
+        super(confirmBreakout, breakoutVolume, timeFrame, allTimeHigh, touches, resistanceLength, higherLows, priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class HorizontalResistanceBreakout extends ResistanceBreakout {
     public static class HorizontalResistanceBreakoutBuilder extends ResistanceBreakout.ResistanceBreakoutBuilder<HorizontalResistanceBreakoutBuilder> {
 
         public HorizontalResistanceBreakout build() {
-            return new HorizontalResistanceBreakout(
+            return new HorizontalResistanceBreakout(timeFrame,
                     confirmBreakout, breakoutVolume, allTimeHigh,
                     touches, resistanceLength, higherLows,
                     priorUptrend, rsi, breakoutPercentage, sma20, sma50, sma200);

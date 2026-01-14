@@ -5,6 +5,7 @@ import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.utils.CandleColor;
 import com.trading.diary.utils.PricePosition;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,13 +21,13 @@ public class Hammer extends SupportReversal {
     @NonNull
     private CandleColor hammerColor;
 
-    // Lower wick is less than 2x of upper wick
+    // Lower wick is less than 2x of real body
     private boolean smallLowerWick;
 
-    private Hammer(CandleColor hammerColor, boolean smallLowerWick,
+    private Hammer(TimeFrame timeFrame, CandleColor hammerColor, boolean smallLowerWick,
                    PricePosition pricePositionOnSupport,
                    long supportLength, boolean priceSustained, boolean retest) {
-        super(pricePositionOnSupport, supportLength, priceSustained, retest);
+        super(pricePositionOnSupport, timeFrame, supportLength, priceSustained, retest);
         this.hammerColor = hammerColor;
         this.smallLowerWick = smallLowerWick;
     }
@@ -62,7 +63,7 @@ public class Hammer extends SupportReversal {
         }
 
         public Hammer build() {
-            return new Hammer(hammerColor, smallLowerWick,
+            return new Hammer(timeFrame, hammerColor, smallLowerWick,
                     pricePositionOnSupport, supportLength,
                     priceSustained, retest);
         }

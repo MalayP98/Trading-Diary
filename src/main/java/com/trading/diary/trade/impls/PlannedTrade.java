@@ -6,7 +6,6 @@ import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.trade.AbstractTrade;
-import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.Entity;
 import lombok.NoArgsConstructor;
 
@@ -16,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class PlannedTrade extends AbstractTrade {
 
-    private PlannedTrade(Company company, TimeFrame timeFrame, long formationId, FormationType formationType, MarketCap marketCap, Person suggestedBy, String notes, List<Target> target, List<Target> stoploss) {
-        super(company, timeFrame, formationId, formationType, stoploss, target, marketCap, suggestedBy, notes);
+    private PlannedTrade(Company company, long formationId, FormationType formationType, MarketCap marketCap, Person suggestedBy, String notes, List<Target> target, List<Target> stoploss) {
+        super(company, formationId, formationType, stoploss, target, marketCap, suggestedBy, notes);
     }
 
     public static PlannedTradeBuilder builder() {
@@ -28,7 +27,7 @@ public class PlannedTrade extends AbstractTrade {
 
         @Override
         public PlannedTrade build() {
-            return new PlannedTrade(company, timeFrame, formationId, formationType, marketCap, suggestedBy, notes, target, stoploss);
+            return new PlannedTrade(company, formationId, formationType, marketCap, suggestedBy, notes, target, stoploss);
         }
 
         @Override

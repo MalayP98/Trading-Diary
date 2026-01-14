@@ -19,9 +19,6 @@ public class PlannedTradeExplainer implements Explainer<PlannedTrade> {
     public String explain(PlannedTrade content) {
         return "\nCompany : " + content.getCompany().toString() +
                 "\n" +
-                "On Timeframe: " +
-                content.getTimeFrame().name() +
-                "\n" +
                 "On formation: " +
                 "\n" +
                 formationExplainer.explain(getFormation(content)) +

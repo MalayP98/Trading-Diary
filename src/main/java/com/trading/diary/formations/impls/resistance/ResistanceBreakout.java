@@ -4,6 +4,7 @@ import com.trading.diary.formations.Formation;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.pojo.Audit;
 import com.trading.diary.utils.Strength;
+import com.trading.diary.utils.TimeFrame;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,10 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
     @NonNull
     @Enumerated(EnumType.STRING)
     private Strength breakoutVolume;
+
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private TimeFrame timeFrame;
 
     private boolean allTimeHigh;
 
@@ -65,6 +70,8 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
 
         protected boolean allTimeHigh;
 
+        protected TimeFrame timeFrame;
+
         protected int touches;
 
         protected long resistanceLength;
@@ -85,6 +92,11 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
 
         public T confirmBreakout(boolean confirmBreakout) {
             this.confirmBreakout = confirmBreakout;
+            return self();
+        }
+
+        public T timeFrame(TimeFrame timeFrame) {
+            this.timeFrame = timeFrame;
             return self();
         }
 
