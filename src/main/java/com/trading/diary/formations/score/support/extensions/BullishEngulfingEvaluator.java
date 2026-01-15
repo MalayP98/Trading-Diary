@@ -25,7 +25,11 @@ public class BullishEngulfingEvaluator extends FormationEvaluator<BullishEngulfi
 
     @Override
     protected double evaluate(BullishEngulfing formation) {
-        return evaluatePartialEngulfing(formation) + evaluateVolume(formation);
+        double x = evaluatePartialEngulfing(formation);
+        double y = evaluateVolume(formation);
+        System.out.println("Partial engulfing score: " + x);
+        System.out.println("Volume score: " + y);
+        return x+y;
     }
 
     private double evaluateVolume(BullishEngulfing formation) {

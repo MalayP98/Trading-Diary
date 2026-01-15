@@ -30,7 +30,9 @@ public class SupportLengthEvaluator extends FormationEvaluator<SupportReversal> 
     protected double evaluate(SupportReversal formation) {
         TimeFrame timeFrame = formation.getTimeFrame();
         Sigmoid sigmoid = TIMEFRAME_TO_RANGE.get(timeFrame);
-        return sigmoid.compute(formation.getSupportLength());
+        double x = sigmoid.compute(formation.getSupportLength());
+        System.out.println("Support length score: " + x);
+        return x;
     }
 
     private Sigmoid getSigmoid(double minDays) {

@@ -23,6 +23,8 @@ public class PricePositionOnSupportEvaluator extends FormationEvaluator<SupportR
 
     @Override
     protected double evaluate(SupportReversal formation) {
-        return PRICE_POSITION_ON_SUPPORT_WEIGHTAGE * PRICE_POSITION_SCORES.get(formation.getPricePositionOnSupport());
+        double x = PRICE_POSITION_ON_SUPPORT_WEIGHTAGE * PRICE_POSITION_SCORES.get(formation.getPricePositionOnSupport());
+        System.out.println("Price position on support score: " + x);
+        return x;
     }
 }

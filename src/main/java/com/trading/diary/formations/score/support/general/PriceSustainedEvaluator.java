@@ -13,6 +13,8 @@ public class PriceSustainedEvaluator extends FormationEvaluator<SupportReversal>
 
     @Override
     protected double evaluate(SupportReversal formation) {
-        return formation.isPriceSustained() ? PRICE_SUSTAINED_WEIGHTAGE : 0.0;
+        double x = formation.isPriceSustained() ? PRICE_SUSTAINED_WEIGHTAGE : 0.0;
+        System.out.println("Price sustained score: " + x);
+        return x;
     }
 }
