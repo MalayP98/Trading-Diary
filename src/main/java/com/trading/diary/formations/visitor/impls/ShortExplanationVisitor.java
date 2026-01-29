@@ -25,7 +25,7 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Volume: " + bullishEngulfing.getVolume() + "\n" +
                 "Partially engulfed? " + !bullishEngulfing.fullyEngulfed() + "\n" +
                 "Score: " + formationEvaluationFacade.evaluate(bullishEngulfing);
-    }  
+    }
 
     @Override
     public String visit(MorningStar morningStar) {
