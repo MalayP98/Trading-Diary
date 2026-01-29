@@ -6,7 +6,7 @@ import com.trading.diary.formations.impls.resistance.extension.HorizontalResista
 import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
-import com.trading.diary.formations.score.FormationEvaluator;
+import com.trading.diary.formations.score.FormationEvaluatorFactory;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ShortExplanationVisitor implements FormationVisitor<String> {
 
-//    @Qualifier("bullishEngulfingEvaluator")
-    private final FormationEvaluator<BullishEngulfing> bullishEngulfingEvaluator;
+    private final FormationEvaluatorFactory formationEvaluatorFactory;
+
+//    private final FormationEvaluator<BullishEngulfing> bullishEngulfingEvaluator;
 
     @Override
     public String visit(BullishEngulfing bullishEngulfing) {
@@ -25,7 +26,7 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Support Length: " + bullishEngulfing.getSupportLength() + "\n" +
                 "Volume: " + bullishEngulfing.getVolume() + "\n" +
                 "Partially engulfed? " + !bullishEngulfing.fullyEngulfed() + "\n" +
-                "Score: " + bullishEngulfingEvaluator.evaluateFormation(bullishEngulfing);
+                "Score: " + formationEvaluatorFactory.getEvaluator(bullishEngulfing.getFormation()).evaluateFormation(bullishEngulfing);
     }
 
     @Override

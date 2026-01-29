@@ -1,5 +1,6 @@
 package com.trading.diary.formations.score.support.general;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.score.FormationEvaluator;
 
@@ -13,8 +14,16 @@ public class PriceSustainedEvaluator extends FormationEvaluator<SupportReversal>
 
     @Override
     protected double evaluate(SupportReversal formation) {
-        double x = formation.isPriceSustained() ? PRICE_SUSTAINED_WEIGHTAGE : 0.0;
-        System.out.println("Price sustained score: " + x);
-        return x;
+        return formation.isPriceSustained() ? PRICE_SUSTAINED_WEIGHTAGE : 0.0;
+    }
+
+    @Override
+    protected double getWeightage() {
+        return PRICE_SUSTAINED_WEIGHTAGE;
+    }
+
+    @Override
+    public FormationType getFormationType() {
+        return null;
     }
 }

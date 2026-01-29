@@ -1,6 +1,7 @@
 package com.trading.diary.formations.score;
 
 import com.trading.diary.formations.Formation;
+import com.trading.diary.formations.FormationType;
 
 public abstract class FormationEvaluator<T extends Formation> {
 
@@ -19,4 +20,16 @@ public abstract class FormationEvaluator<T extends Formation> {
     }
 
     protected abstract double evaluate(T formation);
+
+    protected abstract double getWeightage();
+
+    public double getTotalWeightage() {
+        double weightage = getWeightage();
+        if (nextEvaluator != null) {
+            weightage += nextEvaluator.getTotalWeightage();
+        }
+        return weightage;
+    }
+
+    public abstract FormationType getFormationType();
 }

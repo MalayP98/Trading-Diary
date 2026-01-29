@@ -1,5 +1,6 @@
 package com.trading.diary.formations.score.support.extensions;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.score.FormationEvaluator;
 import com.trading.diary.utils.Strength;
@@ -15,7 +16,7 @@ public class BullishEngulfingEvaluator extends FormationEvaluator<BullishEngulfi
     private final Map<Strength, Double> VOLUME_TO_SCORE = Map.of(
             Strength.VERY_WEAK, 0.0,
             Strength.WEAK, 0.2,
-            Strength.STRONG, 0.7,
+            Strength.STRONG, 0.6,
             Strength.VERY_STRONG, 1.0
     );
 
@@ -25,11 +26,17 @@ public class BullishEngulfingEvaluator extends FormationEvaluator<BullishEngulfi
 
     @Override
     protected double evaluate(BullishEngulfing formation) {
-        double x = evaluatePartialEngulfing(formation);
-        double y = evaluateVolume(formation);
-        System.out.println("Partial engulfing score: " + x);
-        System.out.println("Volume score: " + y);
-        return x+y;
+        return evaluatePartialEngulfing(formation) + evaluateVolume(formation);
+    }
+
+    @Override
+    protected double getWeightage() {
+        return PARTIAL_ENGULFING_WEIGHTAGE + VOLUME_WEIGHTAGE;
+    }
+
+    @Override
+    public FormationType getFormationType() {
+        return FormationType.BULLISH_ENGULFING;
     }
 
     private double evaluateVolume(BullishEngulfing formation) {

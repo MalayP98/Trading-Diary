@@ -54,17 +54,10 @@ public class FallingResistanceBreakout extends ResistanceBreakout {
 
         private float angle;
 
-        private boolean priorUptrend;
-
         private float priceDiffPercentage;
 
         public FallingResistanceBreakoutBuilder angle(float angle) {
             this.angle = angle;
-            return this;
-        }
-
-        public FallingResistanceBreakoutBuilder priorUptrend(boolean priorUptrend) {
-            this.priorUptrend = priorUptrend;
             return this;
         }
 

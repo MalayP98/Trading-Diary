@@ -1,5 +1,6 @@
 package com.trading.diary.formations.score.support.general;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.score.FormationEvaluator;
 import com.trading.diary.utils.PricePosition;
@@ -23,8 +24,16 @@ public class PricePositionOnSupportEvaluator extends FormationEvaluator<SupportR
 
     @Override
     protected double evaluate(SupportReversal formation) {
-        double x = PRICE_POSITION_ON_SUPPORT_WEIGHTAGE * PRICE_POSITION_SCORES.get(formation.getPricePositionOnSupport());
-        System.out.println("Price position on support score: " + x);
-        return x;
+        return PRICE_POSITION_ON_SUPPORT_WEIGHTAGE * PRICE_POSITION_SCORES.get(formation.getPricePositionOnSupport());
+    }
+
+    @Override
+    protected double getWeightage() {
+        return PRICE_POSITION_ON_SUPPORT_WEIGHTAGE;
+    }
+
+    @Override
+    public FormationType getFormationType() {
+        return null;
     }
 }

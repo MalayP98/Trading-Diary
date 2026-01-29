@@ -1,5 +1,6 @@
 package com.trading.diary.formations.score.support.general;
 
+import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.score.FormationEvaluator;
 import com.trading.diary.scale.Sigmoid;
@@ -30,9 +31,17 @@ public class SupportLengthEvaluator extends FormationEvaluator<SupportReversal> 
     protected double evaluate(SupportReversal formation) {
         TimeFrame timeFrame = formation.getTimeFrame();
         Sigmoid sigmoid = TIMEFRAME_TO_RANGE.get(timeFrame);
-        double x = sigmoid.compute(formation.getSupportLength());
-        System.out.println("Support length score: " + x);
-        return x;
+        return sigmoid.compute(formation.getSupportLength());
+    }
+
+    @Override
+    protected double getWeightage() {
+        return SUPPORT_LENGTH_WEIGHTAGE;
+    }
+
+    @Override
+    public FormationType getFormationType() {
+        return null;
     }
 
     private Sigmoid getSigmoid(double minDays) {
