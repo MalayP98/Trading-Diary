@@ -6,7 +6,7 @@ import com.trading.diary.formations.impls.resistance.extension.HorizontalResista
 import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
-import com.trading.diary.formations.score.FormationEvaluatorFactory;
+import com.trading.diary.formations.score.FormationEvaluationFacade;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ShortExplanationVisitor implements FormationVisitor<String> {
 
-    private final FormationEvaluatorFactory formationEvaluatorFactory;
-
-//    private final FormationEvaluator<BullishEngulfing> bullishEngulfingEvaluator;
+    private final FormationEvaluationFacade formationEvaluationFacade;
 
     @Override
     public String visit(BullishEngulfing bullishEngulfing) {
@@ -26,7 +24,7 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Support Length: " + bullishEngulfing.getSupportLength() + "\n" +
                 "Volume: " + bullishEngulfing.getVolume() + "\n" +
                 "Partially engulfed? " + !bullishEngulfing.fullyEngulfed() + "\n" +
-                "Score: " + formationEvaluatorFactory.getEvaluator(bullishEngulfing.getFormation()).evaluateFormation(bullishEngulfing);
+                "Score: " + formationEvaluationFacade.evaluate(bullishEngulfing);
     }
 
     @Override
@@ -35,7 +33,8 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Timeframe: " + morningStar.getTimeFrame() + "\n" +
                 "Support Length: " + morningStar.getSupportLength() + "\n" +
                 "Volume: " + morningStar.getVolume() + "\n" +
-                "Dogi color: " + morningStar.getDogiColor() + "\n";
+                "Dogi color: " + morningStar.getDogiColor() + "\n" +
+                "Score: " + formationEvaluationFacade.evaluate(morningStar);
     }
 
     @Override
@@ -44,7 +43,8 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Timeframe: " + hammer.getTimeFrame() + "\n" +
                 "Support Length: " + hammer.getSupportLength() + "\n" +
                 "Hammer Color: " + hammer.getHammerColor() + "\n" +
-                "Big lower wick? " + !hammer.isSmallLowerWick() + "\n";
+                "Big lower wick? " + !hammer.isSmallLowerWick() + "\n"+
+                "Score: " + formationEvaluationFacade.evaluate(hammer);
     }
 
     @Override
@@ -53,7 +53,8 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Timeframe: " + horizontalResistanceBreakout.getTimeFrame() + "\n" +
                 "Is confirm B/O? " + horizontalResistanceBreakout.isConfirmBreakout() + "\n" +
                 "Breakout Volume: " + horizontalResistanceBreakout.getBreakoutVolume() + "\n" +
-                "Resistance Length: " + horizontalResistanceBreakout.getResistanceLength() + "\n";
+                "Resistance Length: " + horizontalResistanceBreakout.getResistanceLength() + "\n"+
+                "Score: " + formationEvaluationFacade.evaluate(horizontalResistanceBreakout);
     }
 
     @Override
@@ -62,7 +63,8 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Timeframe: " + fallingResistanceBreakout.getTimeFrame() + "\n" +
                 "Is confirm B/O? " + fallingResistanceBreakout.isConfirmBreakout() + "\n" +
                 "Breakout Volume: " + fallingResistanceBreakout.getBreakoutVolume() + "\n" +
-                "Resistance Length: " + fallingResistanceBreakout.getResistanceLength() + "\n";
+                "Resistance Length: " + fallingResistanceBreakout.getResistanceLength() + "\n"+
+                "Score: " + formationEvaluationFacade.evaluate(fallingResistanceBreakout);
     }
 
     @Override
@@ -70,6 +72,7 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
         return "Formation Name: " + unexpectedMove.getFormation() + "\n" +
                 "Timeframe: " + unexpectedMove.getTimeFrame() + "\n" +
                 "Move Percentage: " + unexpectedMove.getPercentageMove() + "\n" +
-                "Days took to move: " + unexpectedMove.getDays() + "\n";
+                "Days took to move: " + unexpectedMove.getDays() + "\n"+
+                "Score: " + formationEvaluationFacade.evaluate(unexpectedMove);
     }
 }

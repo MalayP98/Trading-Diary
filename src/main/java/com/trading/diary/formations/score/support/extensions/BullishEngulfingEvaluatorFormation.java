@@ -2,12 +2,12 @@ package com.trading.diary.formations.score.support.extensions;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
-import com.trading.diary.formations.score.FormationEvaluator;
+import com.trading.diary.formations.score.AbstractFormationEvaluator;
 import com.trading.diary.utils.Strength;
 
 import java.util.Map;
 
-public class BullishEngulfingEvaluator extends FormationEvaluator<BullishEngulfing> {
+public class BullishEngulfingEvaluatorFormation extends AbstractFormationEvaluator<BullishEngulfing> {
 
     private final double PARTIAL_ENGULFING_WEIGHTAGE = 15.0;
 
@@ -20,12 +20,12 @@ public class BullishEngulfingEvaluator extends FormationEvaluator<BullishEngulfi
             Strength.VERY_STRONG, 1.0
     );
 
-    public BullishEngulfingEvaluator(FormationEvaluator<? super BullishEngulfing> nextEvaluator) {
+    public BullishEngulfingEvaluatorFormation(AbstractFormationEvaluator<? super BullishEngulfing> nextEvaluator) {
         super(nextEvaluator);
     }
 
     @Override
-    protected double evaluate(BullishEngulfing formation) {
+    public double evaluate(BullishEngulfing formation) {
         return evaluatePartialEngulfing(formation) + evaluateVolume(formation);
     }
 

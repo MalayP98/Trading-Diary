@@ -2,14 +2,14 @@ package com.trading.diary.formations.score.support.general;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
-import com.trading.diary.formations.score.FormationEvaluator;
+import com.trading.diary.formations.score.AbstractFormationEvaluator;
 import com.trading.diary.scale.Sigmoid;
 import com.trading.diary.scale.SteepGrowthCenterCalculator;
 import com.trading.diary.utils.TimeFrame;
 
 import java.util.Map;
 
-public class SupportLengthEvaluator extends FormationEvaluator<SupportReversal> {
+public class SupportLengthEvaluatorFormation extends AbstractFormationEvaluator<SupportReversal> {
 
     private final double SIGMOID_SMOOTHNESS = 0.08;
 
@@ -23,12 +23,12 @@ public class SupportLengthEvaluator extends FormationEvaluator<SupportReversal> 
             TimeFrame.MONTHLY, getSigmoid(19000)
     );
 
-    public SupportLengthEvaluator(FormationEvaluator<SupportReversal> nextEvaluator) {
+    public SupportLengthEvaluatorFormation(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
         super(nextEvaluator);
     }
 
     @Override
-    protected double evaluate(SupportReversal formation) {
+    public double evaluate(SupportReversal formation) {
         TimeFrame timeFrame = formation.getTimeFrame();
         Sigmoid sigmoid = TIMEFRAME_TO_RANGE.get(timeFrame);
         return sigmoid.compute(formation.getSupportLength());

@@ -2,12 +2,12 @@ package com.trading.diary.formations.score.support.extensions;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
-import com.trading.diary.formations.score.FormationEvaluator;
+import com.trading.diary.formations.score.AbstractFormationEvaluator;
 import com.trading.diary.utils.Strength;
 
 import java.util.Map;
 
-public class MorningStarEvaluator extends FormationEvaluator<MorningStar> {
+public class MorningStarEvaluatorFormation extends AbstractFormationEvaluator<MorningStar> {
 
     private final double VOLUME_WEIGHTAGE = 30.0;
 
@@ -19,12 +19,12 @@ public class MorningStarEvaluator extends FormationEvaluator<MorningStar> {
     );
 
 
-    public MorningStarEvaluator(FormationEvaluator<? super MorningStar> nextEvaluator) {
+    public MorningStarEvaluatorFormation(AbstractFormationEvaluator<? super MorningStar> nextEvaluator) {
         super(nextEvaluator);
     }
 
     @Override
-    protected double evaluate(MorningStar formation) {
+    public double evaluate(MorningStar formation) {
         return VOLUME_WEIGHTAGE * VOLUME_TO_SCORE.get(formation.getVolume());
     }
 

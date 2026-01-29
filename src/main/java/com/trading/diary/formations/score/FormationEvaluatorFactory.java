@@ -2,7 +2,6 @@ package com.trading.diary.formations.score;
 
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,17 +12,19 @@ import java.util.Objects;
 @Component
 public class FormationEvaluatorFactory {
 
-    private final Map<FormationType, FormationEvaluator<? extends Formation>> evaluatorCollection = new HashMap<>();
+    private final Map<FormationType, AbstractFormationEvaluator<Formation>> evaluatorCollection = new HashMap<>();
 
-    @Autowired
-    public FormationEvaluatorFactory(List<FormationEvaluator<? extends Formation>> evaluators) {
-        evaluators
-                .stream()
-                .filter(evaluator -> Objects.nonNull(evaluator.getFormationType()))
-                .forEach(evaluator -> evaluatorCollection.put(evaluator.getFormationType(), evaluator));
+    public FormationEvaluatorFactory(List<AbstractFormationEvaluator<? extends Formation>> evaluators) {
+        for (AbstractFormationEvaluator<? extends Formation> evaluator : evaluators) {
+            if (Objects.isNull(evaluator.getFormationType())) {
+                continue;
+            }
+            @SuppressWarnings("unchecked") AbstractFormationEvaluator<Formation> evaluator_ = (AbstractFormationEvaluator<Formation>) evaluator;
+            evaluatorCollection.put(evaluator.getFormationType(), evaluator_);
+        }
     }
 
-    public FormationEvaluator<? extends Formation> getEvaluator(FormationType type) {
+    public AbstractFormationEvaluator<Formation> getEvaluator(FormationType type) {
         return evaluatorCollection.get(type);
     }
 }

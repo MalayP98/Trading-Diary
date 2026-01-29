@@ -4,13 +4,13 @@ import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
-import com.trading.diary.formations.score.FormationEvaluator;
-import com.trading.diary.formations.score.support.extensions.BullishEngulfingEvaluator;
-import com.trading.diary.formations.score.support.extensions.HammerEvaluator;
-import com.trading.diary.formations.score.support.extensions.MorningStarEvaluator;
-import com.trading.diary.formations.score.support.general.PricePositionOnSupportEvaluator;
-import com.trading.diary.formations.score.support.general.PriceSustainedEvaluator;
-import com.trading.diary.formations.score.support.general.SupportLengthEvaluator;
+import com.trading.diary.formations.score.AbstractFormationEvaluator;
+import com.trading.diary.formations.score.support.extensions.BullishEngulfingEvaluatorFormation;
+import com.trading.diary.formations.score.support.extensions.HammerEvaluatorFormation;
+import com.trading.diary.formations.score.support.extensions.MorningStarEvaluatorFormation;
+import com.trading.diary.formations.score.support.general.PricePositionOnSupportEvaluatorFormation;
+import com.trading.diary.formations.score.support.general.PriceSustainedEvaluatorFormation;
+import com.trading.diary.formations.score.support.general.SupportLengthEvaluatorFormation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,32 +18,32 @@ import org.springframework.context.annotation.Configuration;
 public class EvaluatorConfigs {
 
     @Bean
-    public FormationEvaluator<BullishEngulfing> bullishEngulfingEvaluator(){
-        return new BullishEngulfingEvaluator(supportLengthEvaluator());
+    public AbstractFormationEvaluator<BullishEngulfing> bullishEngulfingEvaluator(){
+        return new BullishEngulfingEvaluatorFormation(supportLengthEvaluator());
     }
 
     @Bean
-    public FormationEvaluator<Hammer> hammerEvaluator(){
-        return new HammerEvaluator(supportLengthEvaluator());
+    public AbstractFormationEvaluator<Hammer> hammerEvaluator(){
+        return new HammerEvaluatorFormation(supportLengthEvaluator());
     }
 
     @Bean
-    public FormationEvaluator<MorningStar> morningStarEvaluator(){
-        return new MorningStarEvaluator(supportLengthEvaluator());
+    public AbstractFormationEvaluator<MorningStar> morningStarEvaluator(){
+        return new MorningStarEvaluatorFormation(supportLengthEvaluator());
     }
 
     @Bean
-    public FormationEvaluator<SupportReversal> supportLengthEvaluator() {
-        return new SupportLengthEvaluator(priceSustainedEvaluator());
+    public AbstractFormationEvaluator<SupportReversal> supportLengthEvaluator() {
+        return new SupportLengthEvaluatorFormation(priceSustainedEvaluator());
     }
 
     @Bean
-    public FormationEvaluator<SupportReversal> priceSustainedEvaluator() {
-        return new PriceSustainedEvaluator(pricePositionOnSupportEvaluator());
+    public AbstractFormationEvaluator<SupportReversal> priceSustainedEvaluator() {
+        return new PriceSustainedEvaluatorFormation(pricePositionOnSupportEvaluator());
     }
 
     @Bean
-    public FormationEvaluator<SupportReversal> pricePositionOnSupportEvaluator() {
-        return new PricePositionOnSupportEvaluator(null);
+    public AbstractFormationEvaluator<SupportReversal> pricePositionOnSupportEvaluator() {
+        return new PricePositionOnSupportEvaluatorFormation(null);
     }
 }

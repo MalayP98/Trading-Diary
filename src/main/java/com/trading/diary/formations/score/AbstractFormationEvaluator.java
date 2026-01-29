@@ -3,11 +3,11 @@ package com.trading.diary.formations.score;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
 
-public abstract class FormationEvaluator<T extends Formation> {
+public abstract class AbstractFormationEvaluator<T extends Formation> implements Evaluator<T> {
 
-    private final FormationEvaluator<? super T> nextEvaluator;
+    private final AbstractFormationEvaluator<? super T> nextEvaluator;
 
-    protected FormationEvaluator(FormationEvaluator<? super T> nextEvaluator) {
+    protected AbstractFormationEvaluator(AbstractFormationEvaluator<? super T> nextEvaluator) {
         this.nextEvaluator = nextEvaluator;
     }
 
@@ -18,8 +18,6 @@ public abstract class FormationEvaluator<T extends Formation> {
         }
         return score;
     }
-
-    protected abstract double evaluate(T formation);
 
     protected abstract double getWeightage();
 

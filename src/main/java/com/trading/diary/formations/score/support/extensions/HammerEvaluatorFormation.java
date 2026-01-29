@@ -2,18 +2,18 @@ package com.trading.diary.formations.score.support.extensions;
 
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.extension.Hammer;
-import com.trading.diary.formations.score.FormationEvaluator;
+import com.trading.diary.formations.score.AbstractFormationEvaluator;
 
-public class HammerEvaluator extends FormationEvaluator<Hammer> {
+public class HammerEvaluatorFormation extends AbstractFormationEvaluator<Hammer> {
 
     private final double SMALL_WICK_WEIGHTAGE = 30.0;
 
-    public HammerEvaluator(FormationEvaluator<? super Hammer> nextEvaluator) {
+    public HammerEvaluatorFormation(AbstractFormationEvaluator<? super Hammer> nextEvaluator) {
         super(nextEvaluator);
     }
 
     @Override
-    protected double evaluate(Hammer formation) {
+    public double evaluate(Hammer formation) {
         return formation.isSmallLowerWick() ? 0 : SMALL_WICK_WEIGHTAGE;
     }
 
