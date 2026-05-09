@@ -5,8 +5,10 @@ import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
+import com.trading.diary.pojo.dto.CloseTradeDTO;
 import com.trading.diary.trade.AbstractTrade;
-import com.trading.diary.utils.TradeState;
+import com.trading.diary.utils.emums.TargetType;
+import com.trading.diary.utils.emums.TradeState;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Entity
 @Getter
@@ -121,13 +124,25 @@ public class Trade extends AbstractTrade {
         return ChronoUnit.DAYS.between(lastDateInPortfolio, openingDate);
     }
 
-    public void close(float averageClosingPrice, LocalDateTime closingDate,
-                      List<Target> targets, List<Target> stoplosses) {
-        this.averageClosingPrice = averageClosingPrice;
-        this.closingDate = closingDate;
-        this.state = TradeState.CLOSE;
-        setTargets(targets);
-        setStoploss(stoplosses);
+    public void close(CloseTradeDTO dto) {
+        averageClosingPrice = dto.getClosingPrice();
+        boolean isProfit = averageClosingPrice > getAverageBuyingPrice();
+        Stream.concat(getTargets().stream(), getStoploss().stream())
+                .forEach(t -> markTarget(t, averageClosingPrice, isProfit));
+    }
+
+    private void markTarget(Target t, float closingPrice, boolean isProfit) {
+        if(isHit(t, closingPrice, isProfit)){
+            t.hit();
+        }
+        else{
+            t.miss();
+        }
+    }
+
+    private boolean isHit(Target t, float closingPrice, boolean isProfit) {
+        int cmp = Float.compare(t.getTargetPrice(), closingPrice);
+        return isProfit ? (!TargetType.STOPLOSS.equals(t.getType()) && cmp <= 0) : (TargetType.STOPLOSS.equals(t.getType()) && cmp >= 0);
     }
 
     public void addShare(int newShareQuantity, float newAverageBuyingPrice) {

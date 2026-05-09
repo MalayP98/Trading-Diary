@@ -3,7 +3,7 @@ package com.trading.diary.formations.score.support.extensions;
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
 import com.trading.diary.formations.score.AbstractFormationEvaluator;
-import com.trading.diary.utils.Strength;
+import com.trading.diary.utils.emums.Strength;
 
 import java.util.Map;
 

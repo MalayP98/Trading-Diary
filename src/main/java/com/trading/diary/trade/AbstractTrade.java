@@ -6,7 +6,7 @@ import com.trading.diary.pojo.Audit;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
-import com.trading.diary.utils.TimeFrame;
+import com.trading.diary.utils.emums.TimeFrame;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,9 @@ import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 
 @Getter
 @MappedSuperclass
@@ -32,12 +33,12 @@ public abstract class AbstractTrade extends Audit {
     private FormationType formationType;
 
     @Setter
-    @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Target> stoploss;
+    @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Collection<Target> stoploss;
 
     @Setter
-    @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Target> targets;
+    @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Collection<Target> targets;
 
     @Embedded
     private MarketCap marketCap;
@@ -49,33 +50,25 @@ public abstract class AbstractTrade extends Audit {
     @Setter
     private String notes;
 
-    public AbstractTrade(@NonNull Company company, long formationId, @NonNull FormationType formationType, List<Target> stoploss, List<Target> targets,
+    public AbstractTrade(@NonNull Company company, long formationId, @NonNull FormationType formationType, Collection<Target> stoploss, Collection<Target> targets,
                          @NonNull MarketCap marketCap, Person suggestedBy, String notes) {
         if(suggestedBy == null){
             suggestedBy = Person.self();
         }
         if(CollectionUtils.isEmpty(targets)){
-            targets = new ArrayList<>();
+            targets = new ArrayBlockingQueue<>(3); // can only accept 3 targets
         }
         if(CollectionUtils.isEmpty(stoploss)){
-            stoploss = new ArrayList<>();
+            stoploss = new ArrayBlockingQueue<>(3); // can only accept 3 stoploss
         }
         this.formationId = formationId;
         this.formationType = formationType;
-        this.stoploss = stoploss;
-        this.targets = targets;
+        this.stoploss = clone(stoploss);
+        this.targets = clone(targets);
         this.marketCap = marketCap;
         this.company = company;
         this.suggestedBy = suggestedBy;
         this.notes = notes;
-    }
-
-    public void addTargets(List<Target> targets){
-        this.targets.addAll(targets);
-    }
-
-    public void addStoplosses(List<Target> stoplosses){
-        this.stoploss.addAll(stoplosses);
     }
 
     public abstract static class AbstractTradeBuilder<T extends AbstractTradeBuilder<T, R>, R extends AbstractTrade> {
@@ -146,6 +139,10 @@ public abstract class AbstractTrade extends Audit {
         public abstract R build();
 
         protected abstract T self();
+    }
+
+    private Collection<Target> clone(Collection<Target> targets){
+        return targets.stream().map(t -> t.getId() == 0 ? t : t.copy()).toList();
     }
 
     public void addNotes(String notes){

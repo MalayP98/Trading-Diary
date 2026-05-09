@@ -3,7 +3,7 @@ package com.trading.diary.formations.score.support.general;
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.score.AbstractFormationEvaluator;
-import com.trading.diary.utils.PricePosition;
+import com.trading.diary.utils.emums.PricePosition;
 
 import java.util.Map;
 

@@ -30,19 +30,15 @@ public class PlannedTradeService {
     }
 
     public Trade confirmPlannedTrade(PlannedTradeConfirmationDTO plannedTradeConfirmationDTO) {
-        if(plannedTradeConfirmationDTO.getTrade() == null || plannedTradeConfirmationDTO.getPlannedTrade() == null){
-            throw new RuntimeException("Either trade or planned trade to be converted is not present!");
-        }
-        PlannedTrade plannedTrade = plannedTradeConfirmationDTO.getPlannedTrade();
-        // removing IDs so that a fresh entry is created
-        plannedTrade.getTargets().forEach(tgt -> tgt.setId(0));
-        plannedTrade.getStoploss().forEach(sl -> sl.setId(0));
+        PlannedTrade plannedTrade = plannedTradeRepository
+                .findById(plannedTradeConfirmationDTO.getPlannedTradeId())
+                .orElseThrow(() -> new RuntimeException("No planned trade found by id " + plannedTradeConfirmationDTO.getPlannedTradeId()));
         Trade trade = Trade.builder()
-                .averageBuyingPrice(plannedTradeConfirmationDTO.getTrade().getAverageBuyingPrice())
-                .shares(plannedTradeConfirmationDTO.getTrade().getShares())
-                .openingDate(plannedTradeConfirmationDTO.getTrade().getOpeningDate())
-                .buildWithPlannedTrade(plannedTradeConfirmationDTO.getPlannedTrade());
-        deletePlannedTrade(plannedTradeConfirmationDTO.getPlannedTrade().getId());
+                .averageBuyingPrice(plannedTradeConfirmationDTO.getBuyingPrice())
+                .shares(plannedTradeConfirmationDTO.getQuantity())
+                .openingDate(plannedTradeConfirmationDTO.getOpeningDate())
+                .buildWithPlannedTrade(plannedTrade);
+        deletePlannedTrade(plannedTrade.getId());
         return tradeService.addTrade(trade);
     }
 

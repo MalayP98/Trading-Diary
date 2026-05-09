@@ -1,8 +1,8 @@
 package com.trading.diary.helpers;
 
 import com.trading.diary.pojo.Audit;
-import com.trading.diary.utils.PricePosition;
-import com.trading.diary.utils.TrendlineDirections;
+import com.trading.diary.utils.emums.PricePosition;
+import com.trading.diary.utils.emums.TrendlineDirections;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

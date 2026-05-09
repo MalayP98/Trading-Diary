@@ -5,7 +5,7 @@ import com.trading.diary.pojo.dto.CloseTradeDTO;
 import com.trading.diary.repositories.trade.TradeRepository;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.Trade;
-import com.trading.diary.utils.TradeState;
+import com.trading.diary.utils.emums.TradeState;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,13 +39,9 @@ public class TradeService {
     }
 
     public Trade closeTrade(CloseTradeDTO closeTradeDTO) {
-        if(closeTradeDTO.getTradeId() == 0){
-            throw new RuntimeException("Invalid trade supplied for closing.");
-        }
         Trade trade = tradeRepository.findById(closeTradeDTO.getTradeId())
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found!"));
-        trade.close(closeTradeDTO.getClosingPrice(), closeTradeDTO.getClosingDate(),
-                closeTradeDTO.getTargets(), closeTradeDTO.getStoplosses());
+        trade.close(closeTradeDTO);
         return tradeRepository.save(trade);
     }
 

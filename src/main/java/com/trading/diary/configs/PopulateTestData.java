@@ -9,14 +9,16 @@ import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
 import com.trading.diary.helpers.SMA;
+import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
+import com.trading.diary.pojo.dto.PlannedTradeConfirmationDTO;
 import com.trading.diary.services.CompanyService;
 import com.trading.diary.services.PlannedTradeService;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.PlannedTrade;
-import com.trading.diary.utils.*;
+import com.trading.diary.utils.emums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -62,11 +66,12 @@ public class PopulateTestData implements CommandLineRunner {
     );
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         populateCompanies();
         for(int i=0; i<30; i++){
             plannedTradeService.savePlannedTrade(getPlannedTrade());
         }
+        plannedTradeService.confirmPlannedTrade(new PlannedTradeConfirmationDTO(1, 100, 10, LocalDateTime.now()));
     }
 
     private void populateCompanies(){
@@ -74,15 +79,17 @@ public class PopulateTestData implements CommandLineRunner {
     }
 
     private PlannedTrade getPlannedTrade(){
+        FormationContainer formationContainer = getRandomFormation();
         PlannedTrade.PlannedTradeBuilder plannedTradeBuilder = PlannedTrade.builder()
                 .timeFrame(getRandomTimeframe())
                 .notes("Note " + UUID.randomUUID().toString().substring(5))
                 .suggestedBy(new Person(UUID.randomUUID().toString().substring(5)))
                 .marketCap(getRandomMarketCap())
-                .company(new Company(dummyCompanies.get(random.nextInt(dummyCompanies.size()))));
-        FormationContainer formationContainer = getRandomFormation();
-        plannedTradeBuilder.formationType(formationContainer.getFormationType());
-        plannedTradeBuilder.formationId(formationContainer.getId());
+                .company(new Company(dummyCompanies.get(random.nextInt(dummyCompanies.size()))))
+                .formationType(formationContainer.getFormationType())
+                .formationId(formationContainer.getId())
+                .addTarget(Arrays.asList(Target.getTarget(100), Target.getTarget(200)))
+                .addStoploss(Arrays.asList(Target.getTarget(50), Target.getTarget(30)));
         return plannedTradeBuilder.build();
     }
 

@@ -3,8 +3,8 @@ package com.trading.diary.formations.impls.resistance;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.helpers.SMA;
 import com.trading.diary.pojo.Audit;
-import com.trading.diary.utils.Strength;
-import com.trading.diary.utils.TimeFrame;
+import com.trading.diary.utils.emums.Strength;
+import com.trading.diary.utils.emums.TimeFrame;
 import jakarta.persistence.*;
 import lombok.*;
 

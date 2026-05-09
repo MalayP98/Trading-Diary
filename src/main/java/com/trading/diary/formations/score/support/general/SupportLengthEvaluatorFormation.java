@@ -5,7 +5,7 @@ import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.score.AbstractFormationEvaluator;
 import com.trading.diary.scale.Sigmoid;
 import com.trading.diary.scale.SteepGrowthCenterCalculator;
-import com.trading.diary.utils.TimeFrame;
+import com.trading.diary.utils.emums.TimeFrame;
 
 import java.util.Map;
 

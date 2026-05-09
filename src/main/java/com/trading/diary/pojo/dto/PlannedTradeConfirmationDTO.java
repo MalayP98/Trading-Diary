@@ -1,15 +1,19 @@
 package com.trading.diary.pojo.dto;
 
-import com.trading.diary.trade.impls.PlannedTrade;
-import com.trading.diary.trade.impls.Trade;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 public class PlannedTradeConfirmationDTO {
 
-    private Trade trade;
+    private long plannedTradeId;
 
-    private PlannedTrade plannedTrade;
+    private float buyingPrice;
+
+    private int quantity;
+
+    private LocalDateTime openingDate;
 }

@@ -4,7 +4,7 @@ import com.trading.diary.explainers.Explainer;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.Trade;
-import com.trading.diary.utils.TradeState;
+import com.trading.diary.utils.emums.TradeState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

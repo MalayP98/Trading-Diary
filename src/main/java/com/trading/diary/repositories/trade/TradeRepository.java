@@ -1,7 +1,7 @@
 package com.trading.diary.repositories.trade;
 
 import com.trading.diary.trade.impls.Trade;
-import com.trading.diary.utils.TradeState;
+import com.trading.diary.utils.emums.TradeState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

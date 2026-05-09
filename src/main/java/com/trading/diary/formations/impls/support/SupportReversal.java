@@ -2,8 +2,8 @@ package com.trading.diary.formations.impls.support;
 
 import com.trading.diary.formations.Formation;
 import com.trading.diary.pojo.Audit;
-import com.trading.diary.utils.PricePosition;
-import com.trading.diary.utils.TimeFrame;
+import com.trading.diary.utils.emums.PricePosition;
+import com.trading.diary.utils.emums.TimeFrame;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;

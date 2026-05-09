@@ -4,7 +4,7 @@ import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.visitor.FormationVisitor;
 import com.trading.diary.pojo.Audit;
-import com.trading.diary.utils.TimeFrame;
+import com.trading.diary.utils.emums.TimeFrame;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

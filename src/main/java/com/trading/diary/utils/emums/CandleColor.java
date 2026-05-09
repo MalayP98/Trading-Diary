@@ -1,4 +1,4 @@
-package com.trading.diary.utils;
+package com.trading.diary.utils.emums;
 
 public enum CandleColor {
 
