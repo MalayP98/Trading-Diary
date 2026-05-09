@@ -7,11 +7,13 @@ import com.trading.diary.menu.tradeMenus.core.TradeMenu;
 import com.trading.diary.pojo.dto.PlannedTradeConfirmationDTO;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.Trade;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
+@Transactional
 public class ConfirmPlannedTradeMenu extends AbstractMenu<PlannedTradeConfirmationDTO> {
 
     private final MenuFactory menuFactory;

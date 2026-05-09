@@ -8,11 +8,13 @@ import com.trading.diary.services.PlannedTradeService;
 import com.trading.diary.services.TradeService;
 import com.trading.diary.trade.impls.PlannedTrade;
 import com.trading.diary.trade.impls.Trade;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import static com.trading.diary.utils.Helper.skipLines;
 
 @Service
+@Transactional
 public class ApplicationMenu extends AbstractMenu<Void> {
 
     private final PlannedTradeService plannedTradeService;
