@@ -88,12 +88,13 @@ public class TradeListWindow {
         contentPanel.addComponent(new Label("=== " + title + " ==="));
         contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
-        // Always show 1 item per page so full details fit within the terminal height.
+        // Show configured page size with full details. FULL_SCREEN + BorderLayout keeps
+        // nav buttons always visible at bottom even if content overflows center area.
         long total = countSupplier.getAsLong();
-        int totalPages = total == 0 ? 1 : (int) (total);
+        int totalPages = total == 0 ? 1 : (int) Math.ceil((double) total / pageSize);
         currentPage[0] = Math.max(0, Math.min(currentPage[0], totalPages - 1));
 
-        Pageable pageable = PageRequest.of(currentPage[0], 1);
+        Pageable pageable = PageRequest.of(currentPage[0], pageSize);
         List<T> items = pageSupplier.apply(pageable);
 
         if (items.isEmpty()) {
