@@ -150,6 +150,18 @@ public class TradeListWindow {
     }
 
     private void showDetailPopup(String title, String detail) {
+        List<String> lines = detail.lines().collect(java.util.stream.Collectors.toList());
+        int[] scrollOffset = {0};
+
+        int terminalRows;
+        try {
+            terminalRows = navigator.getGui().getScreen().getTerminalSize().getRows();
+        } catch (Exception e) {
+            terminalRows = 24;
+        }
+        // Reserve rows for the nav bar + scroll indicator at bottom
+        int visibleLines = Math.max(5, terminalRows - 4);
+
         BasicWindow popup = new BasicWindow(title);
         popup.setHints(Collections.singleton(com.googlecode.lanterna.gui2.Window.Hint.FULL_SCREEN));
 
@@ -157,15 +169,42 @@ public class TradeListWindow {
         Panel content = new Panel(new LinearLayout(Direction.VERTICAL));
         Panel nav = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
-        content.addComponent(new Label(detail));
-
-        nav.addComponent(new Button("Close", popup::close));
-
         outer.addComponent(content, BorderLayout.Location.CENTER);
         outer.addComponent(nav, BorderLayout.Location.BOTTOM);
-
         popup.setComponent(outer);
+
+        renderScrollView(content, nav, popup, lines, scrollOffset, visibleLines);
+
         navigator.showOnTop(popup);
+    }
+
+    private void renderScrollView(Panel content, Panel nav, BasicWindow popup,
+                                  List<String> lines, int[] scrollOffset, int visibleLines) {
+        content.removeAllComponents();
+        nav.removeAllComponents();
+
+        int total = lines.size();
+        int from = scrollOffset[0];
+        int to = Math.min(from + visibleLines, total);
+
+        for (int i = from; i < to; i++) {
+            content.addComponent(new Label(lines.get(i)));
+        }
+        content.addComponent(new Label("─── " + (from + 1) + "-" + to + " / " + total + " lines ───"));
+
+        if (scrollOffset[0] > 0) {
+            nav.addComponent(new Button("↑ Up", () -> {
+                scrollOffset[0] = Math.max(0, scrollOffset[0] - visibleLines);
+                renderScrollView(content, nav, popup, lines, scrollOffset, visibleLines);
+            }));
+        }
+        if (to < total) {
+            nav.addComponent(new Button("↓ Down", () -> {
+                scrollOffset[0] = Math.min(total - 1, scrollOffset[0] + visibleLines);
+                renderScrollView(content, nav, popup, lines, scrollOffset, visibleLines);
+            }));
+        }
+        nav.addComponent(new Button("Close", popup::close));
     }
 }
 
