@@ -88,11 +88,15 @@ public class TradeListWindow {
         contentPanel.addComponent(new Label("=== " + title + " ==="));
         contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
+        // In view mode show 1 item per page so full details fit within the terminal height.
+        // In selection mode (single-line buttons) use the configured page size.
+        int effectivePageSize = selectionMode ? pageSize : 1;
+
         long total = countSupplier.getAsLong();
-        int totalPages = total == 0 ? 1 : (int) Math.ceil((double) total / pageSize);
+        int totalPages = total == 0 ? 1 : (int) Math.ceil((double) total / effectivePageSize);
         currentPage[0] = Math.max(0, Math.min(currentPage[0], totalPages - 1));
 
-        Pageable pageable = PageRequest.of(currentPage[0], pageSize);
+        Pageable pageable = PageRequest.of(currentPage[0], effectivePageSize);
         List<T> items = pageSupplier.apply(pageable);
 
         if (items.isEmpty()) {
