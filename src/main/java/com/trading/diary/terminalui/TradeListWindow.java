@@ -101,23 +101,29 @@ public class TradeListWindow {
             contentPanel.addComponent(new Label("No items found."));
         } else {
             for (T item : items) {
-                String displayText;
+                String summary;
                 try {
-                    displayText = explainer.explain(item);
+                    summary = explainer.summarize(item);
                 } catch (Exception e) {
-                    displayText = "(Error displaying item: " + e.getMessage() + ")";
+                    summary = "(Error: " + e.getMessage() + ")";
                 }
-                // Always show full detail as a Label
-                contentPanel.addComponent(new Label(displayText));
-                // In selection mode, add a Select button below the details
                 if (selectionMode) {
                     long itemId = idExtractor.apply(item);
-                    contentPanel.addComponent(new Button("[ Select this trade ]", () -> {
+                    contentPanel.addComponent(new Button(summary, () -> {
                         selectedId.set(itemId);
                         window.close();
                     }));
+                } else {
+                    // View mode: clicking opens a full-detail popup
+                    String finalSummary = summary;
+                    contentPanel.addComponent(new Button(summary, () -> {
+                        try {
+                            showDetailPopup(finalSummary, explainer.explain(item));
+                        } catch (Exception e) {
+                            showDetailPopup(finalSummary, "(Error loading details: " + e.getMessage() + ")");
+                        }
+                    }));
                 }
-                contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
             }
         }
 
@@ -142,6 +148,24 @@ public class TradeListWindow {
 
         navPanel.addComponent(new Button("Close", window::close));
     }
-}
 
+    private void showDetailPopup(String title, String detail) {
+        BasicWindow popup = new BasicWindow(title);
+        popup.setHints(Collections.singleton(com.googlecode.lanterna.gui2.Window.Hint.FULL_SCREEN));
+
+        Panel outer = new Panel(new BorderLayout());
+        Panel content = new Panel(new LinearLayout(Direction.VERTICAL));
+        Panel nav = new Panel(new LinearLayout(Direction.HORIZONTAL));
+
+        content.addComponent(new Label(detail));
+
+        nav.addComponent(new Button("Close", popup::close));
+
+        outer.addComponent(content, BorderLayout.Location.CENTER);
+        outer.addComponent(nav, BorderLayout.Location.BOTTOM);
+
+        popup.setComponent(outer);
+        navigator.show(popup);
+    }
+}
 

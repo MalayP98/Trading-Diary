@@ -2,6 +2,7 @@ package com.trading.diary.explainers.impls;
 
 import com.trading.diary.explainers.Explainer;
 import com.trading.diary.formations.Formation;
+import com.trading.diary.formations.score.FormationEvaluationFacade;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.emums.TradeState;
@@ -13,8 +14,17 @@ import org.springframework.stereotype.Service;
 public class TradeExplainer implements Explainer<Trade> {
 
     private final FormationServiceFactory<Formation> formationServiceFactory;
-
     private final FormationExplainer formationExplainer;
+    private final FormationEvaluationFacade formationEvaluationFacade;
+
+    @Override
+    public String summarize(Trade item) {
+        Formation formation = getFormation(item);
+        String score = formation != null
+                ? String.format("%.1f", formationEvaluationFacade.evaluate(formation)) + "%"
+                : "N/A";
+        return item.getCompany() + " | " + item.getState() + " | " + item.getFormationType() + " | Score: " + score;
+    }
 
     @Override
     public String explain(Trade content) {

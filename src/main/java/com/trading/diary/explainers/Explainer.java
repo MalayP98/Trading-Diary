@@ -6,4 +6,8 @@ import org.springframework.stereotype.Service;
 public interface Explainer<R> {
 
     String explain(R content);
+
+    default String summarize(R item) {
+        return explain(item).lines().filter(l -> !l.isBlank()).findFirst().orElse("(item)");
+    }
 }
