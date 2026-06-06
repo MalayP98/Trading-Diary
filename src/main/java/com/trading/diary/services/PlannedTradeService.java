@@ -21,7 +21,13 @@ public class PlannedTradeService {
 
     private final TradeService tradeService;
 
+    private final CompanyService companyService;
+
+    private final PersonService personService;
+
     public PlannedTrade savePlannedTrade(PlannedTrade plannedTrade) {
+        plannedTrade.setSuggestedBy(personService.getOrCreatePerson(plannedTrade.getSuggestedBy().getName()));
+        plannedTrade.setCompany(companyService.getOrCreateCompany(plannedTrade.getCompany().toString()));
         return plannedTradeRepository.save(plannedTrade);
     }
 

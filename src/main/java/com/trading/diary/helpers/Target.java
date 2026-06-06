@@ -23,6 +23,7 @@ public class Target extends Audit {
     @Enumerated(EnumType.STRING)
     private TargetStatus targetStatus;
 
+    @Enumerated(EnumType.STRING)
     private TargetType type;
 
     public static Target getTarget(final float target){

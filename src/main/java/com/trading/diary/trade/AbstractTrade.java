@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
+@Setter
 @Getter
 @MappedSuperclass
 @NoArgsConstructor
@@ -30,24 +31,22 @@ public abstract class AbstractTrade extends Audit {
 
     private long formationId;
 
+    @Enumerated(EnumType.STRING)
     private FormationType formationType;
 
-    @Setter
     @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Collection<Target> stoploss;
 
-    @Setter
     @OneToMany(targetEntity = Target.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Collection<Target> targets;
 
     @Embedded
     private MarketCap marketCap;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "SUGGESTED_BY")
     private Person suggestedBy;
 
-    @Setter
     private String notes;
 
     public AbstractTrade(@NonNull Company company, long formationId, @NonNull FormationType formationType, Collection<Target> stoploss, Collection<Target> targets,

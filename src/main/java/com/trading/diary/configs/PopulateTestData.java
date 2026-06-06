@@ -13,8 +13,8 @@ import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Company;
 import com.trading.diary.pojo.MarketCap;
 import com.trading.diary.pojo.Person;
-import com.trading.diary.pojo.dto.PlannedTradeConfirmationDTO;
 import com.trading.diary.services.CompanyService;
+import com.trading.diary.services.PersonService;
 import com.trading.diary.services.PlannedTradeService;
 import com.trading.diary.services.formation.FormationServiceFactory;
 import com.trading.diary.trade.impls.PlannedTrade;
@@ -26,7 +26,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -52,6 +51,10 @@ public class PopulateTestData implements CommandLineRunner {
 
     private final FormationServiceFactory<Formation> formationServiceFactory;
 
+    private final PersonService personService;
+
+//    private final TestTerminal testTerminal;
+
     List<String> dummyCompanies = List.of(
             "AAPL",
             "MSFT",
@@ -71,7 +74,6 @@ public class PopulateTestData implements CommandLineRunner {
         for(int i=0; i<30; i++){
             plannedTradeService.savePlannedTrade(getPlannedTrade());
         }
-        plannedTradeService.confirmPlannedTrade(new PlannedTradeConfirmationDTO(1, 100, 10, LocalDateTime.now()));
     }
 
     private void populateCompanies(){
@@ -89,7 +91,7 @@ public class PopulateTestData implements CommandLineRunner {
                 .formationType(formationContainer.getFormationType())
                 .formationId(formationContainer.getId())
                 .addTarget(Arrays.asList(Target.getTarget(100), Target.getTarget(200)))
-                .addStoploss(Arrays.asList(Target.getTarget(50), Target.getTarget(30)));
+                .addStoploss(Arrays.asList(Target.getStoploss(50), Target.getStoploss(30)));
         return plannedTradeBuilder.build();
     }
 
