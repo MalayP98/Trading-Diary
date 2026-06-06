@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -49,13 +50,20 @@ public class TradeListWindow {
         AtomicLong selectedId = new AtomicLong(-1);
         int[] currentPage = {0};
 
-        // Use a single Panel instance and modify it in-place so Lanterna
-        // correctly invalidates and redraws on Next/Previous navigation.
-        Panel rootPanel = new Panel(new LinearLayout(Direction.VERTICAL));
-        BasicWindow window = new BasicWindow(title);
-        window.setComponent(rootPanel);
+        // Outer panel uses BorderLayout: content in CENTER, nav always pinned to BOTTOM.
+        // FULL_SCREEN hint ensures the window fills the terminal so BOTTOM is always visible.
+        Panel outerPanel = new Panel(new BorderLayout());
+        Panel contentPanel = new Panel(new LinearLayout(Direction.VERTICAL));
+        Panel navPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
-        populatePage(rootPanel, window, title, countSupplier, pageSupplier,
+        outerPanel.addComponent(contentPanel, BorderLayout.Location.CENTER);
+        outerPanel.addComponent(navPanel, BorderLayout.Location.BOTTOM);
+
+        BasicWindow window = new BasicWindow(title);
+        window.setHints(Collections.singleton(com.googlecode.lanterna.gui2.Window.Hint.FULL_SCREEN));
+        window.setComponent(outerPanel);
+
+        populatePage(contentPanel, navPanel, window, title, countSupplier, pageSupplier,
                 explainer, idExtractor, selectionMode, selectedId, currentPage);
 
         navigator.show(window);
@@ -63,7 +71,8 @@ public class TradeListWindow {
         return selectedId.get() == -1 ? null : selectedId.get();
     }
 
-    private <T> void populatePage(Panel rootPanel,
+    private <T> void populatePage(Panel contentPanel,
+                                   Panel navPanel,
                                    BasicWindow window,
                                    String title,
                                    LongSupplier countSupplier,
@@ -73,10 +82,11 @@ public class TradeListWindow {
                                    boolean selectionMode,
                                    AtomicLong selectedId,
                                    int[] currentPage) {
-        rootPanel.removeAllComponents();
+        contentPanel.removeAllComponents();
+        navPanel.removeAllComponents();
 
-        rootPanel.addComponent(new Label("=== " + title + " ==="));
-        rootPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+        contentPanel.addComponent(new Label("=== " + title + " ==="));
+        contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
         long total = countSupplier.getAsLong();
         int totalPages = total == 0 ? 1 : (int) Math.ceil((double) total / pageSize);
@@ -86,7 +96,7 @@ public class TradeListWindow {
         List<T> items = pageSupplier.apply(pageable);
 
         if (items.isEmpty()) {
-            rootPanel.addComponent(new Label("No items found."));
+            contentPanel.addComponent(new Label("No items found."));
         } else {
             for (T item : items) {
                 String displayText;
@@ -98,26 +108,24 @@ public class TradeListWindow {
                 if (selectionMode) {
                     String buttonLabel = displayText.replace("\n", " | ").replaceAll("\\s+\\|\\s+\\|", " |").trim();
                     long itemId = idExtractor.apply(item);
-                    rootPanel.addComponent(new Button(buttonLabel, () -> {
+                    contentPanel.addComponent(new Button(buttonLabel, () -> {
                         selectedId.set(itemId);
                         window.close();
                     }));
                 } else {
-                    rootPanel.addComponent(new Label(displayText));
+                    contentPanel.addComponent(new Label(displayText));
                 }
-                rootPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+                contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
             }
         }
 
-        rootPanel.addComponent(new Label("Page " + (currentPage[0] + 1) + " of " + totalPages));
-        rootPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+        contentPanel.addComponent(new Label("Page " + (currentPage[0] + 1) + " of " + totalPages));
 
-        Panel navPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
-
+        // Nav buttons always visible at the bottom via BorderLayout.BOTTOM
         if (currentPage[0] > 0) {
             navPanel.addComponent(new Button("< Previous", () -> {
                 currentPage[0]--;
-                populatePage(rootPanel, window, title, countSupplier, pageSupplier,
+                populatePage(contentPanel, navPanel, window, title, countSupplier, pageSupplier,
                         explainer, idExtractor, selectionMode, selectedId, currentPage);
             }));
         }
@@ -125,13 +133,12 @@ public class TradeListWindow {
         if (currentPage[0] < totalPages - 1) {
             navPanel.addComponent(new Button("Next >", () -> {
                 currentPage[0]++;
-                populatePage(rootPanel, window, title, countSupplier, pageSupplier,
+                populatePage(contentPanel, navPanel, window, title, countSupplier, pageSupplier,
                         explainer, idExtractor, selectionMode, selectedId, currentPage);
             }));
         }
 
         navPanel.addComponent(new Button("Close", window::close));
-        rootPanel.addComponent(navPanel);
     }
 }
 
