@@ -17,11 +17,15 @@ public class PlannedTradeExplainer implements Explainer<PlannedTrade> {
 
     @Override
     public String explain(PlannedTrade content) {
+        Formation formation = getFormation(content);
+        String formationInfo = formation != null
+                ? formationExplainer.explain(formation)
+                : "(formation not found)";
         return "\nCompany : " + content.getCompany().toString() +
                 "\n" +
                 "On formation: " +
                 "\n" +
-                formationExplainer.explain(getFormation(content)) +
+                formationInfo +
                 "\n";
     }
 

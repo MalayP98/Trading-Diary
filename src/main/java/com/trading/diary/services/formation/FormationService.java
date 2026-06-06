@@ -13,7 +13,7 @@ public interface FormationService<T extends Formation>{
     }
 
     default <S extends T> S getFormation(long id){
-        return (S) getRepository().findById(id).orElseGet(null);
+        return (S) getRepository().findById(id).orElse(null);
     }
 
     JpaRepository<T, Long> getRepository();

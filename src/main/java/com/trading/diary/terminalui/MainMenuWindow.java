@@ -34,37 +34,37 @@ public class MainMenuWindow {
 
             panel.addComponent(new Button("1. Log Trade", () -> {
                 window.close();
-                logTradeWindow.open();
+                safeRun(logTradeWindow::open);
             }));
 
             panel.addComponent(new Button("2. Plan Trade", () -> {
                 window.close();
-                planTradeWindow.open();
+                safeRun(planTradeWindow::open);
             }));
 
             panel.addComponent(new Button("3. Confirm Planned Trade", () -> {
                 window.close();
-                confirmPlannedTradeWindow.open();
+                safeRun(confirmPlannedTradeWindow::open);
             }));
 
             panel.addComponent(new Button("4. Close Trade", () -> {
                 window.close();
-                closeTradeWindow.open();
+                safeRun(closeTradeWindow::open);
             }));
 
             panel.addComponent(new Button("5. View Open Trades", () -> {
                 window.close();
-                viewOpenTradesWindow.open();
+                safeRun(viewOpenTradesWindow::open);
             }));
 
             panel.addComponent(new Button("6. View All Trades", () -> {
                 window.close();
-                viewAllTradesWindow.open();
+                safeRun(viewAllTradesWindow::open);
             }));
 
             panel.addComponent(new Button("7. Update Trade", () -> {
                 window.close();
-                updateTradeWindow.open();
+                safeRun(updateTradeWindow::open);
             }));
 
             panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
@@ -79,5 +79,14 @@ public class MainMenuWindow {
         }
 
         shutdownManager.initiateShutdown(0);
+    }
+
+    private void safeRun(Runnable action) {
+        try {
+            action.run();
+        } catch (Exception e) {
+            com.googlecode.lanterna.gui2.dialogs.MessageDialog.showMessageDialog(
+                    navigator.getGui(), "Error", e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName());
+        }
     }
 }

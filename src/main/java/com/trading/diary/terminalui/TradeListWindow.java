@@ -82,10 +82,16 @@ public class TradeListWindow {
             panel.addComponent(new Label("No items found."));
         } else {
             for (T item : items) {
-                String displayText = explainer.explain(item);
+                String displayText;
+                try {
+                    displayText = explainer.explain(item);
+                } catch (Exception e) {
+                    displayText = "(Error displaying item: " + e.getMessage() + ")";
+                }
                 if (selectionMode) {
                     long itemId = idExtractor.apply(item);
-                    panel.addComponent(new Button(displayText, () -> {
+                    final String text = displayText;
+                    panel.addComponent(new Button(text, () -> {
                         selectedId.set(itemId);
                         window.close();
                     }));

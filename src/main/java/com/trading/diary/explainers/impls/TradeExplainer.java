@@ -24,10 +24,15 @@ public class TradeExplainer implements Explainer<Trade> {
                 .append("  Status: ")
                 .append(content.getState().toString())
                 .append("\n");
-        sb.append("On formation: ")
-                .append("\n ")
-                .append(formationExplainer.explain(getFormation(content)))
-                .append("\n");
+        Formation formation = getFormation(content);
+        if (formation != null) {
+            sb.append("On formation: ")
+                    .append("\n ")
+                    .append(formationExplainer.explain(formation))
+                    .append("\n");
+        } else {
+            sb.append("On formation: (not found)\n");
+        }
         sb.append("Market Cap: ")
                 .append(content.getMarketCap())
                 .append("\n");
