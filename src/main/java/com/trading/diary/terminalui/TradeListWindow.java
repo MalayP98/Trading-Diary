@@ -89,13 +89,15 @@ public class TradeListWindow {
                     displayText = "(Error displaying item: " + e.getMessage() + ")";
                 }
                 if (selectionMode) {
+                    // Buttons cannot contain newlines — collapse to a single summary line
+                    String buttonLabel = displayText.replace("\n", " | ").replaceAll("\\s+\\|\\s+\\|", " |").trim();
                     long itemId = idExtractor.apply(item);
-                    final String text = displayText;
-                    panel.addComponent(new Button(text, () -> {
+                    panel.addComponent(new Button(buttonLabel, () -> {
                         selectedId.set(itemId);
                         window.close();
                     }));
                 } else {
+                    // Labels support multi-line text via newlines
                     panel.addComponent(new Label(displayText));
                 }
                 panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
