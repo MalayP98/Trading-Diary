@@ -10,8 +10,6 @@ import com.trading.diary.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 @Component
 @RequiredArgsConstructor
 public class ViewAllTradesWindow {
@@ -24,17 +22,13 @@ public class ViewAllTradesWindow {
     private final TradeListWindow tradeListWindow;
 
     public void open() {
-        AtomicBoolean running = new AtomicBoolean(true);
+        BasicWindow window = new BasicWindow("View All Trades");
+        Panel panel = new Panel(new LinearLayout(Direction.VERTICAL));
 
-        while (running.get()) {
-            BasicWindow window = new BasicWindow("View All Trades");
-            Panel panel = new Panel(new LinearLayout(Direction.VERTICAL));
+        panel.addComponent(new Label("View All Trades"));
+        panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
-            panel.addComponent(new Label("View All Trades"));
-            panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
-
-            panel.addComponent(new Button("1. Regular Trades (Open + Closed)", () -> {
-                window.close();
+        panel.addComponent(new Button("1. Regular Trades (Open + Closed)", () ->
                 tradeListWindow.open(
                         "All Regular Trades",
                         tradeService::countAllTrade,
@@ -42,11 +36,10 @@ public class ViewAllTradesWindow {
                         tradeExplainer,
                         Audit::getId,
                         false
-                );
-            }));
+                )
+        ));
 
-            panel.addComponent(new Button("2. Planned Trades", () -> {
-                window.close();
+        panel.addComponent(new Button("2. Planned Trades", () ->
                 tradeListWindow.open(
                         "All Planned Trades",
                         plannedTradeService::getCount,
@@ -54,18 +47,14 @@ public class ViewAllTradesWindow {
                         plannedTradeExplainer,
                         Audit::getId,
                         false
-                );
-            }));
+                )
+        ));
 
-            panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
-            panel.addComponent(new Button("Back", () -> {
-                running.set(false);
-                window.close();
-            }));
+        panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+        panel.addComponent(new Button("Back", window::close));
 
-            window.setComponent(panel);
-            navigator.show(window);
-        }
+        window.setComponent(panel);
+        navigator.show(window);
     }
 }
 

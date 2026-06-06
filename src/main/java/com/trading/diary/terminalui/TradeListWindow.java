@@ -32,7 +32,7 @@ public class TradeListWindow {
      * Opens a paginated list window.
      *
      * @param title         Window title
-     * @param countSupplier Supplies total item count (used for page boundary checks)
+     * @param countSupplier Supplies total item count
      * @param pageSupplier  Supplies items for a given Pageable
      * @param explainer     Converts an item to a display string
      * @param idExtractor   Extracts the ID from an item (used in selection mode)
@@ -48,28 +48,35 @@ public class TradeListWindow {
 
         AtomicLong selectedId = new AtomicLong(-1);
         int[] currentPage = {0};
-        BasicWindow window = new BasicWindow(title);
 
-        buildPage(window, title, countSupplier, pageSupplier, explainer,
-                idExtractor, selectionMode, selectedId, currentPage);
+        // Use a single Panel instance and modify it in-place so Lanterna
+        // correctly invalidates and redraws on Next/Previous navigation.
+        Panel rootPanel = new Panel(new LinearLayout(Direction.VERTICAL));
+        BasicWindow window = new BasicWindow(title);
+        window.setComponent(rootPanel);
+
+        populatePage(rootPanel, window, title, countSupplier, pageSupplier,
+                explainer, idExtractor, selectionMode, selectedId, currentPage);
 
         navigator.show(window);
 
         return selectedId.get() == -1 ? null : selectedId.get();
     }
 
-    private <T> void buildPage(BasicWindow window,
-                                String title,
-                                LongSupplier countSupplier,
-                                Function<Pageable, List<T>> pageSupplier,
-                                Explainer<T> explainer,
-                                Function<T, Long> idExtractor,
-                                boolean selectionMode,
-                                AtomicLong selectedId,
-                                int[] currentPage) {
-        Panel panel = new Panel(new LinearLayout(Direction.VERTICAL));
-        panel.addComponent(new Label("=== " + title + " ==="));
-        panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+    private <T> void populatePage(Panel rootPanel,
+                                   BasicWindow window,
+                                   String title,
+                                   LongSupplier countSupplier,
+                                   Function<Pageable, List<T>> pageSupplier,
+                                   Explainer<T> explainer,
+                                   Function<T, Long> idExtractor,
+                                   boolean selectionMode,
+                                   AtomicLong selectedId,
+                                   int[] currentPage) {
+        rootPanel.removeAllComponents();
+
+        rootPanel.addComponent(new Label("=== " + title + " ==="));
+        rootPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
         long total = countSupplier.getAsLong();
         int totalPages = total == 0 ? 1 : (int) Math.ceil((double) total / pageSize);
@@ -79,7 +86,7 @@ public class TradeListWindow {
         List<T> items = pageSupplier.apply(pageable);
 
         if (items.isEmpty()) {
-            panel.addComponent(new Label("No items found."));
+            rootPanel.addComponent(new Label("No items found."));
         } else {
             for (T item : items) {
                 String displayText;
@@ -89,46 +96,43 @@ public class TradeListWindow {
                     displayText = "(Error displaying item: " + e.getMessage() + ")";
                 }
                 if (selectionMode) {
-                    // Buttons cannot contain newlines — collapse to a single summary line
                     String buttonLabel = displayText.replace("\n", " | ").replaceAll("\\s+\\|\\s+\\|", " |").trim();
                     long itemId = idExtractor.apply(item);
-                    panel.addComponent(new Button(buttonLabel, () -> {
+                    rootPanel.addComponent(new Button(buttonLabel, () -> {
                         selectedId.set(itemId);
                         window.close();
                     }));
                 } else {
-                    // Labels support multi-line text via newlines
-                    panel.addComponent(new Label(displayText));
+                    rootPanel.addComponent(new Label(displayText));
                 }
-                panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+                rootPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
             }
         }
 
-        panel.addComponent(new Label("Page " + (currentPage[0] + 1) + " of " + totalPages));
-        panel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
+        rootPanel.addComponent(new Label("Page " + (currentPage[0] + 1) + " of " + totalPages));
+        rootPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
         Panel navPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
         if (currentPage[0] > 0) {
             navPanel.addComponent(new Button("< Previous", () -> {
                 currentPage[0]--;
-                buildPage(window, title, countSupplier, pageSupplier, explainer,
-                        idExtractor, selectionMode, selectedId, currentPage);
+                populatePage(rootPanel, window, title, countSupplier, pageSupplier,
+                        explainer, idExtractor, selectionMode, selectedId, currentPage);
             }));
         }
 
         if (currentPage[0] < totalPages - 1) {
             navPanel.addComponent(new Button("Next >", () -> {
                 currentPage[0]++;
-                buildPage(window, title, countSupplier, pageSupplier, explainer,
-                        idExtractor, selectionMode, selectedId, currentPage);
+                populatePage(rootPanel, window, title, countSupplier, pageSupplier,
+                        explainer, idExtractor, selectionMode, selectedId, currentPage);
             }));
         }
 
         navPanel.addComponent(new Button("Close", window::close));
-        panel.addComponent(navPanel);
-
-        window.setComponent(panel);
+        rootPanel.addComponent(navPanel);
     }
 }
+
 
