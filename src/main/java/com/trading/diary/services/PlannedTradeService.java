@@ -63,4 +63,13 @@ public class PlannedTradeService {
     public long getCountByCompany(Company company){
         return plannedTradeRepository.countByCompanyAndDeletedFalse(company);
     }
+
+    public PlannedTrade updatePlannedTrade(long plannedTradeId, String notes) {
+        PlannedTrade plannedTrade = plannedTradeRepository.findById(plannedTradeId)
+                .orElseThrow(() -> new RuntimeException("No planned trade found by id " + plannedTradeId));
+        if (notes != null && !notes.isBlank()) {
+            plannedTrade.addNotes(notes);
+        }
+        return plannedTradeRepository.save(plannedTrade);
+    }
 }

@@ -3,19 +3,13 @@ package com.trading.diary.terminalui;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.trading.diary.explainers.impls.TradeExplainer;
-import com.trading.diary.pojo.dto.CloseTradeDTO;
 import com.trading.diary.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 @Component
 @RequiredArgsConstructor
-public class CloseTradeWindow {
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+public class UpdateTradeWindow {
 
     private final UiNavigator navigator;
     private final TradeService tradeService;
@@ -24,7 +18,7 @@ public class CloseTradeWindow {
 
     public void open() {
         Long selectedId = tradeListWindow.open(
-                "Select Open Trade to Close",
+                "Select Open Trade to Update",
                 tradeService::countAllActiveTrade,
                 tradeService::getAllOpenTrades,
                 tradeExplainer,
@@ -34,30 +28,30 @@ public class CloseTradeWindow {
 
         if (selectedId == null) return;
 
-        BasicWindow window = new BasicWindow("Close Trade");
+        BasicWindow window = new BasicWindow("Update Trade");
         Panel panel = new Panel(new GridLayout(2));
 
-        TextBox closingPriceBox = new TextBox();
-        TextBox closingDateBox = new TextBox("dd-MM-yyyy");
+        TextBox sharesBox = new TextBox();
+        TextBox avgBuyPriceBox = new TextBox();
+        TextBox notesBox = new TextBox();
 
-        panel.addComponent(new Label("Closing Price"));
-        panel.addComponent(closingPriceBox);
-        panel.addComponent(new Label("Closing Date (dd-MM-yyyy)"));
-        panel.addComponent(closingDateBox);
+        panel.addComponent(new Label("New Shares (leave blank to keep)"));
+        panel.addComponent(sharesBox);
+        panel.addComponent(new Label("New Avg Buying Price (leave blank to keep)"));
+        panel.addComponent(avgBuyPriceBox);
+        panel.addComponent(new Label("Append Notes (optional)"));
+        panel.addComponent(notesBox);
 
         panel.addComponent(
-                new Button("Close Trade", () -> {
+                new Button("Update", () -> {
                     try {
-                        CloseTradeDTO dto = new CloseTradeDTO(
-                                selectedId,
-                                Float.parseFloat(closingPriceBox.getText().trim()),
-                                LocalDate.parse(closingDateBox.getText().trim(), DATE_FORMATTER).atStartOfDay()
-                        );
-                        tradeService.closeTrade(dto);
-                        MessageDialog.showMessageDialog(navigator.getGui(), "Success", "Trade closed successfully.");
+                        int shares = sharesBox.getText().isBlank() ? 0 : Integer.parseInt(sharesBox.getText().trim());
+                        float avgPrice = avgBuyPriceBox.getText().isBlank() ? 0f : Float.parseFloat(avgBuyPriceBox.getText().trim());
+                        tradeService.updateTrade(selectedId, shares, avgPrice, notesBox.getText());
+                        MessageDialog.showMessageDialog(navigator.getGui(), "Success", "Trade updated.");
                         window.close();
                     } catch (Exception e) {
-                        MessageDialog.showMessageDialog(navigator.getGui(), "Error", "Failed to close trade: " + e.getMessage());
+                        MessageDialog.showMessageDialog(navigator.getGui(), "Error", "Failed to update: " + e.getMessage());
                     }
                 }),
                 GridLayout.createLayoutData(GridLayout.Alignment.CENTER, GridLayout.Alignment.CENTER, true, false, 2, 1)

@@ -24,7 +24,13 @@ public class TradeService {
 
     private final FormationServiceFactory<? extends Formation> formationServiceFactory;
 
+    private final CompanyService companyService;
+
+    private final PersonService personService;
+
     public Trade addTrade(Trade trade){
+        trade.setSuggestedBy(personService.getOrCreatePerson(trade.getSuggestedBy().getName()));
+        trade.setCompany(companyService.getOrCreateCompany(trade.getCompany().toString()));
         return tradeRepository.save(trade);
     }
 
@@ -51,5 +57,20 @@ public class TradeService {
 
     public long countAllActiveTrade(){
         return tradeRepository.countByDeletedFalseAndState(TradeState.OPEN);
+    }
+
+    public Trade updateTrade(long tradeId, int shares, float averageBuyingPrice, String notes) {
+        Trade trade = tradeRepository.findById(tradeId)
+                .orElseThrow(() -> new IllegalArgumentException("Trade not found!"));
+        if (!TradeState.OPEN.equals(trade.getState())) {
+            throw new IllegalStateException("Only open trades can be updated");
+        }
+        if (shares > 0) {
+            trade.addShare(shares, averageBuyingPrice);
+        }
+        if (notes != null && !notes.isBlank()) {
+            trade.addNotes(notes);
+        }
+        return tradeRepository.save(trade);
     }
 }

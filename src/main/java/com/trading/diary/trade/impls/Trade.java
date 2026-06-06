@@ -125,7 +125,12 @@ public class Trade extends AbstractTrade {
     }
 
     public void close(CloseTradeDTO dto) {
+        if (!TradeState.OPEN.equals(state)) {
+            throw new IllegalStateException("Trade is not open");
+        }
         averageClosingPrice = dto.getClosingPrice();
+        closingDate = dto.getClosingDate();
+        state = TradeState.CLOSE;
         boolean isProfit = averageClosingPrice > getAverageBuyingPrice();
         Stream.concat(getTargets().stream(), getStoploss().stream())
                 .forEach(t -> markTarget(t, averageClosingPrice, isProfit));
