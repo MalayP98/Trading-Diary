@@ -15,6 +15,12 @@ public class UiNavigator {
         gui.addWindowAndWait(window);
     }
 
+    /** Add a window on top of the current one without blocking the calling thread.
+     *  Use this when opening a window from within a button/event handler. */
+    public void showOnTop(Window window) {
+        gui.addWindow(window);
+    }
+
     public MultiWindowTextGUI getGui() {
         return gui;
     }

@@ -165,7 +165,7 @@ public class TradeListWindow {
         outer.addComponent(nav, BorderLayout.Location.BOTTOM);
 
         popup.setComponent(outer);
-        navigator.show(popup);
+        navigator.showOnTop(popup);
     }
 }
 
