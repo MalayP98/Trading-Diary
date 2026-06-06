@@ -78,15 +78,16 @@ public class PlanTradeWindow {
                             MessageDialog.showMessageDialog(navigator.getGui(), "Error", "Please configure the formation first.");
                             return;
                         }
-                        Formation savedFormation = formationServiceFactory
+                        Formation savedFormation = (Formation) formationServiceFactory
                                 .getFormationService(formationTypeCombo.getSelectedItem())
                                 .save(formationRef.get());
+                        long formationId = ((com.trading.diary.pojo.Audit) savedFormation).getId();
 
                         PlannedTrade plannedTrade = PlannedTrade.builder()
                                 .company(companyService.getOrCreateCompany(symbolBox.getText().trim()))
                                 .suggestedBy(Person.self())
                                 .formationType(formationTypeCombo.getSelectedItem())
-                                .formationId(savedFormation.getId())
+                                .formationId(formationId)
                                 .marketCap(marketCapPanel.getMarketCap())
                                 .addTarget(parseTargets(targetBox.getText(), TargetType.TARGET))
                                 .addStoploss(parseTargets(stoplossBox.getText(), TargetType.STOPLOSS))

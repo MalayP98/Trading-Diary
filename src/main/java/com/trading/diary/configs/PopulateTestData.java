@@ -181,11 +181,11 @@ public class PopulateTestData implements CommandLineRunner {
                         .confirmBreakout(random.nextBoolean())
                         .breakoutVolume(getRandomStrength())
                         .timeFrame(getRandomTimeframe())
-                        .resistanceLength(random.nextLong(1000))
-                        .breakoutPercentage(random.nextFloat(30))
+                        .resistanceLength((long)(random.nextDouble() * 1000))
+                        .breakoutPercentage(random.nextFloat() * 30)
                         .allTimeHigh(random.nextBoolean())
                         .higherLows(random.nextBoolean())
-                        .rsi(random.nextFloat(100))
+                        .rsi(random.nextFloat() * 100)
                         .sma20(getRandomSMA())
                         .sma50(getRandomSMA())
                         .sma200(getRandomSMA())
@@ -203,16 +203,16 @@ public class PopulateTestData implements CommandLineRunner {
                         .confirmBreakout(random.nextBoolean())
                         .breakoutVolume(getRandomStrength())
                         .timeFrame(getRandomTimeframe())
-                        .resistanceLength(random.nextLong(1000))
-                        .breakoutPercentage(random.nextFloat(30))
+                        .resistanceLength((long)(random.nextDouble() * 1000))
+                        .breakoutPercentage(random.nextFloat() * 30)
                         .allTimeHigh(random.nextBoolean())
                         .higherLows(random.nextBoolean())
-                        .rsi(random.nextFloat(100))
+                        .rsi(random.nextFloat() * 100)
                         .sma20(getRandomSMA())
                         .sma50(getRandomSMA())
                         .sma200(getRandomSMA())
                         .priorUptrend(random.nextBoolean())
-                        .priceDiffPercentage(random.nextFloat(100))
+                        .priceDiffPercentage(random.nextFloat() * 100)
                         .build();
         horizontalResistanceBreakout = formationServiceFactory
                 .getFormationService(FormationType.FALLING_RESISTANCE_BREAKOUT)
@@ -223,7 +223,7 @@ public class PopulateTestData implements CommandLineRunner {
 
     private FormationContainer createUnexpectedMove(){
         UnexpectedMove unexpectedMove = UnexpectedMove.builder()
-                .percentageMove(random.nextFloat(100))
+                .percentageMove(random.nextFloat() * 100)
                 .days(random.nextInt(20))
                 .timeFrame(getRandomTimeframe())
                 .build();
@@ -237,27 +237,20 @@ public class PopulateTestData implements CommandLineRunner {
     private FormationContainer getRandomFormation(){
         FormationType formationType = FormationType.values()[random.nextInt(FormationType.values().length)];
         switch (formationType){
-            case BULLISH_ENGULFING -> {
+            case BULLISH_ENGULFING:
                 return createBullishEngulfing();
-            }
-            case HAMMER -> {
+            case HAMMER:
                 return createHammer();
-            }
-            case MORNING_STAR -> {
+            case MORNING_STAR:
                 return createMorningStart();
-            }
-            case HORIZONTAL_RESISTANCE_BREAKOUT -> {
+            case HORIZONTAL_RESISTANCE_BREAKOUT:
                 return createHorizontalSupport();
-            }
-            case FALLING_RESISTANCE_BREAKOUT -> {
+            case FALLING_RESISTANCE_BREAKOUT:
                 return createFallingSupport();
-            }
-            case UNEXPECTED_MOVE -> {
+            case UNEXPECTED_MOVE:
                 return createUnexpectedMove();
-            }
-            default -> {
+            default:
                 return null;
-            }
         }
     }
 }

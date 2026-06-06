@@ -91,9 +91,10 @@ public class LogTradeWindow {
                             MessageDialog.showMessageDialog(navigator.getGui(), "Error", "Please configure the formation first.");
                             return;
                         }
-                        Formation savedFormation = formationServiceFactory
+                        Formation savedFormation = (Formation) formationServiceFactory
                                 .getFormationService(formationTypeCombo.getSelectedItem())
                                 .save(formationRef.get());
+                        long formationId = ((com.trading.diary.pojo.Audit) savedFormation).getId();
 
                         Trade trade = Trade.builder()
                                 .company(companyService.getOrCreateCompany(symbolBox.getText().trim()))
@@ -106,7 +107,7 @@ public class LogTradeWindow {
                                 .notes(notesBox.getText())
                                 .marketCap(marketCapPanel.getMarketCap())
                                 .formationType(formationTypeCombo.getSelectedItem())
-                                .formationId(savedFormation.getId())
+                                .formationId(formationId)
                                 .build();
 
                         tradeService.addTrade(trade);
