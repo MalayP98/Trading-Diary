@@ -88,15 +88,12 @@ public class TradeListWindow {
         contentPanel.addComponent(new Label("=== " + title + " ==="));
         contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
 
-        // In view mode show 1 item per page so full details fit within the terminal height.
-        // In selection mode (single-line buttons) use the configured page size.
-        int effectivePageSize = selectionMode ? pageSize : 1;
-
+        // Always show 1 item per page so full details fit within the terminal height.
         long total = countSupplier.getAsLong();
-        int totalPages = total == 0 ? 1 : (int) Math.ceil((double) total / effectivePageSize);
+        int totalPages = total == 0 ? 1 : (int) (total);
         currentPage[0] = Math.max(0, Math.min(currentPage[0], totalPages - 1));
 
-        Pageable pageable = PageRequest.of(currentPage[0], effectivePageSize);
+        Pageable pageable = PageRequest.of(currentPage[0], 1);
         List<T> items = pageSupplier.apply(pageable);
 
         if (items.isEmpty()) {
@@ -109,15 +106,15 @@ public class TradeListWindow {
                 } catch (Exception e) {
                     displayText = "(Error displaying item: " + e.getMessage() + ")";
                 }
+                // Always show full detail as a Label
+                contentPanel.addComponent(new Label(displayText));
+                // In selection mode, add a Select button below the details
                 if (selectionMode) {
-                    String buttonLabel = displayText.replace("\n", " | ").replaceAll("\\s+\\|\\s+\\|", " |").trim();
                     long itemId = idExtractor.apply(item);
-                    contentPanel.addComponent(new Button(buttonLabel, () -> {
+                    contentPanel.addComponent(new Button("[ Select this trade ]", () -> {
                         selectedId.set(itemId);
                         window.close();
                     }));
-                } else {
-                    contentPanel.addComponent(new Label(displayText));
                 }
                 contentPanel.addComponent(new EmptySpace(new TerminalSize(0, 1)));
             }
