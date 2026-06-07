@@ -4,11 +4,11 @@ import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.score.AbstractFormationEvaluator;
 
-public class HammerEvaluatorFormation extends AbstractFormationEvaluator<Hammer> {
+public class HammerFormationEvaluator extends AbstractFormationEvaluator<Hammer> {
 
     private final double SMALL_WICK_WEIGHTAGE = 30.0;
 
-    public HammerEvaluatorFormation(AbstractFormationEvaluator<? super Hammer> nextEvaluator) {
+    public HammerFormationEvaluator(AbstractFormationEvaluator<? super Hammer> nextEvaluator) {
         super(nextEvaluator);
     }
 

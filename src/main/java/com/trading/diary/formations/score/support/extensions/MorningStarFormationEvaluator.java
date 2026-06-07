@@ -7,7 +7,7 @@ import com.trading.diary.utils.emums.Strength;
 
 import java.util.Map;
 
-public class MorningStarEvaluatorFormation extends AbstractFormationEvaluator<MorningStar> {
+public class MorningStarFormationEvaluator extends AbstractFormationEvaluator<MorningStar> {
 
     private final double VOLUME_WEIGHTAGE = 30.0;
 
@@ -19,7 +19,7 @@ public class MorningStarEvaluatorFormation extends AbstractFormationEvaluator<Mo
     );
 
 
-    public MorningStarEvaluatorFormation(AbstractFormationEvaluator<? super MorningStar> nextEvaluator) {
+    public MorningStarFormationEvaluator(AbstractFormationEvaluator<? super MorningStar> nextEvaluator) {
         super(nextEvaluator);
     }
 

@@ -38,6 +38,7 @@ public class PlanTradeWindow {
         TextBox targetBox = new TextBox();
         TextBox stoplossBox = new TextBox();
         TextBox notesBox = new TextBox();
+        TextBox suggestedByBox = new TextBox();
         MarketCapPanel marketCapPanel = new MarketCapPanel();
         ComboBox<FormationType> formationTypeCombo = new ComboBox<>(FormationType.values());
 
@@ -57,6 +58,8 @@ public class PlanTradeWindow {
         panel.addComponent(formationTypeCombo);
         panel.addComponent(new Label("Formation Status"));
         panel.addComponent(formationStatusLabel);
+        panel.addComponent(new Label("Suggested By"));
+        panel.addComponent(suggestedByBox);
 
         panel.addComponent(
                 new Button("Set Formation", () -> {
@@ -92,6 +95,7 @@ public class PlanTradeWindow {
                                 .addTarget(parseTargets(targetBox.getText(), TargetType.TARGET))
                                 .addStoploss(parseTargets(stoplossBox.getText(), TargetType.STOPLOSS))
                                 .notes(notesBox.getText())
+                                .suggestedBy(new Person(suggestedByBox.getText().trim()))
                                 .build();
 
                         plannedTradeService.savePlannedTrade(plannedTrade);

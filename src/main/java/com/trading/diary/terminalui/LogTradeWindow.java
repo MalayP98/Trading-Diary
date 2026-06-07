@@ -45,6 +45,7 @@ public class LogTradeWindow {
         TextBox targetBox = new TextBox();
         TextBox stoplossBox = new TextBox();
         TextBox notesBox = new TextBox();
+        TextBox suggestedByBox = new TextBox();
         MarketCapPanel marketCapPanel = new MarketCapPanel();
         ComboBox<FormationType> formationTypeCombo = new ComboBox<>(FormationType.values());
 
@@ -70,6 +71,8 @@ public class LogTradeWindow {
         panel.addComponent(formationTypeCombo);
         panel.addComponent(new Label("Formation Status"));
         panel.addComponent(formationStatusLabel);
+        panel.addComponent(new Label("Suggested By"));
+        panel.addComponent(suggestedByBox);
 
         panel.addComponent(
                 new Button("Set Formation", () -> {
@@ -108,6 +111,7 @@ public class LogTradeWindow {
                                 .marketCap(marketCapPanel.getMarketCap())
                                 .formationType(formationTypeCombo.getSelectedItem())
                                 .formationId(formationId)
+                                .suggestedBy(new Person(suggestedByBox.getText().trim()))
                                 .build();
 
                         tradeService.addTrade(trade);

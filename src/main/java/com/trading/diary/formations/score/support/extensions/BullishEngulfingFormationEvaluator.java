@@ -7,7 +7,7 @@ import com.trading.diary.utils.emums.Strength;
 
 import java.util.Map;
 
-public class BullishEngulfingEvaluatorFormation extends AbstractFormationEvaluator<BullishEngulfing> {
+public class BullishEngulfingFormationEvaluator extends AbstractFormationEvaluator<BullishEngulfing> {
 
     private final double PARTIAL_ENGULFING_WEIGHTAGE = 15.0;
 
@@ -20,7 +20,7 @@ public class BullishEngulfingEvaluatorFormation extends AbstractFormationEvaluat
             Strength.VERY_STRONG, 1.0
     );
 
-    public BullishEngulfingEvaluatorFormation(AbstractFormationEvaluator<? super BullishEngulfing> nextEvaluator) {
+    public BullishEngulfingFormationEvaluator(AbstractFormationEvaluator<? super BullishEngulfing> nextEvaluator) {
         super(nextEvaluator);
     }
 

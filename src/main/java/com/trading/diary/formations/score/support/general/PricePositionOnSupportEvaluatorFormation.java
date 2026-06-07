@@ -7,7 +7,7 @@ import com.trading.diary.utils.emums.PricePosition;
 
 import java.util.Map;
 
-public class PricePositionOnSupportEvaluatorFormation extends AbstractFormationEvaluator<SupportReversal> {
+public class PricePositionOnSupportFormationEvaluator extends AbstractFormationEvaluator<SupportReversal> {
 
     private final double PRICE_POSITION_ON_SUPPORT_WEIGHTAGE = 5.0;
 
@@ -18,7 +18,7 @@ public class PricePositionOnSupportEvaluatorFormation extends AbstractFormationE
             PricePosition.THROUGH, 0.5
     );
 
-    public PricePositionOnSupportEvaluatorFormation(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
+    public PricePositionOnSupportFormationEvaluator(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
         super(nextEvaluator);
     }
 

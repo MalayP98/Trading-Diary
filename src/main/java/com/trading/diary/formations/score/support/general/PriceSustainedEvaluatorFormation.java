@@ -4,11 +4,11 @@ import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.impls.support.SupportReversal;
 import com.trading.diary.formations.score.AbstractFormationEvaluator;
 
-public class PriceSustainedEvaluatorFormation extends AbstractFormationEvaluator<SupportReversal> {
+public class PriceSustainedFormationEvaluator extends AbstractFormationEvaluator<SupportReversal> {
 
     private final double PRICE_SUSTAINED_WEIGHTAGE = 15.0;
 
-    public PriceSustainedEvaluatorFormation(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
+    public PriceSustainedFormationEvaluator(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
         super(nextEvaluator);
     }
 

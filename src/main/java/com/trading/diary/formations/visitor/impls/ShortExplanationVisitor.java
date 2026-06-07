@@ -1,5 +1,6 @@
 package com.trading.diary.formations.visitor.impls;
 
+import com.trading.diary.formations.impls.NoneFormation;
 import com.trading.diary.formations.impls.UnexpectedMove;
 import com.trading.diary.formations.impls.resistance.extension.FallingResistanceBreakout;
 import com.trading.diary.formations.impls.resistance.extension.HorizontalResistanceBreakout;
@@ -74,5 +75,11 @@ public class ShortExplanationVisitor implements FormationVisitor<String> {
                 "Timeframe: " + unexpectedMove.getTimeFrame() + "\n" +
                 "Move Percentage: " + unexpectedMove.getPercentageMove() + "\n" +
                 "Days took to move: " + unexpectedMove.getDays();
+    }
+
+    @Override
+    public String visit(NoneFormation noneFormation) {
+        return "Formation Name: " + noneFormation.getFormation() + "\n" +
+                "Score: " + formationEvaluationFacade.evaluate(noneFormation);
     }
 }

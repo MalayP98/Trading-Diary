@@ -9,7 +9,7 @@ import com.trading.diary.utils.emums.TimeFrame;
 
 import java.util.Map;
 
-public class SupportLengthEvaluatorFormation extends AbstractFormationEvaluator<SupportReversal> {
+public class SupportLengthFormationEvaluator extends AbstractFormationEvaluator<SupportReversal> {
 
     private final double SIGMOID_SMOOTHNESS = 0.08;
 
@@ -23,7 +23,7 @@ public class SupportLengthEvaluatorFormation extends AbstractFormationEvaluator<
             TimeFrame.MONTHLY, getSigmoid(19000)
     );
 
-    public SupportLengthEvaluatorFormation(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
+    public SupportLengthFormationEvaluator(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
         super(nextEvaluator);
     }
 
