@@ -4,6 +4,7 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
+import com.trading.diary.formations.impls.NoneFormation;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.services.CompanyService;
@@ -82,9 +83,16 @@ public class LogTradeWindow {
 
         panel.addComponent(
                 new Button("Set Formation", () -> {
-                    Formation formation = formationWindowFactory
-                            .getWindow(formationTypeCombo.getSelectedItem())
-                            .open();
+                    Formation formation = null;
+                    FormationType selectedType = formationTypeCombo.getSelectedItem();
+                    if(FormationType.NONE.equals(selectedType)){
+                        formation = new NoneFormation();
+                    }
+                    else {
+                        formation = formationWindowFactory
+                                .getWindow(selectedType)
+                                .open();
+                    }
                     if (formation != null) {
                         formationRef.set(formation);
                         formationStatusLabel.setText("[ " + formationTypeCombo.getSelectedItem() + " configured ]");

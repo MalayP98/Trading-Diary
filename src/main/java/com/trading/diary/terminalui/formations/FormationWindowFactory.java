@@ -19,6 +19,7 @@ public class FormationWindowFactory {
     private final HorizontalResistanceBreakoutFormationWindow horizontalBreakoutWindow;
     private final FallingResistanceBreakoutFormationWindow fallingBreakoutWindow;
     private final UnexpectedMoveFormationWindow unexpectedMoveWindow;
+    private final NoneFormationWindow noneFormationWindow;
 
     /**
      * Selects the terminal form responsible for collecting inputs for the requested formation type.
@@ -31,6 +32,7 @@ public class FormationWindowFactory {
             case HORIZONTAL_RESISTANCE_BREAKOUT: return horizontalBreakoutWindow;
             case FALLING_RESISTANCE_BREAKOUT: return fallingBreakoutWindow;
             case UNEXPECTED_MOVE: return unexpectedMoveWindow;
+            case NONE: return noneFormationWindow;
             default: throw new IllegalArgumentException("Unknown formation type: " + type);
         }
     }
