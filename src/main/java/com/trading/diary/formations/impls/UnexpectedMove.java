@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 
+/**
+ * Records large price moves that are tracked outside the structured scoring system. These entries still participate in persistence and explanations but do not contribute a specialized score.
+ */
 @Entity
 @Getter
 @AllArgsConstructor
@@ -36,6 +39,9 @@ public class UnexpectedMove extends Audit implements Formation {
         return visitor.visit(this);
     }
 
+    /**
+     * Creates a builder for constructing an unexpected-move record without exposing multiple constructors.
+     */
     public static UnexpectedMoveBuilder builder() {
         return new UnexpectedMoveBuilder();
     }

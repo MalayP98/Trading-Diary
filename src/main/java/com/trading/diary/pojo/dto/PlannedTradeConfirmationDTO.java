@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Carries the execution details needed to turn a planned trade into a live trade.
+ */
 @Getter
 @AllArgsConstructor
 public class PlannedTradeConfirmationDTO {

@@ -11,6 +11,9 @@ import lombok.*;
 
 import javax.validation.constraints.Min;
 
+/**
+ * Base state shared by support-reversal formations such as hammer, bullish engulfing, and morning star. It captures level location, level age, post-candle hold, and retest context used by the support scoring chain.
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,10 +36,16 @@ public abstract class SupportReversal extends Audit implements Formation {
 
     private boolean retest;
 
+    /**
+     * Returns whether price finished directly on the support level, which is the ideal location for a support-reversal signal.
+     */
     public boolean onSupport() {
         return PricePosition.ON.equals(pricePositionOnSupport);
     }
 
+    /**
+     * Reusable builder base for support-reversal formations so hammer, bullish engulfing, and morning star share the same core context fields.
+     */
     public abstract static class SupportReversalBuilder<T extends SupportReversalBuilder<T>> {
 
         protected PricePosition pricePositionOnSupport;

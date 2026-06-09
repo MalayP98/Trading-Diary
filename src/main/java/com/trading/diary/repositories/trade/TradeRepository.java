@@ -9,9 +9,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+/**
+ * JPA repository for persisting and querying trade records.
+ */
 @Repository
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
+    /**
+     * Soft-deletes a trade instead of physically removing it so trade history can remain auditable.
+     */
     @Modifying
     @Query(value = "update #{#entityName} e set e.deleted = true where e.id = ?1", nativeQuery = true)
     void deleteById(long id);

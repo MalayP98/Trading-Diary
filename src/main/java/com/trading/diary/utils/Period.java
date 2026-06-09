@@ -1,5 +1,8 @@
 package com.trading.diary.utils;
 
+/**
+ * Lightweight period value object used to convert trader-friendly durations into an approximate day count for scoring inputs.
+ */
 public class Period {
 
     private final long years;
@@ -17,6 +20,9 @@ public class Period {
         this.days = days;
     }
 
+    /**
+     * Converts the stored years, months, weeks, and days into an approximate total day count for scoring inputs.
+     */
     public long convertToDays(){
         return this.years*365 + this.months*30 + this.weeks*7 + this.days;
     }

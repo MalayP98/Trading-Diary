@@ -8,6 +8,9 @@ import com.trading.diary.trade.impls.PlannedTrade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Builds summaries and detailed views for planned trades, including the resolved formation details and normalized formation score when the underlying formation is still available.
+ */
 @Service
 @RequiredArgsConstructor
 public class PlannedTradeExplainer implements Explainer<PlannedTrade> {

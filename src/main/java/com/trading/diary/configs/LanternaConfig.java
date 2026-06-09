@@ -10,9 +10,15 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
+/**
+ * Creates the shared Lanterna terminal primitives used by every window in the terminal journal. The beans are kept in one configuration class so the UI stack is initialized exactly once.
+ */
 @Configuration
 public class LanternaConfig {
 
+    /**
+     * Creates and starts the shared terminal screen used by the entire Lanterna UI.
+     */
     @Bean
     public Screen screen() throws IOException {
 
@@ -30,6 +36,9 @@ public class LanternaConfig {
         return screen;
     }
 
+    /**
+     * Builds the window manager that all terminal workflows use for modal navigation.
+     */
     @Bean
     public MultiWindowTextGUI gui(Screen screen) {
         return new MultiWindowTextGUI(screen);

@@ -9,6 +9,9 @@ import com.trading.diary.utils.emums.TimeFrame;
 
 import java.util.Map;
 
+/**
+ * Scores how long support has been in place before the reversal. Weight: 50. A timeframe-aware sigmoid rewards older levels, with daily setups needing about 30 days and weekly or monthly setups needing about five years before the score ramps up sharply.
+ */
 public class SupportLengthFormationEvaluator extends AbstractFormationEvaluator<SupportReversal> {
 
     private final double SIGMOID_SMOOTHNESS = 0.08;
@@ -18,15 +21,18 @@ public class SupportLengthFormationEvaluator extends AbstractFormationEvaluator<
     private final double PERCENTAGE_WEIGHTAGE_AT_MIN = 60.0;
 
     private final Map<TimeFrame, Sigmoid> TIMEFRAME_TO_RANGE = Map.of(
-            TimeFrame.DAILY, getSigmoid(30),
-            TimeFrame.WEEKLY, getSigmoid(1500),
-            TimeFrame.MONTHLY, getSigmoid(19000)
+            TimeFrame.DAILY, getSigmoid(30),    // notes: 1M–1.5Y range; 30 days = 1M minimum
+            TimeFrame.WEEKLY, getSigmoid(1825), // notes: 5Y–6Y range; 1825 days = 5Y minimum
+            TimeFrame.MONTHLY, getSigmoid(1825) // notes: 5Y+ range; 1825 days = 5Y minimum
     );
 
     public SupportLengthFormationEvaluator(AbstractFormationEvaluator<SupportReversal> nextEvaluator) {
         super(nextEvaluator);
     }
 
+    /**
+     * Uses a timeframe-aware sigmoid so older support zones score higher while still avoiding a cliff-edge threshold at the minimum viable age.
+     */
     @Override
     public double evaluate(SupportReversal formation) {
         TimeFrame timeFrame = formation.getTimeFrame();

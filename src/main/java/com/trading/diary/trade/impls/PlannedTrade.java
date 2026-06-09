@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Represents a trade idea that has not been executed yet. It reuses the common trade metadata but intentionally omits execution-specific fields such as shares and fill price.
+ */
 @Entity
 @NoArgsConstructor
 public class PlannedTrade extends AbstractTrade {

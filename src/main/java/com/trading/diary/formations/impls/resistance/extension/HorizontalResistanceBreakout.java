@@ -10,6 +10,9 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents the MOTHER-style breakout from a horizontal resistance level. All scoring comes from the shared breakout criteria, so this subtype mainly serves type-safe persistence and dispatch.
+ */
 @Entity
 @Getter
 @NoArgsConstructor

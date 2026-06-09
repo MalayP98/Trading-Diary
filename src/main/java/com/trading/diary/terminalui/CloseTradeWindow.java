@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Lanterna workflow for selecting an open trade and capturing the information needed to close it.
+ */
 @Component
 @RequiredArgsConstructor
 public class CloseTradeWindow {
@@ -22,6 +25,9 @@ public class CloseTradeWindow {
     private final TradeExplainer tradeExplainer;
     private final TradeListWindow tradeListWindow;
 
+    /**
+     * Guides the user through selecting an open trade and entering the close details required to finalize it.
+     */
     public void open() {
         Long selectedId = tradeListWindow.open(
                 "Select Open Trade to Close",

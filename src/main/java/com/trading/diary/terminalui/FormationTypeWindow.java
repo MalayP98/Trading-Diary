@@ -8,12 +8,18 @@ import com.trading.diary.formations.FormationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Small picker window that lets the user choose which chart formation they want to describe next.
+ */
 @Service
 @RequiredArgsConstructor
 public class FormationTypeWindow implements Window<FormationType> {
 
     private final UiNavigator uiNavigator;
 
+    /**
+     * Displays a small chooser for the formation type that should be configured next.
+     */
     @Override
     public FormationType open() {
         BasicWindow window =

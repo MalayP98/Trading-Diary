@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
+/**
+ * Main terminal form for logging a live trade. It orchestrates company lookup, formation capture, target parsing, and final persistence.
+ */
 @Component
 @RequiredArgsConstructor
 public class LogTradeWindow {
@@ -34,6 +37,9 @@ public class LogTradeWindow {
     private final FormationWindowFactory formationWindowFactory;
     private final FormationServiceFactory formationServiceFactory;
 
+    /**
+     * Builds the full trade-entry workflow, including formation capture, target parsing, and final persistence.
+     */
     public void open() {
         BasicWindow window = new BasicWindow("Log Trade");
         Panel panel = new Panel(new GridLayout(2));

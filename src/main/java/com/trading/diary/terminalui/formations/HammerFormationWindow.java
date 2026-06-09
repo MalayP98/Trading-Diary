@@ -13,12 +13,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Lanterna form window that captures the inputs for a hammer setup before the caller persists the resulting formation.
+ */
 @Component
 @RequiredArgsConstructor
 public class HammerFormationWindow implements Window<Formation> {
 
     private final UiNavigator navigator;
 
+    /**
+     * Collects the inputs needed to describe a hammer support reversal and returns the resulting formation instance.
+     */
     @Override
     public Formation open() {
         BasicWindow window = new BasicWindow("Hammer - Formation Details");

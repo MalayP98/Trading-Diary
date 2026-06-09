@@ -20,6 +20,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Represents an executed trade, including entry details, optional exit details, and target/stoploss outcomes after the position is closed.
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -100,6 +103,9 @@ public class Trade extends AbstractTrade {
                     null, marketCap, suggestedBy, target, stoploss);
         }
 
+        /**
+         * Creates a live trade by reusing the non-execution details from an existing planned trade.
+         */
         public Trade buildWithPlannedTrade(PlannedTrade plannedTrade) {
             return new Trade(openingDate, TradeState.OPEN, shares,
                     averageBuyingPrice, null, plannedTrade);
@@ -111,6 +117,9 @@ public class Trade extends AbstractTrade {
         }
     }
 
+    /**
+     * Returns the realized percentage move for closed trades and a sentinel value for trades that are still open.
+     */
     public float getDifferencePercentage() {
         if (TradeState.CLOSE.equals(state)) {
             return (averageClosingPrice / averageBuyingPrice) - 1;
@@ -119,11 +128,17 @@ public class Trade extends AbstractTrade {
     }
 
     // in days
+    /**
+     * Returns the number of days between the opening date and either the closing date or the current time when the trade is still open.
+     */
     public long timeInPortfolio() {
         LocalDateTime lastDateInPortfolio = TradeState.CLOSE.equals(state) ? closingDate : LocalDateTime.now();
         return ChronoUnit.DAYS.between(lastDateInPortfolio, openingDate);
     }
 
+    /**
+     * Closes the trade, records exit details, and marks profit targets or stoplosses as hit or missed based on the outcome.
+     */
     public void close(CloseTradeDTO dto) {
         if (!TradeState.OPEN.equals(state)) {
             throw new IllegalStateException("Trade is not open");
@@ -150,6 +165,9 @@ public class Trade extends AbstractTrade {
         return isProfit ? (!TargetType.STOPLOSS.equals(t.getType()) && cmp <= 0) : (TargetType.STOPLOSS.equals(t.getType()) && cmp >= 0);
     }
 
+    /**
+     * Replaces the stored share count and weighted average entry price after the position is adjusted.
+     */
     public void addShare(int newShareQuantity, float newAverageBuyingPrice) {
         this.shares = newShareQuantity;
         this.averageBuyingPrice = newAverageBuyingPrice;

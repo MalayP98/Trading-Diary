@@ -19,6 +19,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * Base state for planned and live trades. It stores the linked formation, targets, stoplosses, market-cap metadata, source person, and free-form notes.
+ */
 @Setter
 @Getter
 @MappedSuperclass
@@ -144,6 +147,9 @@ public abstract class AbstractTrade extends Audit {
         return targets.stream().map(t -> t.getId() == 0 ? t : t.copy()).toList();
     }
 
+    /**
+     * Appends new text to the existing note body on a fresh line so updates preserve the original trading journal context.
+     */
     public void addNotes(String notes){
         this.notes += (StringUtils.isNotEmpty(this.notes) ? "\n" : "") + notes;
     }

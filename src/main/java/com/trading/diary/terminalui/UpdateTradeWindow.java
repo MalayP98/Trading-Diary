@@ -7,6 +7,9 @@ import com.trading.diary.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Lanterna workflow for amending an open trade without closing it, including share changes and note appends.
+ */
 @Component
 @RequiredArgsConstructor
 public class UpdateTradeWindow {
@@ -16,6 +19,9 @@ public class UpdateTradeWindow {
     private final TradeExplainer tradeExplainer;
     private final TradeListWindow tradeListWindow;
 
+    /**
+     * Lets the user pick an open trade and amend quantities, average price, or notes without closing the position.
+     */
     public void open() {
         Long selectedId = tradeListWindow.open(
                 "Select Open Trade to Update",

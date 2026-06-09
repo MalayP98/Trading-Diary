@@ -10,6 +10,9 @@ import com.trading.diary.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Terminal entry point for browsing both live trades and planned trades from one menu.
+ */
 @Component
 @RequiredArgsConstructor
 public class ViewAllTradesWindow {
@@ -21,6 +24,9 @@ public class ViewAllTradesWindow {
     private final PlannedTradeExplainer plannedTradeExplainer;
     private final TradeListWindow tradeListWindow;
 
+    /**
+     * Offers a simple menu for browsing either regular trades or planned trades with the shared list component.
+     */
     public void open() {
         BasicWindow window = new BasicWindow("View All Trades");
         Panel panel = new Panel(new LinearLayout(Direction.VERTICAL));

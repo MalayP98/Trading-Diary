@@ -6,6 +6,9 @@ import com.trading.diary.formations.visitor.FormationVisitor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Delegates formation descriptions to the visitor layer so each formation type can render its own explanation without leaking switch statements into the UI.
+ */
 @Service
 @RequiredArgsConstructor
 public class FormationExplainer implements Explainer<Formation> {

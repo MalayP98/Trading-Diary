@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Application service for creating, updating, listing, and closing live trades while keeping referenced companies and people normalized.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -28,6 +31,9 @@ public class TradeService {
 
     private final PersonService personService;
 
+    /**
+     * Normalizes related company and person references before persisting a live trade.
+     */
     public Trade addTrade(Trade trade){
         trade.setSuggestedBy(personService.getOrCreatePerson(trade.getSuggestedBy().getName()));
         trade.setCompany(companyService.getOrCreateCompany(trade.getCompany().toString()));
@@ -44,6 +50,9 @@ public class TradeService {
                 .orElseGet(Page::empty).getContent();
     }
 
+    /**
+     * Closes an open trade, lets the domain model mark targets and stoplosses, and then persists the updated state.
+     */
     public Trade closeTrade(CloseTradeDTO closeTradeDTO) {
         Trade trade = tradeRepository.findById(closeTradeDTO.getTradeId())
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found!"));
@@ -59,6 +68,9 @@ public class TradeService {
         return tradeRepository.countByDeletedFalseAndState(TradeState.OPEN);
     }
 
+    /**
+     * Updates an open trade in place, optionally replacing share and average-price data and appending new notes.
+     */
     public Trade updateTrade(long tradeId, int shares, float averageBuyingPrice, String notes) {
         Trade trade = tradeRepository.findById(tradeId)
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found!"));

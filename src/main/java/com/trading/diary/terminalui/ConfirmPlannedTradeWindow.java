@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Lanterna workflow for turning a planned trade into a live trade by collecting execution price, quantity, and opening date.
+ */
 @Component
 @RequiredArgsConstructor
 public class ConfirmPlannedTradeWindow {
@@ -22,6 +25,9 @@ public class ConfirmPlannedTradeWindow {
     private final PlannedTradeExplainer plannedTradeExplainer;
     private final TradeListWindow tradeListWindow;
 
+    /**
+     * Prompts the user for the execution details needed to convert a planned trade into a live trade.
+     */
     public void open() {
         Long selectedId = tradeListWindow.open(
                 "Select Planned Trade to Confirm",

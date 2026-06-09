@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * JPA repository for persisting and querying planned trade records.
+ */
 @Repository
 public interface PlannedTradeRepository extends JpaRepository<PlannedTrade, Long> {
 
@@ -19,6 +22,9 @@ public interface PlannedTradeRepository extends JpaRepository<PlannedTrade, Long
 
     long countByDeletedFalse();
 
+    /**
+     * Soft-deletes a planned trade instead of physically removing it so trade history can remain auditable.
+     */
     @Modifying
     @Query(value = "update Planned_Trade p set p.deleted = true where p.id = :id", nativeQuery = true)
     void deleteById(@Param("id") long id);

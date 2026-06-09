@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Formation service implementation for persisting and retrieving morning star records.
+ */
 @Service
 @RequiredArgsConstructor
 public class MorningStarService implements FormationService<MorningStar> {

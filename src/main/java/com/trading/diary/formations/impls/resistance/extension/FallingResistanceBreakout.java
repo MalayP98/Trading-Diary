@@ -13,13 +13,16 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+/**
+ * Represents the FATHER-style breakout where price compresses beneath a descending resistance line. In addition to the base breakout inputs it stores the trendline angle and the size of the compression before breakout.
+ */
 @Entity
 @Getter
 @NoArgsConstructor
 public class FallingResistanceBreakout extends ResistanceBreakout {
 
     @Min(value = 0, message = "Angle cannot be less than 0")
-    @Max(value = 45, message = "Angle cannot be greater than 45")
+    @Max(value = 30, message = "Angle cannot be greater than 30 (max 4 o'clock per trading rules)")
     private float angle;
 
     // Difference between start of resistance line and breakout price in percentage

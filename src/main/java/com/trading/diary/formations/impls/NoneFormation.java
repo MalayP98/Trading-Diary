@@ -4,6 +4,9 @@ import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
 import com.trading.diary.formations.visitor.FormationVisitor;
 
+/**
+ * Null-object formation used when a trade intentionally has no chart setup attached but the rest of the formation pipeline still expects a Formation instance.
+ */
 public class NoneFormation implements Formation {
     @Override
     public FormationType getFormation() {

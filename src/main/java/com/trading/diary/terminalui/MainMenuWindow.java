@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Top-level menu loop for the terminal journal. It dispatches to the major trade workflows and only shuts the application down once the user explicitly exits.
+ */
 @Component
 @RequiredArgsConstructor
 public class MainMenuWindow {
@@ -22,6 +25,9 @@ public class MainMenuWindow {
     private final ViewAllTradesWindow viewAllTradesWindow;
     private final UpdateTradeWindow updateTradeWindow;
 
+    /**
+     * Runs the top-level menu loop until the user chooses to exit the application.
+     */
     public void open() {
         AtomicBoolean running = new AtomicBoolean(true);
 

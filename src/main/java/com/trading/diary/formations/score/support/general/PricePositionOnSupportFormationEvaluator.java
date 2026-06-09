@@ -7,6 +7,9 @@ import com.trading.diary.utils.emums.PricePosition;
 
 import java.util.Map;
 
+/**
+ * Scores where price interacted with support. Weight: 5. Closing on support is ideal, wicking through but reclaiming it is acceptable, while breaking below or bouncing too early above support is weak.
+ */
 public class PricePositionOnSupportFormationEvaluator extends AbstractFormationEvaluator<SupportReversal> {
 
     private final double PRICE_POSITION_ON_SUPPORT_WEIGHTAGE = 5.0;
@@ -22,6 +25,9 @@ public class PricePositionOnSupportFormationEvaluator extends AbstractFormationE
         super(nextEvaluator);
     }
 
+    /**
+     * Scores how precisely the reversal formed on support, differentiating ideal touches from intraday breaks, early entries, and failed levels.
+     */
     @Override
     public double evaluate(SupportReversal formation) {
         return PRICE_POSITION_ON_SUPPORT_WEIGHTAGE * PRICE_POSITION_SCORES.get(formation.getPricePositionOnSupport());

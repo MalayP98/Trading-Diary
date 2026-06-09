@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Carries the minimum information required to close an open trade from the UI layer.
+ */
 @RequiredArgsConstructor
 @Getter
 public class CloseTradeDTO {

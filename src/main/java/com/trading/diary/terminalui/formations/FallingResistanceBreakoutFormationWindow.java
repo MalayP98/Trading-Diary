@@ -13,12 +13,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Lanterna form window that captures the inputs for a falling resistance breakout setup before the caller persists the resulting formation.
+ */
 @Component
 @RequiredArgsConstructor
 public class FallingResistanceBreakoutFormationWindow implements Window<Formation> {
 
     private final UiNavigator navigator;
 
+    /**
+     * Collects the shared breakout inputs plus the FATHER-specific angle and compression values before returning the formation.
+     */
     @Override
     public Formation open() {
         BasicWindow window = new BasicWindow("Falling Resistance Breakout - Formation Details");

@@ -14,6 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Support-reversal formation for bullish engulfing candles. The stored inputs distinguish fully engulfed candles from partial engulfing cases and capture the confirming volume on the reversal candle.
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -47,6 +50,9 @@ public class BullishEngulfing extends SupportReversal {
         return visitor.visit(this);
     }
 
+    /**
+     * Returns true when neither edge of the prior candle remains exposed, which is treated as the highest-quality engulfing configuration.
+     */
     public boolean fullyEngulfed() {
         return !partialBottomEngulfing && !partialTopEngulfing;
     }

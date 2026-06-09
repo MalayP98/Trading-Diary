@@ -13,12 +13,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Lanterna form window that captures the inputs for a horizontal resistance breakout setup before the caller persists the resulting formation.
+ */
 @Component
 @RequiredArgsConstructor
 public class HorizontalResistanceBreakoutFormationWindow implements Window<Formation> {
 
     private final UiNavigator navigator;
 
+    /**
+     * Collects the shared breakout inputs for a horizontal resistance breakout and returns the resulting formation instance.
+     */
     @Override
     public Formation open() {
         BasicWindow window = new BasicWindow("Horizontal Resistance Breakout - Formation Details");

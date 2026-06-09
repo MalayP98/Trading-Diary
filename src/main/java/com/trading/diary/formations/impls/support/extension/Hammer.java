@@ -12,6 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Support-reversal formation for hammer candles. The model tracks hammer colour and whether the lower wick meets the usual two-times-body rule used by the evaluator.
+ */
 @Entity
 @Getter
 @NoArgsConstructor

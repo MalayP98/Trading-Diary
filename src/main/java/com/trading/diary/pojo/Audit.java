@@ -10,6 +10,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Shared persistence metadata for most stored entities, including generated identity, timestamps, and the soft-delete flag used by repository queries.
+ */
 @Data
 @MappedSuperclass
 public class Audit {

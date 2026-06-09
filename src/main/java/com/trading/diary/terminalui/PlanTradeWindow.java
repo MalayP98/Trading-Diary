@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
+/**
+ * Terminal form for recording a trade idea before execution. It mirrors the live-trade workflow but stores the result as a planned trade instead of a live position.
+ */
 @Component
 @RequiredArgsConstructor
 public class PlanTradeWindow {
@@ -30,6 +33,9 @@ public class PlanTradeWindow {
     private final FormationWindowFactory formationWindowFactory;
     private final FormationServiceFactory formationServiceFactory;
 
+    /**
+     * Builds the planned-trade workflow, collecting formation details and trade-planning metadata before persisting the plan.
+     */
     public void open() {
         BasicWindow window = new BasicWindow("Plan Trade");
         Panel panel = new Panel(new GridLayout(2));

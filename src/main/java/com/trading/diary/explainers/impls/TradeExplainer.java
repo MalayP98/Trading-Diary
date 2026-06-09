@@ -9,6 +9,9 @@ import com.trading.diary.utils.emums.TradeState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Builds terminal-friendly summaries for live and closed trades, combining trade state, pricing information, and the resolved formation explanation.
+ */
 @Service
 @RequiredArgsConstructor
 public class TradeExplainer implements Explainer<Trade> {

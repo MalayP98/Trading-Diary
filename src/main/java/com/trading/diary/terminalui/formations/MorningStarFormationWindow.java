@@ -14,12 +14,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Lanterna form window that captures the inputs for a morning star setup before the caller persists the resulting formation.
+ */
 @Component
 @RequiredArgsConstructor
 public class MorningStarFormationWindow implements Window<Formation> {
 
     private final UiNavigator navigator;
 
+    /**
+     * Collects the inputs needed to describe a morning-star support reversal and returns the resulting formation instance.
+     */
     @Override
     public Formation open() {
         BasicWindow window = new BasicWindow("Morning Star - Formation Details");

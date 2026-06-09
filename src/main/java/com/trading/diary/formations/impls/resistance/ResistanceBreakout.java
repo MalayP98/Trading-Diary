@@ -10,6 +10,9 @@ import lombok.*;
 
 import javax.validation.constraints.Min;
 
+/**
+ * Base state shared by resistance-breakout formations. It captures the breakout confirmation, level maturity, trend context, RSI, and SMA alignment inputs consumed by the breakout scoring chain.
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,7 +49,7 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
      * How high price closed from breakout price.
      * Example the breakout prices was 100, and the candle
      * closed at 120 so this field will hold 20.
-     **/
+     */
     @Min(value = 1, message = "Breakout percentage cannot be less than 1")
     private float breakoutPercentage;
 
@@ -62,6 +65,9 @@ public abstract class ResistanceBreakout extends Audit implements Formation {
     @OneToOne(cascade = CascadeType.ALL)
     private SMA sma200;
 
+    /**
+     * Reusable builder base for breakout formations so horizontal and falling-resistance variants share the same breakout inputs and validation expectations.
+     */
     public abstract static class ResistanceBreakoutBuilder<T extends ResistanceBreakoutBuilder<T>> {
 
         protected boolean confirmBreakout;

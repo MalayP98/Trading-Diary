@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Represents either a profit target or a stoploss attached to a trade. Targets are copied when trades are cloned so state changes on one trade do not leak into another.
+ */
 @Getter
 @Entity
 @NoArgsConstructor
@@ -26,10 +29,16 @@ public class Target extends Audit {
     @Enumerated(EnumType.STRING)
     private TargetType type;
 
+    /**
+     * Creates a pending profit target at the supplied price.
+     */
     public static Target getTarget(final float target){
         return new Target(target, TargetStatus.PENDING, TargetType.TARGET);
     }
 
+    /**
+     * Creates a pending stoploss level at the supplied price.
+     */
     public static Target getStoploss(final float stoploss){
         return new Target(stoploss, TargetStatus.PENDING, TargetType.STOPLOSS);
     }
@@ -42,6 +51,9 @@ public class Target extends Audit {
         this.targetStatus = TargetStatus.MISS;
     }
 
+    /**
+     * Copies the target so cloned trades can track outcomes independently.
+     */
     public Target copy(){
         return new Target(this.targetPrice, this.targetStatus, this.type);
     }

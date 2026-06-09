@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Simple company reference identified by its trading symbol.
+ */
 @Entity
 @NoArgsConstructor
 public class Company {

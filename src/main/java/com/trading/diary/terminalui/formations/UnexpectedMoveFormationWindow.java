@@ -11,12 +11,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Lanterna form window that captures the inputs for a unexpected move setup before the caller persists the resulting formation.
+ */
 @Component
 @RequiredArgsConstructor
 public class UnexpectedMoveFormationWindow implements Window<Formation> {
 
     private final UiNavigator navigator;
 
+    /**
+     * Collects the minimal inputs needed to record an unexpected price move.
+     */
     @Override
     public Formation open() {
         BasicWindow window = new BasicWindow("Unexpected Move - Formation Details");

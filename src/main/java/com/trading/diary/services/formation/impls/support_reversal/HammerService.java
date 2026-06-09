@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Formation service implementation for persisting and retrieving hammer records.
+ */
 @Service
 @RequiredArgsConstructor
 public class HammerService implements FormationService<Hammer> {

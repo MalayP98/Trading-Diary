@@ -6,6 +6,9 @@ import com.trading.diary.terminalui.Window;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Lanterna form window that captures the inputs for a factory setup before the caller persists the resulting formation.
+ */
 @Component
 @RequiredArgsConstructor
 public class FormationWindowFactory {
@@ -17,6 +20,9 @@ public class FormationWindowFactory {
     private final FallingResistanceBreakoutFormationWindow fallingBreakoutWindow;
     private final UnexpectedMoveFormationWindow unexpectedMoveWindow;
 
+    /**
+     * Selects the terminal form responsible for collecting inputs for the requested formation type.
+     */
     public Window<Formation> getWindow(FormationType type) {
         switch (type) {
             case BULLISH_ENGULFING: return bullishEngulfingWindow;

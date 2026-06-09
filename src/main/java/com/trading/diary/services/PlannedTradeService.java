@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Coordinates persistence and lifecycle transitions for planned trades. It also converts a planned trade into a live trade when the setup is actually executed.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -25,6 +28,9 @@ public class PlannedTradeService {
 
     private final PersonService personService;
 
+    /**
+     * Normalizes related company and person references before storing a planned trade.
+     */
     public PlannedTrade savePlannedTrade(PlannedTrade plannedTrade) {
         plannedTrade.setSuggestedBy(personService.getOrCreatePerson(plannedTrade.getSuggestedBy().getName()));
         plannedTrade.setCompany(companyService.getOrCreateCompany(plannedTrade.getCompany().toString()));
@@ -35,6 +41,9 @@ public class PlannedTradeService {
         plannedTradeRepository.deleteById(plannedTradeId);
     }
 
+    /**
+     * Converts a planned trade into a live trade using the execution details supplied by the UI, then removes the original plan.
+     */
     public Trade confirmPlannedTrade(PlannedTradeConfirmationDTO plannedTradeConfirmationDTO) {
         PlannedTrade plannedTrade = plannedTradeRepository
                 .findById(plannedTradeConfirmationDTO.getPlannedTradeId())
@@ -64,6 +73,9 @@ public class PlannedTradeService {
         return plannedTradeRepository.countByCompanyAndDeletedFalse(company);
     }
 
+    /**
+     * Appends additional notes to an existing plan without disturbing the rest of the planned setup.
+     */
     public PlannedTrade updatePlannedTrade(long plannedTradeId, String notes) {
         PlannedTrade plannedTrade = plannedTradeRepository.findById(plannedTradeId)
                 .orElseThrow(() -> new RuntimeException("No planned trade found by id " + plannedTradeId));

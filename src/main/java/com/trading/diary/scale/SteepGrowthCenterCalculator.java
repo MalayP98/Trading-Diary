@@ -1,5 +1,8 @@
 package com.trading.diary.scale;
 
+/**
+ * Utility for solving the inverse sigmoid problem used by the evaluators: given a desired percentage of the asymptote at a known x value, it computes the steep-growth center needed to achieve that curve.
+ */
 public class SteepGrowthCenterCalculator {
 
     /**

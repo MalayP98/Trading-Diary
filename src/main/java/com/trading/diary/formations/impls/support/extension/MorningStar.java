@@ -15,6 +15,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Support-reversal formation for morning star setups. The model keeps the doji colour and the strength of volume on the bullish confirmation candle because those details materially change setup quality.
+ */
 @Entity
 @Getter
 @NoArgsConstructor

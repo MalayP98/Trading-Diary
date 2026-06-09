@@ -12,6 +12,9 @@ import com.trading.diary.formations.visitor.FormationVisitor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Visitor that produces concise human-readable summaries of each formation, including the normalized score calculated by the scoring facade.
+ */
 @Service
 @RequiredArgsConstructor
 public class ShortExplanationVisitor implements FormationVisitor<String> {

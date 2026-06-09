@@ -8,6 +8,9 @@ import com.trading.diary.formations.impls.support.extension.BullishEngulfing;
 import com.trading.diary.formations.impls.support.extension.Hammer;
 import com.trading.diary.formations.impls.support.extension.MorningStar;
 
+/**
+ * Visitor contract for rendering or processing formations without putting formatting logic inside the formation entities themselves.
+ */
 public interface FormationVisitor<R> {
 
     R visit(BullishEngulfing bullishEngulfing);

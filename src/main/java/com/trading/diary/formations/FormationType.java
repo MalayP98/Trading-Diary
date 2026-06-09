@@ -1,5 +1,8 @@
 package com.trading.diary.formations;
 
+/**
+ * Enumerates the supported chart setups that the journal can capture, persist, explain, and score.
+ */
 public enum FormationType {
 
     BULLISH_ENGULFING,

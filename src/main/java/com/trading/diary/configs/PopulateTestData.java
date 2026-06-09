@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Utility runner for seeding the application with sample formations and trades during local development. The population code is intentionally disabled by default so normal startup does not write random data.
+ */
 @Service
 @RequiredArgsConstructor
 @Order(1)
@@ -68,6 +71,9 @@ public class PopulateTestData implements CommandLineRunner {
             "DIS"
     );
 
+    /**
+     * Startup hook for optional test-data seeding. The body is intentionally left inactive unless sample generation is needed during development.
+     */
     @Override
     public void run(String... args) {
 //        populateCompanies();

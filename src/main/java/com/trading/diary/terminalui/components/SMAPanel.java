@@ -7,6 +7,9 @@ import com.trading.diary.helpers.SMA;
 import com.trading.diary.utils.emums.PricePosition;
 import com.trading.diary.utils.emums.TrendlineDirections;
 
+/**
+ * Reusable UI fragment for capturing one moving average's direction and price relationship for breakout scoring.
+ */
 public class SMAPanel {
 
     private final String label;
@@ -17,6 +20,9 @@ public class SMAPanel {
         this.label = label;
     }
 
+    /**
+     * Adds the direction and price-position controls for this SMA to the supplied panel.
+     */
     public void addTo(Panel panel) {
         panel.addComponent(new Label(label + " Direction"));
         panel.addComponent(directionCombo);
@@ -24,6 +30,9 @@ public class SMAPanel {
         panel.addComponent(positionCombo);
     }
 
+    /**
+     * Builds an SMA snapshot from the current UI selections.
+     */
     public SMA getSMA() {
         return new SMA(directionCombo.getSelectedItem(), positionCombo.getSelectedItem());
     }

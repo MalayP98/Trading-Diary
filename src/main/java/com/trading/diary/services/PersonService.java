@@ -8,12 +8,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Application service for resolving the person associated with a trade idea while avoiding duplicate person records.
+ */
 @Service
 @RequiredArgsConstructor
 public class PersonService {
 
     private final PersonRepository personRepository;
 
+    /**
+     * Resolves a person by name or creates the record if this is the first time the name has been used in the journal.
+     */
     public Person getOrCreatePerson(String name){
         return personRepository.findById(name)
                 .orElseGet(() -> personRepository.save(new Person(name)));

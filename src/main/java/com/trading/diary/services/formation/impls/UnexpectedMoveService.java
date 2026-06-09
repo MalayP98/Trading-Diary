@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Formation service implementation for persisting and retrieving unexpected move records.
+ */
 @Service
 @RequiredArgsConstructor
 public class UnexpectedMoveService implements FormationService<UnexpectedMove> {
