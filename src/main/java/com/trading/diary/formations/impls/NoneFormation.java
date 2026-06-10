@@ -26,13 +26,7 @@ public class NoneFormation extends Audit implements Formation, Serializable {
 
     }
 
-<<<<<<< Updated upstream
-/**
- * Null-object formation used when a trade intentionally has no chart setup attached but the rest of the formation pipeline still expects a Formation instance.
- */
-public class NoneFormation implements Formation {
-=======
->>>>>>> Stashed changes
+
     @Override
     public FormationType getFormation() {
         return FormationType.NONE;
