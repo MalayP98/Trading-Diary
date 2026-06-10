@@ -73,6 +73,7 @@ public class DevDataSeeder implements CommandLineRunner {
      */
     @Override
     public void run(String... args) {
+        populateBulkPlannedTrades(20);
         runTradeLifecycleDemo();
     }
 

@@ -83,15 +83,14 @@ public class PlanTradeWindow {
         panel.addComponent(
                 new Button("Save Plan", () -> {
                     try {
-                        if (formationRef.get() == null) {
-                            MessageDialog.showMessageDialog(navigator.getGui(), "Error", "Please configure the formation first.");
-                            return;
-                        }
-                        Formation savedFormation = (Formation) formationServiceFactory
-                                .getFormationService(formationTypeCombo.getSelectedItem())
-                                .save(formationRef.get());
-                        long formationId = ((com.trading.diary.pojo.Audit) savedFormation).getId();
+                        long formationId = -1;
+                        if (formationRef.get() != null) {
 
+                            Formation savedFormation = (Formation) formationServiceFactory
+                                    .getFormationService(formationTypeCombo.getSelectedItem())
+                                    .save(formationRef.get());
+                            formationId = ((com.trading.diary.pojo.Audit) savedFormation).getId();
+                        }
                         PlannedTrade plannedTrade = PlannedTrade.builder()
                                 .company(companyService.getOrCreateCompany(symbolBox.getText().trim()))
                                 .suggestedBy(Person.self())

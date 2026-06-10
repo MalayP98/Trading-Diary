@@ -26,7 +26,7 @@ public class TradingDiaryApplication implements CommandLineRunner {
 	 * Opens the main menu after all beans have been initialized so the terminal UI can begin interacting with the user.
 	 */
 	@Override
-	public void run(String... args) throws Exception {
-		mainMenuWindow.open();
+	public void run(String... args) {
+//		mainMenuWindow.open();
 	}
 }
