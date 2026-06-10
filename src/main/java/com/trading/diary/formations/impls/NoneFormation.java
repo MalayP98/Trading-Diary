@@ -26,7 +26,6 @@ public class NoneFormation extends Audit implements Formation, Serializable {
 
     }
 
-
     @Override
     public FormationType getFormation() {
         return FormationType.NONE;
@@ -34,8 +33,9 @@ public class NoneFormation extends Audit implements Formation, Serializable {
 
     @Override
     public <R> R accept(FormationVisitor<R> visitor) {
-        return visitor.visit(this);
+        return null;
     }
+
 
     public static NoneFormation getInstance() {
         if (INSTANCE == null) {
