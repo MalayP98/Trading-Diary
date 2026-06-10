@@ -27,6 +27,6 @@ public class TradingDiaryApplication implements CommandLineRunner {
 	 */
 	@Override
 	public void run(String... args) {
-//		mainMenuWindow.open();
+		mainMenuWindow.open();
 	}
 }
