@@ -1,6 +1,5 @@
 package com.trading.diary.formations.visitor;
 
-import com.trading.diary.formations.impls.NoneFormation;
 import com.trading.diary.formations.impls.UnexpectedMove;
 import com.trading.diary.formations.impls.resistance.extension.FallingResistanceBreakout;
 import com.trading.diary.formations.impls.resistance.extension.HorizontalResistanceBreakout;
@@ -24,6 +23,4 @@ public interface FormationVisitor<R> {
     R visit(FallingResistanceBreakout fallingResistanceBreakout);
 
     R visit(UnexpectedMove unexpectedMove);
-
-    R visit(NoneFormation noneFormation);
 }

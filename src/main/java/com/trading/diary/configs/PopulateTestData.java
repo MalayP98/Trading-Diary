@@ -76,6 +76,7 @@ public class PopulateTestData implements CommandLineRunner {
      */
     @Override
     public void run(String... args) {
+
 //        populateCompanies();
 //        for(int i=0; i<30; i++){
 //            plannedTradeService.savePlannedTrade(getPlannedTrade());

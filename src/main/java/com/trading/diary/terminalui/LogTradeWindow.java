@@ -4,7 +4,6 @@ import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.FormationType;
-import com.trading.diary.formations.impls.NoneFormation;
 import com.trading.diary.helpers.Target;
 import com.trading.diary.pojo.Person;
 import com.trading.diary.services.CompanyService;
@@ -85,14 +84,9 @@ public class LogTradeWindow {
                 new Button("Set Formation", () -> {
                     Formation formation = null;
                     FormationType selectedType = formationTypeCombo.getSelectedItem();
-                    if(FormationType.NONE.equals(selectedType)){
-                        formation = new NoneFormation();
-                    }
-                    else {
                         formation = formationWindowFactory
                                 .getWindow(selectedType)
                                 .open();
-                    }
                     if (formation != null) {
                         formationRef.set(formation);
                         formationStatusLabel.setText("[ " + formationTypeCombo.getSelectedItem() + " configured ]");
@@ -104,15 +98,14 @@ public class LogTradeWindow {
         panel.addComponent(
                 new Button("Save Trade", () -> {
                     try {
-                        if (formationRef.get() == null) {
-                            MessageDialog.showMessageDialog(navigator.getGui(), "Error", "Please configure the formation first.");
-                            return;
-                        }
-                        Formation savedFormation = (Formation) formationServiceFactory
-                                .getFormationService(formationTypeCombo.getSelectedItem())
-                                .save(formationRef.get());
-                        long formationId = ((com.trading.diary.pojo.Audit) savedFormation).getId();
+                        long formationId = -1;
+                        if (formationRef.get() != null) {
 
+                            Formation savedFormation = (Formation) formationServiceFactory
+                                    .getFormationService(formationTypeCombo.getSelectedItem())
+                                    .save(formationRef.get());
+                            formationId = ((com.trading.diary.pojo.Audit) savedFormation).getId();
+                        }
                         Trade trade = Trade.builder()
                                 .company(companyService.getOrCreateCompany(symbolBox.getText().trim()))
                                 .suggestedBy(Person.self())
