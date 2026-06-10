@@ -26,7 +26,7 @@ public interface PlannedTradeRepository extends JpaRepository<PlannedTrade, Long
      * Soft-deletes a planned trade instead of physically removing it so trade history can remain auditable.
      */
     @Modifying
-    @Query(value = "update Planned_Trade p set p.deleted = true where p.id = :id", nativeQuery = true)
+    @Query(value = "update Planned_Trade set deleted = true where id = :id", nativeQuery = true)
     void deleteById(@Param("id") long id);
 
     List<PlannedTrade> findAllByCompanyAndDeletedFalse(Company company, Pageable pageable);

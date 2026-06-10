@@ -19,7 +19,7 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
      * Soft-deletes a trade instead of physically removing it so trade history can remain auditable.
      */
     @Modifying
-    @Query(value = "update #{#entityName} e set e.deleted = true where e.id = ?1", nativeQuery = true)
+    @Query("update #{#entityName} e set e.deleted = true where e.id = ?1")
     void deleteById(long id);
 
     Page<Trade> findAllByDeletedFalseAndState(TradeState state, Pageable pageable);
