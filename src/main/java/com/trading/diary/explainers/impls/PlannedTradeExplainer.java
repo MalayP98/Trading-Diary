@@ -4,6 +4,7 @@ import com.trading.diary.explainers.Explainer;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.score.FormationEvaluationFacade;
 import com.trading.diary.services.formation.FormationServiceFactory;
+import com.trading.diary.trade.AbstractTrade;
 import com.trading.diary.trade.impls.PlannedTrade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class PlannedTradeExplainer implements Explainer<PlannedTrade> {
                 "\n";
     }
 
-    private Formation getFormation(PlannedTrade plannedTrade) {
+    private Formation getFormation(AbstractTrade plannedTrade) {
         return formationServiceFactory
                 .getFormationService(plannedTrade.getFormationType())
                 .getFormation(plannedTrade.getFormationId());

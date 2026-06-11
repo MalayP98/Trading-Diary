@@ -4,6 +4,7 @@ import com.trading.diary.explainers.Explainer;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.score.FormationEvaluationFacade;
 import com.trading.diary.services.formation.FormationServiceFactory;
+import com.trading.diary.trade.AbstractTrade;
 import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.emums.TradeState;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +64,7 @@ public class TradeExplainer implements Explainer<Trade> {
         return sb.toString();
     }
 
-    private Formation getFormation(Trade trade) {
+    private Formation getFormation(AbstractTrade trade) {
         return formationServiceFactory
                 .getFormationService(trade.getFormationType())
                 .getFormation(trade.getFormationId());
