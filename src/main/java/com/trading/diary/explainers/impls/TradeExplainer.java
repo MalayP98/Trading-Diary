@@ -1,33 +1,28 @@
 package com.trading.diary.explainers.impls;
 
-import com.trading.diary.explainers.Explainer;
 import com.trading.diary.formations.Formation;
 import com.trading.diary.formations.score.FormationEvaluationFacade;
 import com.trading.diary.services.formation.FormationServiceFactory;
-import com.trading.diary.trade.AbstractTrade;
 import com.trading.diary.trade.impls.Trade;
 import com.trading.diary.utils.emums.TradeState;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
  * Builds terminal-friendly summaries for live and closed trades, combining trade state, pricing information, and the resolved formation explanation.
  */
 @Service
-@RequiredArgsConstructor
-public class TradeExplainer implements Explainer<Trade> {
+public class TradeExplainer extends AbstractTradeExplainer<Trade> {
 
-    private final FormationServiceFactory<Formation> formationServiceFactory;
-    private final FormationExplainer formationExplainer;
-    private final FormationEvaluationFacade formationEvaluationFacade;
+    public TradeExplainer(FormationServiceFactory<Formation> formationServiceFactory,
+                          FormationExplainer formationExplainer,
+                          FormationEvaluationFacade formationEvaluationFacade) {
+        super(formationServiceFactory, formationExplainer, formationEvaluationFacade);
+    }
 
     @Override
     public String summarize(Trade item) {
         Formation formation = getFormation(item);
-        String score = formation != null
-                ? String.format("%.1f", formationEvaluationFacade.evaluate(formation)) + "%"
-                : "N/A";
-        return item.getCompany() + " | " + item.getState() + " | " + item.getFormationType() + " | Score: " + score;
+        return item.getCompany() + " | " + item.getState() + " | " + item.getFormationType() + " | Score: " + buildScore(formation);
     }
 
     @Override
@@ -62,11 +57,5 @@ public class TradeExplainer implements Explainer<Trade> {
                     .append("\n");
         }
         return sb.toString();
-    }
-
-    private Formation getFormation(AbstractTrade trade) {
-        return formationServiceFactory
-                .getFormationService(trade.getFormationType())
-                .getFormation(trade.getFormationId());
     }
 }
